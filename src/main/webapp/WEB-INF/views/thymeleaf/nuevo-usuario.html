@@ -32,8 +32,7 @@
         <input th:field="*{password}" type="password" id="password" class="form-control" required/>
 
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit">Registrarme</button>
-        <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
-        </p>
+        <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}"></p>
       </form>
 
     </div>
