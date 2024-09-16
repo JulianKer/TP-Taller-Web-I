@@ -14,7 +14,9 @@ public class Usuario {
     private String email;
     private String password;
     private String rol;
+    private Double saldo;
     private Boolean activo = false;
+
 
     public Long getId() {
         return id;
@@ -40,6 +42,11 @@ public class Usuario {
     public void setRol(String rol) {
         this.rol = rol;
     }
+
+    public Double getSaldo() {return saldo;}
+
+    public void setSaldo(Double saldo) {this.saldo = saldo;}
+
     public Boolean getActivo() {
         return activo;
     }
