@@ -1,0 +1,146 @@
+body {
+    background-image: url("../img/fondoLogin.jpg"); /* Fondo temático */
+    background-size: cover;
+    /*background-position: center;*/
+    background-repeat: no-repeat;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-brand {
+    color: #f0b90b; /* Color dorado de criptomonedas */
+    font-size: 1.5rem;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#loginbox {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #000;
+
+    max-width: 375px;
+}
+.logoCripto{
+    width: 100px;
+    margin-bottom: 2em;
+}
+/*
+h3 {
+    color: #f0b90b;
+    text-align: center;
+    font-weight: 700;
+}*/
+
+label{
+    color: #ffffff;
+    padding-left: 4px;
+}
+
+
+.form-control {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.form-control:focus {
+    background-color: #1a1a1a;
+    border-color: #f0b90b;
+    outline: 2px solid #f0b90b;
+    color: #fff;
+}
+
+#btn-login {
+    background-color: #f0b90b;
+    border: none;
+    color: #000;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+#btn-login:hover {
+    background-color: #ffcf34;
+    color: #fff;
+}
+
+#ir-a-registrarme {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #f0b90b;
+    text-decoration: none;
+}
+
+#ir-a-registrarme:hover {
+    color: #ffc800;
+    text-decoration: underline;
+}
+
+.div_form{
+    display: grid;
+    place-items: center;
+    gap: 1em;
+    max-width: 400px;
+     & >div{
+         min-width: 100%;
+         display: flex;
+         flex-direction: column;
+         gap: 3px;
+     }
+}
+
+
+
+.errormsj{
+    width: 100%;
+    padding: 7px 15px;
+    margin: 0;
+}
+
+
+@media (max-width: 768px) {
+    main{
+        width: 500px;
+    }
+
+    #loginbox {
+        min-width: 100vw;
+        min-height: 100vh;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        & input,
+        #btn-login,
+        #ir-a-registrarme,
+        label{
+            font-size: 1.5em;
+        }
+
+        .errormsj{
+            font-size: 1.2em;
+        }
+    }
+
+    form{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 650px) {
+    .div_form{
+        min-width: 100%;
+    }
+}

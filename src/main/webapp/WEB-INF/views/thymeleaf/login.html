@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!--<!DOCTYPE HTML>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -6,10 +6,8 @@
 
     <title>Taller Web I</title>
 
-    <!-- Boostrap core css -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
-    <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 
 </head>
@@ -40,9 +38,61 @@
         </div>
     </div>
 </main>
-<!-- /.container -->
 
-<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>-->
+
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login Cripto</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+    <!-- Google Fonts (opcional para un look moderno) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="icon" th:href="@{/img/logoCripto.png}">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+<main role="main" class="container">
+    <div id="loginbox" class="col-md-6 col-sm-8">
+        <form action="#" th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
+            <div class="div_form">
+                <img class="logoCripto" th:src="@{/img/logoCripto.png}">
+                <div>
+                    <label for="email">Correo electrónico</label>
+                    <input th:field="*{email}" id="email" type="email" class="form-control" placeholder="Email"/>
+                </div>
+
+                <div>
+                    <label for="password">Contraseña</label>
+                    <input th:field="*{password}" type="password" id="password" class="form-control" placeholder="Contraseña"/>
+                </div>
+
+                <p th:if="${error != null}" class="alert alert-danger mt-3 errormsj" th:text="'Error ' + ${error}"></p>
+                <button id="btn-login" class="btn btn-lg btn-block mt-3" type="submit">Iniciar Sesión</button>
+            </div>
+
+        </form>
+        <a id="ir-a-registrarme" href="nuevo-usuario">Registrarme</a>
+    </div>
+</main>
+
+<!-- Bootstrap core JS -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
