@@ -1,14 +1,22 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioUsuario;
+import com.tallerwebi.dominio.ServicioUsuarioImpl;
+import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ControladorRegistroTest {
 
-    ControladorRegistro controladorRegistro = new ControladorRegistro();
+    ServicioUsuario servicioUsuario = mock(ServicioUsuarioImpl.class);
+    ControladorRegistro controladorRegistro = new ControladorRegistro(servicioUsuario);
+
+
     @Test
     public void siExisteemailYPasswordElRegistroEsExitoso() {
 
@@ -97,4 +105,23 @@ public class ControladorRegistroTest {
         //comprobacion --> then
         thenElRegistroFalla(mav, msjError);
     }
+
+
+    @Test
+    public void siExisteUsuarioConMailDelRegistroElRegistroFalla() {
+
+        // la excepcion UsuarioExistente le cambie su extencion a runTime pq si estaba en Exception, esta linea
+        // me decia que debia controlarla con trycatch o relanzar la excepcion, pero al ponerle
+        // runtime, no es necesario controlarla pero si que la podemos esperar
+        when(servicioUsuario.registrar("julian@gmail.com","11")).thenThrow(UsuarioExistente.class);
+        //ejecucion --> when
+        String pass1 = "11";
+        String pass2 = "11";
+        String email = "julian@gmail.com";
+
+
+        ModelAndView mav = whenRegistroUsuario(email, pass1, pass2);
+        thenElRegistroFalla(mav, "EI usuario ya existe");
+    }
+
 }
