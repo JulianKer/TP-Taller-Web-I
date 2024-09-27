@@ -43,7 +43,7 @@ public class HibernateConfig {
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
-        properties.setProperty("hibernate.hbm2ddl.auto", "create");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");//update hay que usar
         return properties;
     }
 }

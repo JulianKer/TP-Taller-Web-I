@@ -52,19 +52,19 @@ public class ControladorLogin {
             servicioLogin.registrar(usuario);
         } catch (UsuarioExistente e){
             model.put("error", "El usuario ya existe");
-            return new ModelAndView("nuevo-usuario", model);
+            return new ModelAndView("register", model);
         } catch (Exception e){
             model.put("error", "Error al registrar el nuevo usuario");
-            return new ModelAndView("nuevo-usuario", model);
+            return new ModelAndView("register", model);
         }
         return new ModelAndView("redirect:/login");
     }
 
-    @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
+    @RequestMapping(path = "/register", method = RequestMethod.GET)
     public ModelAndView nuevoUsuario() {
         ModelMap model = new ModelMap();
         model.put("usuario", new Usuario());
-        return new ModelAndView("nuevo-usuario", model);
+        return new ModelAndView("register", model);
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)

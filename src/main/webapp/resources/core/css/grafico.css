@@ -1,0 +1,13 @@
+
+.container {
+    background-color: rgba(219, 168, 168, 0.5); /* 0.5 para un 50% de transparencia */
+
+    /* background-color: #000000; /* Fondo blanco para el contenedor */
+    border-radius: 8px; /* Esquinas redondeadas */
+    padding: 20px; /* Espaciado interno */
+    /*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar efecto de profundidad */
+}
+canvas {
+
+    background-color: rgb(93, 235, 93); /* Fondo gris para el gráfico */
+}

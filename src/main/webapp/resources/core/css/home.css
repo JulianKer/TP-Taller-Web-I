@@ -1,0 +1,59 @@
+.cuerpo{
+   /* background-image: url('../IMG/fondo\ 2.webp');*/
+    background-image: url();
+    /*@{/img/logoCripto.png}*/
+
+}
+
+.cabezaCripto input{
+    color: grey;
+    background-color: rgb(36, 32, 32);
+    width: 50%;
+    border-radius: 15px;
+
+}
+
+.cabezaCripto button{
+    color: grey;
+    background-color: rgb(36, 32, 32);
+    width: 10%;
+    border-radius: 15px;
+
+}
+
+.profile-container {
+    display: flex; /* Usar flexbox para alinear los elementos */
+    flex-direction: row; /* Cambiamos a dirección de fila para alinear horizontalmente */
+    justify-content: flex-end; /* Alinear a la derecha */
+    align-items: center; /* Centrar verticalmente */
+    margin-left: auto; /* Se asegura que el contenedor se mueva lo más a la derecha posible */
+}
+
+
+.profile-container img {
+    margin-left: 10px; /* Espacio entre los iconos */
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.table-red {
+    background-color:  rgba(226, 16, 16, 0.5); /* 0.5 para un 50% de transparencia */
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(197, 54, 54);
+}
+
+
+canvas {
+    background-color: rgb(93, 235, 93);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.com{
+    margin-left: 1280px;
+}

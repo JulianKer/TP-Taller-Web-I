@@ -1,0 +1,319 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    font-family: sans-serif;
+    background: url(../img/fondoLogin.jpg) no-repeat;
+}
+
+h2{
+    color: #fff;
+    text-align: center;
+}
+/*
+.form-titulo{
+	background: #0EA7E7;
+	color: #fff;
+	padding: 20px;
+	text-align: center;
+	font-weight: 100;
+	font-size: 30px;
+	border-top-left-radius: 7px;
+	border-top-right-radius: 7px;
+	border-bottom: 3px solid #EA484E;
+
+}*/
+/*
+.form-register{
+	width: 95%;
+	max-width: 500px;
+	margin: auto;
+	background: white;
+	border-radius: 7px;
+}*/
+.form-titulo{
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+    background: rgb(255, 255, 255);
+    border-radius: 7px;
+    color: #000;
+}
+
+.contenedor-inputs{
+    padding: 10px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+/*
+input{
+    color: #ffffff;
+    padding-left: 4px;
+
+	border-radius: 0;
+	flex-direction: column;
+	justify-content: center;
+}
+/*
+input{
+	margin-bottom: 15px;
+	padding: 15px;
+	font-size: 16px;
+	border-radius: 3px;
+	border: 1px solid darkgray;
+}*//*
+.input-48{
+	width: 48%;
+}
+.input-100{
+	width: 100%;
+}
+*/
+
+input {
+    background-color: #1a1a1a; /* Fondo oscuro */
+    border: 1px solid #333; /* Borde gris oscuro */
+    color: #fff; /* Texto blanco */
+    padding: 15px; /* Espaciado interno */
+    width: 100%;
+    font-size: 16px;
+    border-radius: 3px; /* Bordes ligeramente redondeados */
+    margin-bottom: 15px;
+}
+
+input:focus {
+    background-color: #1a1a1a; /* Mantener fondo oscuro al enfocarse */
+    border-color: #f0b90b; /* Borde dorado al enfocarse */
+    outline: 2px solid #f0b90b; /* Resaltado dorado */
+    color: #fff;
+}
+/*
+.btn-enviar{
+	background: #EA484E;
+	color: #fff;
+	margin: auto;
+	padding: 10px 40px;
+	cursor: pointer;
+	font-size: 20px;
+
+}
+.btn-enviar:hover{
+background: #0EA7E7;
+transform: scale(1.1);
+}
+.btn-enviar:active{
+	transform: scale(1.2);
+}*/
+
+.btn-enviar {
+    background-color: #f0b90b; /* Fondo dorado */
+    border: none;
+    color: #000;
+    padding: 10px 40px;
+    cursor: pointer;
+    font-size: 20px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+.btn-enviar:hover {
+    background-color: #ffcf34;
+    color: #fff;
+}
+
+.btn-enviar:active {
+    transform: scale(1.1);
+}
+
+.form-link{
+    width: 100%;
+    margin: 7px;
+    font-size: 14px;
+    text-align: center;
+    color: #f0b90b;
+
+}
+/*
+body {
+    /*background-image: url("../img/fondoLogin.jpg"); /* Fondo temático */
+/*  background-size: cover;
+  /*background-position: center;*/
+/* background-repeat: no-repeat;
+ overflow: hidden;
+ font-family: 'Roboto', sans-serif;
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;*/
+/*}*/
+
+.navbar-brand {
+    color: #f0b90b; /* Color dorado de criptomonedas */
+    font-size: 1.5rem;
+}
+/*
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}*/
+/*
+#loginbox {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #000;
+
+    max-width: 375px;
+}*/
+.logoCripto{
+    width: 100px;
+    margin-bottom: 2em;
+}
+
+body {
+    margin: 0;
+    height: 100vh; /* Asegúrate de que ocupe toda la altura de la pantalla */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("../img/fondoLogin.jpg") no-repeat center center; /* Fondo */
+    background-size: cover;
+}
+
+body a{
+    color: #f0b90b;
+
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Ocupa el 100% de la altura de la pantalla */
+}
+
+#loginbox {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #000;
+    max-width: 375px;
+    width: 100%; /* Asegura que el contenedor no exceda el ancho */
+}
+.logoCripto{
+    display: block;
+    margin: 0 auto 2em auto; /* Auto en los laterales para centrar horizontalmente, margen inferior para espaciar */
+    width: 100px;
+}
+/*
+h3 {
+    color: #f0b90b;
+    text-align: center;
+    font-weight: 700;
+}*/
+
+label{
+    color: #ffffff;
+    padding-left: 4px;
+}
+
+
+.form-control {
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+}
+
+.form-control:focus {
+    background-color: #1a1a1a;
+    border-color: #f0b90b;
+    outline: 2px solid #f0b90b;
+    color: #fff;
+}
+
+#btn-login {
+    background-color: #f0b90b;
+    border: none;
+    color: #000;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+#btn-login:hover {
+    background-color: #ffcf34;
+    color: #fff;
+}
+
+#ir-a-registrarme {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #f0b90b;
+    text-decoration: none;
+}
+
+#ir-a-registrarme:hover {
+    color: #ffc800;
+    text-decoration: underline;
+}
+
+.div_form{
+    display: grid;
+    place-items: center;
+    gap: 1em;
+    max-width: 400px;
+    & >div{
+        min-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+}
+
+
+
+.errormsj{
+    width: 100%;
+    padding: 7px 15px;
+    margin: 0;
+}
+
+
+@media (max-width: 768px) {
+    main{
+        width: 500px;
+    }
+
+    #loginbox {
+        min-width: 100vw;
+        min-height: 100vh;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        & input,
+        #btn-login,
+        #ir-a-registrarme,
+        label{
+            font-size: 1.5em;
+        }
+
+        .errormsj{
+            font-size: 1.2em;
+        }
+    }
+
+    form{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 650px) {
+    .div_form{
+        min-width: 100%;
+    }
+}

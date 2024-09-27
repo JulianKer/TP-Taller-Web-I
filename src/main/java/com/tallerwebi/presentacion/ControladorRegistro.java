@@ -23,25 +23,25 @@ public class ControladorRegistro {
 
         if (email.isEmpty()){
             modelo.put("error", "El email es obligatorio");
-            return new ModelAndView("registro", modelo);
+            return new ModelAndView("registro2", modelo);
         }
 
         if (pass1.isEmpty() || pass2.isEmpty()){
             modelo.put("error", "La/s contraseñas estan vacias.");
-            return new ModelAndView("registro", modelo);
+            return new ModelAndView("registro2", modelo);
         }
 
         // desp de este if, ya la pass2 no me sirve, solo es para saber si son iguales. Para lo q viene uso solo la pass1
         if (!pass1.equals(pass2)){
             modelo.put("error", "Las contraseñas no coinciden.");
-            return new ModelAndView("registro", modelo);
+            return new ModelAndView("registro2", modelo);
         }
 
         try{
             servicioUsuario.registrar(email, pass1);
         } catch (UsuarioExistente e) {
             modelo.put("error", "EI usuario ya existe");
-            return new ModelAndView("registro", modelo);
+            return new ModelAndView("registro2", modelo);
         }
 
         return new ModelAndView("redirect:/login");

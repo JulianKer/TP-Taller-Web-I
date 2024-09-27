@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!--<!DOCTYPE HTML>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
@@ -6,10 +6,10 @@
 
   <title>Taller Web I</title>
 
-  <!-- Boostrap core css -->
+   Boostrap core css
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
-  <!-- custom style -->
+   custom style
   <link rel="stylesheet" th:href="@{/css/main.css}"/>
 
 </head>
@@ -27,9 +27,130 @@
     <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
   </div>
 </main>
-<!-- /.container -->
+ /.container
 
-<!-- Boostrap core js -->
+ Boostrap core js
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tabla con Gráficos</title>
+
+  <!-- Enlaces a los archivos CSS -->
+  <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./css/grafico.css">
+  <link href="css/header.css" rel='stylesheet' type='text/css' />
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+  <script src="js/jquery.min.js"></script>
+  <!-- Bootstrap y FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="cuerpo">
+<!-- Div para el header -->
+<div class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="header-left">
+          <div class="logo">
+            <img class="logoCripto" width="50px" th:src="@{/img/logoCripto.png}">
+
+            <a href="index.html"><img src="images/logo.png" alt=""/></a>
+          </div>
+          <div class="menu">
+            <a class="toggleMenu" href="#"><img src="images/nav.png" alt="" /></a>
+
+            <ul class="nav" id="nav">
+              <li><a href="shop.html">Inicio</a></li>
+              <li><a href="shop.html">Transacción</a></li>
+              <li><a href="shop.html">Suscripción</a></li>
+            </ul>
+          </div>
+        </div>
+        <section class="com">
+          <img src="./IMG/compra.png" alt="" width="50px">
+        </section>
+        <div class="profile-container">
+
+          <section class="compra">
+            <img src="./IMG/usuario.png" alt="" width="50px">
+            <a href="./IMG/usuario.png">Ver</a>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <!--  <h2 class="text-center">Tabla con Gráficos</h2>-->
+  <!-- Tabla de criptomonedas -->
+  <table class="table table-red">
+    <thead>
+    <tr>
+      <section class="cabezaCripto">
+        <input type="text" placeholder="Buscar criptomoneda">
+        <button type="submit">Enviar</button>
+        <button type="submit" >Actualizar criptomoneda</button>
+      </section>
+
+      <th>Criptomoneda</th>
+      <th>Precio</th>
+      <th>Gráfico(se actualiza en 24HS)</th>
+      <th>Precio del mercado</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Fila para Bitcoin -->
+    <tr>
+      <td>Bitcoin (BTC)</td>
+      <td>50000 USD</td>
+      <td>
+        <div class="chart-container">
+          <canvas id="line-chart-1"></canvas>
+        </div>
+      </td>
+      <td>900 Mil Millones USD</td>
+      <td>
+        <button class="btn btn-success">Comprar</button>
+        <button class="btn btn-danger">Vender</button>
+        <button class="btn btn-info">Detalles</button>
+      </td>
+    </tr>
+    <!-- Fila para Ethereum -->
+    <tr>
+      <td>Ethereum (ETH)</td>
+      <td>3000 USD</td>
+      <td>
+        <div class="chart-container">
+          <canvas id="line-chart-2"></canvas>
+        </div>
+      </td>
+      <td>300 Mil Millones USD</td>
+      <td>
+        <button class="btn btn-success">Comprar</button>
+        <button class="btn btn-danger">Vender</button>
+        <button class="btn btn-info">Detalles</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Incluir Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Enlazar el archivo externo de gráficos -->
+<script src="./js/grafico.js"></script>
+<script src="./js/header.js"></script>
 </body>
 </html>
