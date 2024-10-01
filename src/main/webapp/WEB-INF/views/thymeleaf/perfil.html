@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Perfil</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <!-- Google Fonts (opcional para un look moderno) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" th:href="@{/css/perfil.css}"/>
+  <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+  <script th:src="@{/js/headerNuevo.js}" defer></script>
+  <link rel="icon" th:href="@{/img/logoCripto.png}">
+  <style>
+
+  </style>
+</head>
+
+<body>
+<header id="arriba">
+  <nav>
+    <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}"></a>
+
+    <ul class="contLinks">
+      <li class="linksNav"><a th:href="@{/}">Inicio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Transacciones</a></li>
+      <li class="linksNav"><a th:href="@{/}">Portfolio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Suscripción</a></li>
+    </ul>
+
+    <ul class="contLinksResponsive" id="contLinksResponsive">
+      <li class="linksNav"><a th:href="@{/}">Inicio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Transacciones</a></li>
+      <li class="linksNav"><a th:href="@{/}">Portfolio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Suscripción</a></li>
+      <li class="linksNav"><a th:href="@{/}">Perfil</a></li>
+      <li class="linksNav"><a th:href="@{/}">Cerrar Sesión</a></li>
+    </ul>
+
+    <div class="contUserLogout">
+        <a th:href="@{/perfil}" class="contUser">
+          <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
+        </a>
+        <a th:href="@{/login}" class="contLogout">
+          <img th:src="@{img/icons/icon_logout.svg}"  alt="Cerrar sesión" title="Cerrar sesión">
+        </a>
+        <img th:src="@{img/icons/icon_burger.svg}" id="imgBurger" alt="Menu" title="Menú" class="imgMenuBurguer">
+    </div>
+  </nav>
+</header>
+
+<main role="main" class="container">
+
+</main>
+
+<!-- Bootstrap core JS -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
