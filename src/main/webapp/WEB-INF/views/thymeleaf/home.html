@@ -23,6 +23,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
   <script th:src="@{/js/headerNuevo.js}" defer></script>
+  <script th:src="@{/js/home.js}" defer></script>
+
+
 
 </head>
 
@@ -66,11 +69,20 @@
   <table class="table table-red">
     <thead>
     <tr>
-      <form class="cabezaCripto" method="get" action="" th:action="@{/home}">
+      <form  id="formulario" class="cabezaCripto" method="get" action="" th:action="@{/home}">
         <input type="text" placeholder="Buscar criptomoneda" name="criterioDeBusqueda">
         <button type="submit">Buscar</button>
         <!--<button type="submit">Actualizar criptomoneda</button>-->
         <a th:href="@{/home}" class="color-b">Actualizar precio</a>
+      <label  for="selectDivisa">Selecciones la divisa a mostrar:</label>
+        <select id="selectDivisa" name="moneda">
+          <option value="eur"> EUR</option>
+          <option value="brl">BRL</option>
+          <option value="gbp">GBP</option>
+          <option value="ars">ARS</option>
+          <option value="cny">CNY</option>
+          <option value="usd" selected> USD</option>
+        </select>
       </form>
 
       <th>Criptomoneda</th>
