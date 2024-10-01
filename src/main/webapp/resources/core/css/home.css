@@ -1,6 +1,6 @@
 .cuerpo{
    /* background-image: url('../IMG/fondo\ 2.webp');*/
-    background-image: url();
+    background-color: #373737;
     /*@{/img/logoCripto.png}*/
 
 }
@@ -56,4 +56,9 @@ canvas {
 
 .com{
     margin-left: 1280px;
+}
+
+.color-b{
+    text-decoration: none;
+    color: #fff;
 }

@@ -67,11 +67,12 @@
   <table class="table table-red">
     <thead>
     <tr>
-      <section class="cabezaCripto">
-        <input type="text" placeholder="Buscar criptomoneda">
-        <button type="submit">Enviar</button>
-        <button type="submit" >Actualizar criptomoneda</button>
-      </section>
+      <form class="cabezaCripto" method="get" action="" th:action="@{/home}">
+        <input type="text" placeholder="Buscar criptomoneda" name="criterioDeBusqueda">
+        <button type="submit">Buscar</button>
+        <!--<button type="submit">Actualizar criptomoneda</button>-->
+        <a th:href="@{/home}" class="color-b">Actualizar precio</a>
+      </form>
 
       <th>Criptomoneda</th>
       <th>Fluctuación</th>
@@ -93,8 +94,8 @@
       </td>
       <td th:text="${#numbers.formatDecimal(entry.value, 1, 7)} + ' ' + ${divisaAMostrar}"></td>
       <td>
-        <button class="btn btn-success">Comprar</button>
-        <button class="btn btn-danger">Vender</button>
+        <button class="btn btn-success"><a th:href="@{/transacciones}" class="color-b">Comprar</a></button>
+        <button class="btn btn-danger"><a th:href="@{/transacciones}" class="color-b">Vender</a></button>
       </td>
     </tr>
     <!------------------------------------------------------------------------------------------------------->
