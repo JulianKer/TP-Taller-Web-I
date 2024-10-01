@@ -1,3 +1,134 @@
-body{
-    background-color: #d8d8d8;
+ body {
+     margin: 0;
+     padding: 0;
+     font-family: Arial, sans-serif;
+     background-image: url("../img/fondoLogin.jpg"); /* Fondo temático */
+     background-size: cover;
+     background-repeat: no-repeat;
+ }
+
+
+
+.titulo{
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+    margin-bottom: 1em;
+    border-bottom: solid 2px #EDB913;
 }
+
+.contenedor-inputs-general{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+
+    & >.contenedor_input_botones{
+        grid-column: 1/3;
+        height: auto;
+    }
+}
+
+label{
+    color: #fff;
+    margin-bottom: .4em;
+}
+
+ .mainPerfil {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     min-height: calc(100vh - 100px);
+     padding: 20px;
+ }
+
+ .mainPerfil .formularioPerfil {
+     width: 90%;
+     max-width: 900px;
+     background-color: rgba(0, 0, 0, 0.9);
+     padding: 20px;
+     border-radius: 10px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ }
+
+ .formularioPerfil input {
+     width: 100%;
+     padding: 12px;
+     border-radius: 5px;
+     border: none;
+     background-color: #333;
+     color: white;
+     font-size: 1em;
+     margin-bottom: 15px;
+ }
+
+ .formularioPerfil input::placeholder {
+     color: #aaa;
+ }
+
+
+ .contenedor_input_botones{
+    display: flex;
+     /*background-color: #FF0000;*/
+     justify-content: space-evenly;
+     gap: 2em;
+     height: 107px;
+     align-items: center;
+     color: #fff;
+
+     & >a{
+         background-color: #FF0000;
+     }
+
+     > button{
+         background-color: green;
+     }
+
+     >div{
+         display: flex;
+         padding-top: 1em;
+         gap: .5em;
+     }
+
+ }
+
+ .botones{
+     text-decoration: none;
+     color: #FFFFFF;
+     padding: .8em 1.5em;
+     background-color: #0000FF;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border-radius: 5px;
+     border: none;
+
+
+ }
+
+.botones:hover{
+    color: #FFFFFF;
+}
+
+.contenedor_input_botones .verPlan{
+    background-color: #EEB913;
+}
+
+ @media (max-width: 768px) {
+     .mainPerfil .formularioPerfil {
+         width: 100%;
+     }
+
+     .contenedor-inputs-general{
+         display: flex;
+         flex-direction: column;
+         gap: 0;
+     }
+ }
+
+ @media (min-width: 1024px) {
+     .mainPerfil .formularioPerfil {
+         width: 50%;
+     }
+ }
