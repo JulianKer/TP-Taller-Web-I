@@ -113,5 +113,41 @@ public class ControladorHomeTest {
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "CNY");
     }
+    @Test
+    public void queAlSeleccionarLaMonedaUSDEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+        ModelMap modelo = new ModelMap();
+        modelo.addAttribute("divisaAMostrar", "USD");
+
+        ModelAndView mav = new ModelAndView("home", modelo);
+
+        ArrayList<String> misCriptos = new ArrayList<>();
+        misCriptos.add("bitcoin");
+
+        Map<String, Double> mapa=new HashMap<>();
+        mapa.put("bitcoin", 1.0);
+
+        when(servicioHome.obtenerCrypto(misCriptos, "usd")).thenReturn(mapa);
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("usd", "bitcoin");
+
+        assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "USD");
+    }
+    @Test
+    public void queAlSeleccionarLaMonedaGBPEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+        ModelMap modelo = new ModelMap();
+        modelo.addAttribute("divisaAMostrar", "GBP");
+
+        ModelAndView mav = new ModelAndView("home", modelo);
+
+        ArrayList<String> misCriptos = new ArrayList<>();
+        misCriptos.add("bitcoin");
+
+        Map<String, Double> mapa=new HashMap<>();
+        mapa.put("bitcoin", 1.0);
+
+        when(servicioHome.obtenerCrypto(misCriptos, "gbp")).thenReturn(mapa);
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("gbp", "bitcoin");
+
+        assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "GBP");
+    }
 
 }
