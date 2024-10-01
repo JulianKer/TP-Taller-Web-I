@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!--<!DOCTYPE HTML>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
@@ -6,10 +6,10 @@
 
   <title>Taller Web I</title>
 
-  <!-- Boostrap core css -->
+  <-- Boostrap core css ->
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
-  <!-- custom style -->
+  <-- custom style ->
   <link rel="stylesheet" th:href="@{/css/main.css}"/>
 
 </head>
@@ -23,13 +23,42 @@
 <main role="main" class="container">
   <div class = "container">
     <h1>Bienvenidos a Taller Web 1</h1>
-
+      <p th:text="'Precio del bitcoin =' +  ${crypto} + 'USD'"></p>
     <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
   </div>
 </main>
-<!-- /.container -->
+<-- /.container ->
 
-<!-- Boostrap core js -->
+<-- Boostrap core js ->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
+
+-->
+
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Taller Web I</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">UNLAM</a>
+</nav>
+<main role="main" class="container">
+  <div class="container">
+    <h1>Bienvenidos a Taller Web 1</h1>
+    <div th:each="entry : ${mapaMonedaPrecios}">
+      <img th:src="@{'/img/logoCriptomonedas/' + ${entry.key} + '.webp'}">
+      <div th:text="${entry.key} + ' : ' + ${#numbers.formatDecimal(entry.value, 1, 7)} + ' ->' + ${divisaAMostrar}"></div>
+    </div>
+    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
+  </div>
+</main>
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
