@@ -16,5 +16,9 @@ window.addEventListener("resize", ()=>{
     }
 })
 
+window.addEventListener("scroll", ()=>{
+    contLinksResponsive.style.display = "none";
+})
+
 
 

@@ -16,50 +16,49 @@
   <!-- Enlaces a los archivos CSS -->
   <link rel="stylesheet" href="./css/home.css">
   <link rel="stylesheet" href="./css/grafico.css">
-  <link href="css/header.css" rel='stylesheet' type='text/css' />
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
   <script src="js/jquery.min.js"></script>
   <!-- Bootstrap y FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+  <script th:src="@{/js/headerNuevo.js}" defer></script>
+
 </head>
 
 <body class="cuerpo">
-<!-- Div para el header -->
-<div class="header">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="header-left">
-          <div class="logo">
-            <img class="logoCripto" width="50px" th:src="@{/img/logoCripto.png}">
 
-            <a href="index.html"><img src="images/logo.png" alt=""/></a>
-          </div>
-          <div class="menu">
-            <a class="toggleMenu" href="#"><img src="images/nav.png" alt="" /></a>
+<header id="arriba">
+  <nav>
+    <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}"></a>
 
-            <ul class="nav" id="nav">
-              <li><a href="shop.html">Inicio</a></li>
-              <li><a href="shop.html">Transacción</a></li>
-              <li><a href="shop.html">Suscripción</a></li>
-            </ul>
-          </div>
-        </div>
-        <section class="com">
-          <img src="./IMG/compra.png" alt="" width="50px">
-        </section>
-        <div class="profile-container">
+    <ul class="contLinks">
+      <li class="linksNav"><a th:href="@{/}">Inicio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Transacciones</a></li>
+      <li class="linksNav"><a th:href="@{/}">Portfolio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Suscripción</a></li>
+    </ul>
 
-          <section class="compra">
-            <img src="./IMG/usuario.png" alt="" width="50px">
-            <a href="./IMG/usuario.png">Ver</a>
-          </section>
-        </div>
-      </div>
+    <ul class="contLinksResponsive" id="contLinksResponsive">
+      <li class="linksNav"><a th:href="@{/}">Inicio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Transacciones</a></li>
+      <li class="linksNav"><a th:href="@{/}">Portfolio</a></li>
+      <li class="linksNav"><a th:href="@{/}">Suscripción</a></li>
+      <li class="linksNav"><a th:href="@{/}">Perfil</a></li>
+      <li class="linksNav"><a th:href="@{/}">Cerrar Sesión</a></li>
+    </ul>
+
+    <div class="contUserLogout">
+      <a th:href="@{/perfil}" class="contUser">
+        <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
+      </a>
+      <a th:href="@{/login}" class="contLogout">
+        <img th:src="@{img/icons/icon_logout.svg}"  alt="Cerrar sesión" title="Cerrar sesión">
+      </a>
+      <img th:src="@{img/icons/icon_burger.svg}" id="imgBurger" alt="Menu" title="Menú" class="imgMenuBurguer">
     </div>
-  </div>
-</div>
+  </nav>
+</header>
 
 <div class="container mt-5">
   <!--  <h2 class="text-center">Tabla con Gráficos</h2>-->
