@@ -1,6 +1,7 @@
 .cuerpo{
    /* background-image: url('../IMG/fondo\ 2.webp');*/
-    background-color: #373737;
+    background: radial-gradient(circle ,#c1a236, #EDB913, #b18302, #232323);
+    color: #FFFFFF;
     /*@{/img/logoCripto.png}*/
 
 }
@@ -41,14 +42,18 @@
 }
 
 .table-red {
-    background-color:  rgba(226, 16, 16, 0.5); /* 0.5 para un 50% de transparencia */
-    color: rgb(0, 0, 0);
-    border: 1px solid rgb(197, 54, 54);
+    background-color: rgb(58, 58, 58); /* 0.5 para un 50% de transparencia */
+    color: rgb(255, 255, 255);
+}
+
+td, th{
+    color: #FFFFFF;
 }
 
 
 canvas {
-    background-color: rgb(93, 235, 93);
+    background-color: rgb(255, 255, 255);
+    color: #FFFFFF;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

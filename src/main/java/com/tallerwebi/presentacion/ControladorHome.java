@@ -31,10 +31,10 @@ public class ControladorHome {
 
         ArrayList<String> misCriptos = new ArrayList<>();
         misCriptos.add("bitcoin");
-      // misCriptos.add("litecoin");
-      // misCriptos.add("ethereum");
-      // misCriptos.add("dogecoin");
-      // misCriptos.add("steth");
+        misCriptos.add("litecoin");
+        misCriptos.add("ethereum");
+        misCriptos.add("dogecoin");
+        misCriptos.add("steth");
 
         if (criterioDeBusqueda.isEmpty()){
             mapaMonedaPrecios = servicioHome.obtenerCrypto(misCriptos, moneda);

@@ -2,7 +2,8 @@
      margin: 0;
      padding: 0;
      font-family: Arial, sans-serif;
-     background-image: url("../img/fondoLogin.jpg"); /* Fondo temático */
+     background: radial-gradient(circle ,#c1a236, #EDB913, #b18302, #232323);
+     /*background-image: url("../img/fondoLogin.jpg"); /* Fondo temático */
      background-size: cover;
      background-repeat: no-repeat;
  }
