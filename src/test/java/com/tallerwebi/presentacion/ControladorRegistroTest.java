@@ -62,7 +62,7 @@ public class ControladorRegistroTest {
     }
 
     private void thenElRegistroFalla(ModelAndView mav, String msjError) {
-        assertThat(mav.getViewName(), equalToIgnoringCase("registro"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("registro2"));
         assertThat(mav.getModel().get("error").toString(), equalToIgnoringCase(msjError));
     }
 
