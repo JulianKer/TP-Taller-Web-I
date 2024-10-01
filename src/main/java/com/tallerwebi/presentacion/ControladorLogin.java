@@ -66,11 +66,11 @@ public class ControladorLogin {
         model.put("usuario", new Usuario());
         return new ModelAndView("register", model);
     }
-
+/*
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView irAHome() {
         return new ModelAndView("home");
-    }
+    }*/
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() {
