@@ -1,11 +1,14 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.MenorDeEdadException;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
-import com.tallerwebi.dominio.excepcion.UsuarioExistente;
+import com.tallerwebi.dominio.excepcion.TelefonoConLongitudIncorrectaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 @Service
 @Transactional
@@ -19,9 +22,17 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     }
 
     @Override
-    public Usuario registrar(String mail, String pass) {
+    public Usuario registrar(String mail, String pass, String nombre, String apellido, Long telefono, String fechaNacimiento) {
         if(pass.length()<5){
             throw new PasswordLongitudIncorrecta("");
+        }
+
+        if (String.valueOf(telefono).length() < 8){
+            throw  new TelefonoConLongitudIncorrectaException("El telefono debe tener al menos 8 digitos.");
+        }
+
+        if (!validarQueSeaMayorDe18(fechaNacimiento)){
+            throw  new MenorDeEdadException("");
         }
 
         Usuario usuarioEncontrado = repositorioUsuario.buscar(mail);
@@ -32,7 +43,11 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         Usuario usuarioCreado = new Usuario();
         usuarioCreado.setEmail(mail);
         usuarioCreado.setPassword(pass);
-        // aca deberiamos agregar los atributos completos para la clase usuario como id´s, saldo base, y demas
+        usuarioCreado.setNombre(nombre);
+        usuarioCreado.setApellido(apellido);
+        usuarioCreado.setFechaNacimiento(fechaNacimiento);
+        usuarioCreado.setTelefono(telefono);
+        // aca deberiamos agregar los atributos completos para la clase usuario como idÂ´s, saldo base, y demas
         // cosas que pidamos en el register
 
         //guardo el usuario en la bdd (ademas esta linea es la que verificamos que se ejecute en los test de servicioUsuarioTest)
@@ -40,4 +55,16 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         return usuarioCreado;
     }
 
+    private boolean validarQueSeaMayorDe18(String fechaNacimiento) {
+        boolean esMayor = false;
+        try {
+            LocalDate fechaParseada = LocalDate.parse(fechaNacimiento);
+            LocalDate fechaHoy = LocalDate.now();
+            LocalDate hace18Anios = fechaHoy.minusYears(18);
+            esMayor = fechaParseada.isBefore(hace18Anios) || fechaParseada.isEqual(hace18Anios);
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+        return esMayor;
+    }
 }
