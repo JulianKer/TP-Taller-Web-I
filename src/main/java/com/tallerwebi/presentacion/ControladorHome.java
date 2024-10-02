@@ -3,11 +3,15 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.ServicioHome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
@@ -20,7 +24,7 @@ public class ControladorHome {
         this.servicioHome = servicioHome;
     }
 
-    @RequestMapping("/home")
+    @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView cargarPrecioDeCryptos(
             @RequestParam(value = "moneda",required = false, defaultValue = "usd") String moneda,
             @RequestParam(value = "criterioDeBusqueda",required = false, defaultValue = "") String criterioDeBusqueda) {
@@ -31,10 +35,10 @@ public class ControladorHome {
 
         ArrayList<String> misCriptos = new ArrayList<>();
         misCriptos.add("bitcoin");
-        misCriptos.add("litecoin");
+        /*misCriptos.add("litecoin");
         misCriptos.add("ethereum");
         misCriptos.add("dogecoin");
-        misCriptos.add("steth");
+        misCriptos.add("steth");*/
 
         if (criterioDeBusqueda.isEmpty()){
             mapaMonedaPrecios = servicioHome.obtenerCrypto(misCriptos, moneda);

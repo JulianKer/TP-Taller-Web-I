@@ -4,4 +4,5 @@ import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 
 public interface ServicioUsuario {
     Usuario registrar(String mail, String pass);
+    Usuario buscarUsuarioPorEmail(String email);
 }

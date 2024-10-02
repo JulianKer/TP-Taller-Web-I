@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.Criptomoneda;
 import com.tallerwebi.dominio.ServicioHome;
 import com.tallerwebi.dominio.ServicioHomeImpl;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.util.AssertionErrors;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -24,6 +25,10 @@ public class ControladorHomeTest {
     private ServicioHome servicioHome = mock(ServicioHomeImpl.class);
     private ControladorHome controladorHome = new ControladorHome(servicioHome);
 
+    // este lo deberia usar para "pasar una session" al home y qcy, mostrar el nombre del user en el nav segun el email logueado
+    // private MockHttpServletRequest request = new MockHttpServletRequest();
+    //request.getSession().setAttribute("ROL", "ADMIN");
+
     @Test
     public void queAlEntrarAlHomeMeDevuelvaUnMapConMonedaPrecioDeCriptos() {
 /*
@@ -43,6 +48,7 @@ public class ControladorHomeTest {
 
     @Test
     public void queAlSeleccionarLaMonedaEUREnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "EUR");
 

@@ -40,4 +40,9 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         return usuarioCreado;
     }
 
+    @Override
+    public Usuario buscarUsuarioPorEmail(String email) {
+        return repositorioUsuario.buscar(email);
+    }
+
 }
