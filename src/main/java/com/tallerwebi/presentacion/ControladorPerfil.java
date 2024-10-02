@@ -37,8 +37,12 @@ public class ControladorPerfil {
         ModelMap model = new ModelMap();
 
         if (request.getSession().getAttribute("emailUsuario") == null){
-            model.addAttribute("error", "Primero debe iniciar sesión.");
-            return new ModelAndView("redirect:/login", model);
+            // si uso redirect, NO puedo pasarle un modelo asiq tengo q usar un flash atribute (RedirectAttributes redirectAttributes)
+            // pq tengo un redirect, pero sino tengo q usar el, model.put("error", "Debe ingresar primero");
+            // como ninguna de las anterioires formas me funco (no funco pq tengo q modificar toods los test
+            // ya q recibe un parametro RedirectAttributes redirectAttributes y no los modifique :))
+            // asique mejor lo paso por get y listo, ahí funcionó
+            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
 
         String emailABuscar = request.getSession().getAttribute("emailUsuario").toString();
@@ -47,16 +51,16 @@ public class ControladorPerfil {
         Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailABuscar);
 
         if (userEncontrado == null) {
-            model.addAttribute("error", "Usuario no encontrado.");
+            model.put("error", "Usuario no encontrado.");
             return new ModelAndView("perfil", model);
         }
 
-        model.addAttribute("emailUsuario", userEncontrado.getEmail());
-        model.addAttribute("nombreUsuario", userEncontrado.getNombre());
-        model.addAttribute("apellidoUsuario", userEncontrado.getApellido());
-        model.addAttribute("telefonoUsuario", userEncontrado.getTelefono());
-        model.addAttribute("fechaNacimientoUsuario", userEncontrado.getFechaNacimiento());
-        model.addAttribute("premiumActivo", userEncontrado.getActivo());
+        model.put("emailUsuario", userEncontrado.getEmail());
+        model.put("nombreUsuario", userEncontrado.getNombre());
+        model.put("apellidoUsuario", userEncontrado.getApellido());
+        model.put("telefonoUsuario", userEncontrado.getTelefono());
+        model.put("fechaNacimientoUsuario", userEncontrado.getFechaNacimiento());
+        model.put("premiumActivo", userEncontrado.getActivo());
         return new ModelAndView("perfil", model);
     }
 }

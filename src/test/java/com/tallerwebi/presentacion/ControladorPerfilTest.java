@@ -20,8 +20,7 @@ public class ControladorPerfilTest {
     public void queAlIntentarHacerBarraPerfilSiNoTeLogueasteDesdeElLoginTeRedirijaAlLoginConUnMensajeDeErrorOseaQueFalle() {
         ModelAndView mavRecibido = controladorPerfil.perfil(request);
 
-        assertEquals(mavRecibido.getViewName(), "redirect:/login");
-        assertEquals(mavRecibido.getModel().get("error"), "Primero debe iniciar sesión.");
+        assertEquals(mavRecibido.getViewName(), "redirect:/login?error=Debe ingresar primero");
     }
 
     @Test

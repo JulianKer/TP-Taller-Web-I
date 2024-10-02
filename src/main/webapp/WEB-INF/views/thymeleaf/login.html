@@ -84,6 +84,7 @@
                 </div>
 
                 <p th:if="${error != null}" class="alert alert-danger mt-3 errormsj" th:text="'Error ' + ${error}"></p>
+                <p th:if="${param.error != null}" class="alert alert-danger mt-3 errormsj" th:text="${param.error}"></p>
                 <button id="btn-login" class="btn btn-lg btn-block mt-3" type="submit">Iniciar Sesión</button>
             </div>
 

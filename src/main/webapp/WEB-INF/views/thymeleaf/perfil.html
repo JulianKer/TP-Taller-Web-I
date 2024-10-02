@@ -66,35 +66,35 @@
       <section class="primer_cont">
         <div class="contenedor_input_perfil">
           <label for="input-nombre">Nombre</label>
-          <input type="text" id="input-nombre" name="input-nombre" placeholder="Ingrese nombre">
+          <input type="text" id="input-nombre" name="input-nombre" placeholder="Ingrese nombre" th:value="${nombreUsuario}">
         </div>
 
         <div class="contenedor_input_perfil">
           <label for="input-apellido">Apellido</label>
-          <input type="text" id="input-apellido" name="input-apellido" placeholder="Ingrese apellido">
+          <input type="text" id="input-apellido" name="input-apellido" placeholder="Ingrese apellido" th:value="${apellidoUsuario}">
         </div>
 
         <div class="contenedor_input_perfil">
           <label for="input-email">Email</label>
-          <input type="email" id="input-email" name="input-email" placeholder="Ingrese email">
+          <input type="email" id="input-email" name="input-email" placeholder="Ingrese email" th:value="${emailUsuario}">
         </div>
       </section>
 
       <section class="segundo_cont">
         <div class="contenedor_input_perfil">
           <label for="input-fecha-nacimiento">Fecha de nacimiento</label>
-          <input type="date" id="input-fecha-nacimiento" name="input-fecha-nacimiento" placeholder="Ingrese fecha de nacimiento">
+          <input type="date" id="input-fecha-nacimiento" name="input-fecha-nacimiento" placeholder="Ingrese fecha de nacimiento" th:value="${fechaNacimientoUsuario}">
         </div>
 
         <div class="contenedor_input_perfil">
           <label for="input-tel">Teléfono</label>
-          <input type="number" id="input-tel" name="input-tel" placeholder="Ingresar teléfono">
+          <input type="number" id="input-tel" name="input-tel" placeholder="Ingresar teléfono" th:value="${telefonoUsuario}">
         </div>
 
         <div class="contenedor_input_botones">
           <div>
             <p>Suscripción: </p>
-            <p>PREMIUM</p>
+            <p th:text="${premiumActivo}">PREMIUM</p>
           </div>
 
           <a th:href="@{/suscripciones}" class="botones verPlan">Ver plan</a>
