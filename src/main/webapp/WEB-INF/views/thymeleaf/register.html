@@ -52,27 +52,27 @@
   <meta charset="UTF-8">
   <title>Formulario de Registro</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <!--<link rel="stylesheet" th:href="@{/css/register}"/>
+  <link rel="stylesheet" th:href="@{/css/register.css}"/>
   <link rel="stylesheet" th:href="@{/css/login.css}">
-  <link rel="icon" th:href="@{/img/logoCripto.png}">-->
+  <link rel="icon" th:href="@{/img/logoCripto.png}">
 <!--No entiendo como funciona las rutas -->
   <script type="text/javascript" src="./webjars/bootstrap/5.2.0/css/bootstrap-grid-jsf.css"></script>
 </head>
 <body>
 <div class="container">
   <div id="loginbox">
-    <img class="logoCripto" src="@{/img/logoCripto.png}">
+    <img class="logoCripto" th:src="@{/img/logoCripto.png}">
     <h2 class="form-titulo">CREA UNA CUENTA</h2>
     <form  >
       <div class="contenedor-inputs">
 
-        <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="input-48" required>
-        <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" class="input-48" required>
-        <input type="email" id="correo" name="correo" placeholder="Correo" class="input-100" required>
-        <input type="text" id="usuario" name="usuario" placeholder="Usuario" class="input-48" required>
-        <input type="password" id="clave" name="clave" placeholder="Contraseña" class="input-48"required >
-        <input type="repitPassword" id="repitClave" name="repitClave" placeholder="Repetir contraseña" class="input-48"required >
-        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" class="input-100" required>
+        <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="input-48">
+        <input type="text" id="apellidos" name="apellidos" placeholder="Apellidos" class="input-48">
+        <input type="email" id="correo" name="correo" placeholder="Correo" class="input-100">
+        <input type="text" id="usuario" name="usuario" placeholder="Usuario" class="input-48">
+        <input type="password" id="clave" name="clave" placeholder="Contraseña" class="input-48">
+        <input type="password" id="repitClave" name="repitClave" placeholder="Repetir contraseña" class="input-48">
+        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" class="input-100">
         <input type="submit" value="Registrar" class="btn-enviar">
         <p class="form-link">Ya tienes una cuenta?<a href="login">Ingresa aquí</a></p>
       </div>

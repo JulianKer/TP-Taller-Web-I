@@ -26,10 +26,10 @@ public class ControladorPerfilTest {
 
     @Test
     public void queAlIntentarHacerBarraPerfilSiLogueasteCorrectamenteDesdeElLoginTeRedirijaVistaPerfilOseaQueSeaExitoso() {
-        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("emailUsuario", "test@unlam.edu.ar");
         ModelAndView mavRecibido = controladorPerfil.perfil(request);
 
         assertEquals(mavRecibido.getViewName(), "perfil");
-        assertEquals(request.getSession().getAttribute("emailUsuario"), "german@gmail.com");
+        assertEquals(request.getSession().getAttribute("emailUsuario"), "test@unlam.edu.ar");
     }
 }

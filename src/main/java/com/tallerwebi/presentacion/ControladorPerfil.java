@@ -46,6 +46,11 @@ public class ControladorPerfil {
         // encontró al usuario por este mail asiq por eso no lo verifico si es != null
         Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailABuscar);
 
+        if (userEncontrado == null) {
+            model.addAttribute("error", "Usuario no encontrado.");
+            return new ModelAndView("perfil", model);
+        }
+
         model.addAttribute("emailUsuario", userEncontrado.getEmail());
         model.addAttribute("nombreUsuario", userEncontrado.getNombre());
         model.addAttribute("apellidoUsuario", userEncontrado.getApellido());
