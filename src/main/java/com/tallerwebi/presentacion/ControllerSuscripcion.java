@@ -8,8 +8,8 @@ public class ControllerSuscripcion {
 
     //cree este metodo solo para tener linkeado el navbar, despues cuando tengan que
     //hacer algo, modifiquenlo como quieran.
-    @GetMapping("/transacciones")
+    @GetMapping("/suscripcion")
     public String transacciones(){
-        return "transacciones";
+        return "suscripcion";
     }
 }
