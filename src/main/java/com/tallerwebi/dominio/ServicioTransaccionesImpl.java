@@ -21,23 +21,23 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     }
 
     @Override
-    public String crearTransaccion(String nombreDeCripto, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario) {
+    public String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario) {
         Double precioTotalDeTransaccion = precioDeCripto*cantidadDeCripto;
 
         if (cantidadDeCripto <= 0.0){
             return "La cantidad debe ser mayor que 0.";
         }
 
-        Criptomoneda criptoEncontrada = buscarCriptoPorNombre(nombreDeCripto);
-        if (criptoEncontrada == null) {
-            return "El cripto no existe";
-        }
+//        Criptomoneda criptoEncontrada = buscarCriptoPorNombre(nombreDeCripto);
+//        if (criptoEncontrada == null) {
+//            return "El cripto no existe";
+//        }
 
         if (tipoDeTransaccion.equals(TipoTransaccion.COMPRA)){
 
             if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())){
                 //aca creo la transaccion.
-                Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptoEncontrada,cantidadDeCripto);
+                Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda,cantidadDeCripto);
                 //le RESTO el saldo al usuario
                 usuario.setSaldo(usuario.getSaldo() - precioTotalDeTransaccion);
                 //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
@@ -49,9 +49,9 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
             }
         }else{
 
-            if (verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(nombreDeCripto,cantidadDeCripto,usuario.getId())){
+            if (verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(criptomoneda.getNombre(),cantidadDeCripto,usuario.getId())){
                 //ceo la trnasaccion
-                Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptoEncontrada, cantidadDeCripto);
+                Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
                 //le SUMO al saldo del usuario
                 usuario.setSaldo(usuario.getSaldo() + precioTotalDeTransaccion);
                 //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
@@ -96,10 +96,10 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         return nuevaTransaccion;
     }
 
-    @Override
-    public Criptomoneda buscarCriptoPorNombre(String nombreDeCripto) {
-        return repositorioTransacciones.buscarCriptomonedaPorNombre(nombreDeCripto);
-    }
+//    @Override
+//    public Criptomoneda buscarCriptoPorNombre(String nombreDeCripto) {
+//        return repositorioTransacciones.buscarCriptomonedaPorNombre(nombreDeCripto);
+//    }
 
     @Override
     public Boolean verificarQueTengaSaldoSuficienteParaComprar(Double precioTotalDeTransaccion, Double saldoDelUsuario) {

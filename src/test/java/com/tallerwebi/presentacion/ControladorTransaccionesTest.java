@@ -15,7 +15,8 @@ public class ControladorTransaccionesTest {
     private MockHttpServletRequest request = new MockHttpServletRequest();
     private ServicioUsuario servicioUsuario = mock(ServicioUsuarioImpl.class);
     private ServicioTransacciones servicioTransacciones = mock(ServicioTransaccionesImpl.class);
-    private ControladorTransacciones controladorTransacciones = new ControladorTransacciones(servicioUsuario,servicioTransacciones);
+    private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomonedaImpl.class);
+    private ControladorTransacciones controladorTransacciones = new ControladorTransacciones(servicioUsuario,servicioTransacciones,servicioCriptomoneda);
 
 
     @Test
@@ -36,8 +37,12 @@ public class ControladorTransaccionesTest {
         Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
         usuario.setEmail(emailUsuario);
 
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
-        when(servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("Transaccion exitosa.");
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("Transaccion exitosa.");
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
 
@@ -70,8 +75,12 @@ public class ControladorTransaccionesTest {
         Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
         usuario.setEmail(emailUsuario);
 
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
-        when(servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("La cantidad debe ser mayor que 0.");
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("La cantidad debe ser mayor que 0.");
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
 

@@ -1,9 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioTransacciones;
-import com.tallerwebi.dominio.ServicioUsuario;
-import com.tallerwebi.dominio.ServicioUsuarioImpl;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,11 +18,13 @@ public class ControladorTransacciones {
 
     private ServicioTransacciones servicioTransacciones;
     private ServicioUsuario servicioUsuario;
+    private ServicioCriptomoneda servicioCriptomoneda;
 
     @Autowired
-    public ControladorTransacciones(ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones) {
+    public ControladorTransacciones(ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones, ServicioCriptomoneda servicioCriptomoneda) {
         this.servicioUsuario = servicioUsuario;
         this.servicioTransacciones = servicioTransacciones;
+        this.servicioCriptomoneda = servicioCriptomoneda;
     }
 
 
@@ -49,8 +48,14 @@ public class ControladorTransacciones {
             return new ModelAndView("transacciones", model);
         }
 
-        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario);
-        String mensaje = servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuarioEncontrado);
+        Criptomoneda criptomoneda = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto);
+        if (criptomoneda == null){ //no haria falta poruqe en el select doy si o si las criptos que tengo.
+            model.put("mensaje", "La criptomoneda no existe");
+            return new ModelAndView("transacciones", model);
+        }
+
+        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario); //no pregundo si es != null porque se que esxiste ya que se logeo.
+        String mensaje = servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuarioEncontrado);
         model.put("mensaje", mensaje);
 
         return new ModelAndView("transacciones", model);
