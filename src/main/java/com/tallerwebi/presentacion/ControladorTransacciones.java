@@ -2,6 +2,8 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioTransacciones;
 import com.tallerwebi.dominio.ServicioUsuario;
+import com.tallerwebi.dominio.ServicioUsuarioImpl;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,7 @@ public class ControladorTransacciones {
     private ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorTransacciones(ServicioUsuario servicioUsuario,ServicioTransacciones servicioTransacciones) {
+    public ControladorTransacciones(ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones) {
         this.servicioUsuario = servicioUsuario;
         this.servicioTransacciones = servicioTransacciones;
     }
@@ -47,7 +49,8 @@ public class ControladorTransacciones {
             return new ModelAndView("transacciones", model);
         }
 
-        String mensaje = servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
+        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario);
+        String mensaje = servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuarioEncontrado);
         model.put("mensaje", mensaje);
 
         return new ModelAndView("transacciones", model);

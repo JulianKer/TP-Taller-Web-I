@@ -31,8 +31,13 @@ public class ControladorTransaccionesTest {
         Double precioDeCripto = 100.0;
         Double cantidadDeCripto = 1.0;
         TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
-        String emailUsuario = "german@gmil.com";
-        when(servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario)).thenReturn("Transaccion exitosa.");
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("Transaccion exitosa.");
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
 
@@ -46,7 +51,7 @@ public class ControladorTransaccionesTest {
         Double precioDeCripto = 100.0;
         Double cantidadDeCripto = null;
         TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
-        String emailUsuario = "german@gmil.com";
+        String emailUsuario = "german@gmail.com";
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
 
@@ -60,8 +65,13 @@ public class ControladorTransaccionesTest {
         Double precioDeCripto = 100.0;
         Double cantidadDeCripto = 0.0;
         TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
-        String emailUsuario = "german@gmil.com";
-        when(servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario)).thenReturn("La cantidad debe ser mayor que 0.");
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioTransacciones.crearTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("La cantidad debe ser mayor que 0.");
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
 

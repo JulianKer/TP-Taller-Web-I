@@ -5,6 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Usuario {
@@ -78,5 +82,6 @@ public class Usuario {
 
     public void setNombre(String nombre) {this.nombre = nombre;}
     public String getNombre() {return this.nombre;}
+
 
 }
