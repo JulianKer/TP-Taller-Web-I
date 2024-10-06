@@ -21,9 +21,9 @@ public class ControladorTransaccionesTest {
 
     @Test
     public void queCuandoIntenteBarraTransaccionesPorUrlSinLogearseTeRedirijaAlLoginConMensajeDeError() {
-        String recibido = controladorTransacciones.transacciones(request);
+        ModelAndView recibido = controladorTransacciones.transacciones(request);
 
-        assertEquals(recibido, "redirect:/login?error=Debe ingresar primero");
+        assertEquals(recibido.getViewName(), "redirect:/login?error=Debe ingresar primero");
     }
 
     @Test

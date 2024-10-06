@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
+import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,31 +29,36 @@ public class ControladorTransacciones {
     }
 
     @GetMapping("/transacciones")
-    public String transacciones(HttpServletRequest request){
+    public ModelAndView transacciones(HttpServletRequest request){
 
         if (request.getSession().getAttribute("emailUsuario") == null){
-            return"redirect:/login?error=Debe ingresar primero";
+            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
-        return "redirect:/transacciones";
+        ModelMap model = new ModelMap();
+        model.put("msj", "bienvenido a TRANSACCIONES");
+        ModelAndView mav = new ModelAndView("transacciones", model);
+        return mav;
     }
 
     @RequestMapping(path = "/transacciones/realizarTransaccion",method = RequestMethod.POST)
     public ModelAndView realizarTransaccion(String nombreDeCripto, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, String emailUsuario) {
         ModelMap model = new ModelMap();
+        Criptomoneda criptomonedaEncontrada;
 
         if (cantidadDeCripto == null){
             model.put("mensaje", "Debe especificar la cantidad.");
             return new ModelAndView("transacciones", model);
         }
 
-        Criptomoneda criptomoneda = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto);
-        if (criptomoneda == null){ //no haria falta poruqe en el select doy si o si las criptos que tengo.
-            model.put("mensaje", "La criptomoneda no existe");
+        try {
+            criptomonedaEncontrada = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto);
+        }catch (NoSeEncontroLaCriptomonedaException e){
+            model.put("mensaje", e.getMessage());
             return new ModelAndView("transacciones", model);
         }
 
         Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario); //no pregundo si es != null porque se que esxiste ya que se logeo.
-        String mensaje = servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuarioEncontrado);
+        String mensaje = servicioTransacciones.crearTransaccion(criptomonedaEncontrada,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuarioEncontrado);
         model.put("mensaje", mensaje);
 
         return new ModelAndView("transacciones", model);

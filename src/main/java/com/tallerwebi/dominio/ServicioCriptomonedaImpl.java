@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
     @Override
     public Criptomoneda buscarCriptomonedaPorNombre(String nombreDeCripto) {
-        return repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto);
+        Criptomoneda criptomonedaEncontrada = repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto);
+        if (criptomonedaEncontrada == null){
+            throw new NoSeEncontroLaCriptomonedaException("Criptomoneda no encontrada");
+        }
+        return criptomonedaEncontrada;
     }
 }

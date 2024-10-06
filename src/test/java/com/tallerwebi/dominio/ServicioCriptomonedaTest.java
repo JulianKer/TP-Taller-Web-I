@@ -28,7 +28,7 @@ public class ServicioCriptomonedaTest {
     public void queSeIntenteBuscarCriptomonedaInexistenteYLanceUnaExcepcion() {
         String nombreDeCripto = "bitcoin";
 
-        when(repositorioCriptomoneda.buscarCriptomonedaPorNombre("bitcoin")).thenReturn(null);
+        when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(null);
         assertThrows(NoSeEncontroLaCriptomonedaException.class,()->servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto));
     }
 }
