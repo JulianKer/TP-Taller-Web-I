@@ -23,13 +23,6 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
         sessionFactory.getCurrentSession().save(transaccion);
     }
 
-//    @Override
-//    public Criptomoneda buscarCriptomonedaPorNombre(String nombreCriptomoneda) {
-//        return (Criptomoneda) sessionFactory.getCurrentSession().createCriteria(Criptomoneda.class)
-//                .add(Restrictions.eq("nombre",nombreCriptomoneda))
-//                .uniqueResult();
-//    }
-
     @Override
     public Double buscarCantidadCompradadeUnaCriptoDeUnUsuario(String nombreDeCripto, Long idDeUsuario) {
         return (Double) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)

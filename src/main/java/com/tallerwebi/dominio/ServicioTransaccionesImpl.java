@@ -28,11 +28,6 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
             return "La cantidad debe ser mayor que 0.";
         }
 
-//        Criptomoneda criptoEncontrada = buscarCriptoPorNombre(nombreDeCripto);
-//        if (criptoEncontrada == null) {
-//            return "El cripto no existe";
-//        }
-
         if (tipoDeTransaccion.equals(TipoTransaccion.COMPRA)){
 
             if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())){
@@ -95,11 +90,6 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         nuevaTransaccion.setCantidadDeCripto(cantidadDeCripto);
         return nuevaTransaccion;
     }
-
-//    @Override
-//    public Criptomoneda buscarCriptoPorNombre(String nombreDeCripto) {
-//        return repositorioTransacciones.buscarCriptomonedaPorNombre(nombreDeCripto);
-//    }
 
     @Override
     public Boolean verificarQueTengaSaldoSuficienteParaComprar(Double precioTotalDeTransaccion, Double saldoDelUsuario) {

@@ -27,9 +27,6 @@ public class ControladorTransacciones {
         this.servicioCriptomoneda = servicioCriptomoneda;
     }
 
-
-    //cree este metodo solo para tener linkeado el navbar, despues cuando tengan que
-    //hacer algo, modifiquenlo como quieran.
     @GetMapping("/transacciones")
     public String transacciones(HttpServletRequest request){
 

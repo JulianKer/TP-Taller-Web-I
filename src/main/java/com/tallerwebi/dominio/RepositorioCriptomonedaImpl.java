@@ -21,4 +21,9 @@ public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
                 .add(Restrictions.eq("nombre",nombreDeCripto))
                 .uniqueResult();
     }
+
+    @Override
+    public void guardarCriptomoneda(Criptomoneda criptomoneda) {
+        sessionFactory.getCurrentSession().save(criptomoneda);
+    }
 }

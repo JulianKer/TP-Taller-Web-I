@@ -1,9 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-
 import com.tallerwebi.dominio.Criptomoneda;
+import com.tallerwebi.dominio.RepositorioCriptomoneda;
+import com.tallerwebi.dominio.RepositorioCriptomonedaImpl;
 import com.tallerwebi.dominio.RepositorioTransaccionesImpl;
-import com.tallerwebi.dominio.Transaccion;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import org.junit.jupiter.api.Test;
@@ -21,18 +21,34 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {SpringWebTestConfig.class, HibernateTestConfig.class})
-public class RepositorioTransaccionesTest {
+public class RepositorioCriptomonedaTest {
 
     @Autowired
-    private RepositorioTransaccionesImpl repositorioTransacciones;
+    private RepositorioCriptomonedaImpl repositorioCriptomoneda;
 
     @Test
     @Transactional
     @Rollback
-    public void queSeGuardeUnaTransaccion() {
-        Transaccion nuevaTransaccion = new Transaccion();
-        repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+    public void queSePuedaGuardarUnaCriptomoneda() {
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
 
-        assertNotNull(nuevaTransaccion.getId());
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda);
+
+        assertNotNull(criptomoneda.getId());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queAlBuscarCriptomonedaPorNombreLaEncuentre() {
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda);
+
+        assertNotNull(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto));
     }
 }
