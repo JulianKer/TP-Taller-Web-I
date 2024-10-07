@@ -55,4 +55,14 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
                 .add(Restrictions.eq("rol", rol)).list();
     }
 
+    @Override
+    public void restarSaldo(Long idUsuario, Double precioTotalDeTransaccion) {
+        Usuario user = (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+                .add(Restrictions.eq("id", idUsuario))
+                .uniqueResult();
+
+        user.setSaldo(user.getSaldo() - precioTotalDeTransaccion);
+        sessionFactory.getCurrentSession().update(user);
+    }
+
 }

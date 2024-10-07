@@ -1,9 +1,12 @@
 package com.tallerwebi.dominio;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
@@ -25,5 +28,12 @@ public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
     @Override
     public void guardarCriptomoneda(Criptomoneda criptomoneda) {
         sessionFactory.getCurrentSession().save(criptomoneda);
+    }
+
+    @Override
+    public List<String> dameElNombreDeTodasLasCriptos() {
+        return (List<String>) sessionFactory.getCurrentSession().createCriteria(Criptomoneda.class)
+                .setProjection(Projections.property("nombre"))
+                .list();
     }
 }

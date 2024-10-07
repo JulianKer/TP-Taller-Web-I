@@ -13,7 +13,8 @@ import static org.mockito.Mockito.when;
 public class ServicioTransaccionesTest {
 
     private RepositorioTransacciones repositorioTransacciones = mock(RepositorioTransacciones.class);
-    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones);
+    private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
+    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones, servicioUsuario);
 
 
     @Test

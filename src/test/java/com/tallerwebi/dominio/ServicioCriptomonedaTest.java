@@ -21,7 +21,6 @@ public class ServicioCriptomonedaTest {
 
         when(repositorioCriptomoneda.buscarCriptomonedaPorNombre("bitcoin")).thenReturn(criptomoneda);
         assertNotNull(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto));
-
     }
 
     @Test

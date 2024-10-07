@@ -11,6 +11,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+  <link rel="stylesheet" th:href="@{/css/transacciones.css}"/>
   <script th:src="@{/js/headerNuevo.js}" defer></script>
   <link rel="icon" th:href="@{/img/logoCripto.png}">
 
@@ -50,10 +51,36 @@
 
 
 
-<h1 th:text="'el mesja es:' + ${msj}"></h1>
+<main class="mainTransacciones">
+  <p th:if="${param.mensaje}" th:text="${param.mensaje}"></p>
+  <form class="form-nueva-transaccion" th:action="@{/realizarTransaccion}" method="post">
+    <div>
+      <label for="tipoDeTransaccion">Seleccione el tipo de transaccion:</label>
+      <select id="tipoDeTransaccion" name="tipoDeTransaccion" class="inputs">
+        <option value="COMPRA">Compra</option>
+        <option value="VENTA">Venta</option>
+      </select>
+    </div>
+    <div>
+      <label for="nombreDeCripto">Seleccione la criptomoneda:</label>
+      <select id="nombreDeCripto" name="nombreDeCripto" th:each="nombreCripto : ${criptos}" class="inputs">
+        <option th:value="${nombreCripto}" th:text="${nombreCripto}"></option>
+      </select>
+    </div>
+    <div>
+      <label for="cantidadDeCripto">Seleccione la cantidad:</label>
+      <input type="number" name="cantidadDeCripto" id="cantidadDeCripto" step="0.00001" class="inputs">
+    </div>
+    <input type="hidden" name="emailUsuario" th:value="${emailUsuario}">
+    <input type="submit" value="Realizar transacción" id="btnRealizarTransaccion">
+  </form>
 
-<!--COMPLETAR CON LA VISTA-->
+  <section class="historial">
+    <!-- aca iria la tabla con el historial de las transaccioenes-->
+  </section>
 
+
+</main>
 
 
 

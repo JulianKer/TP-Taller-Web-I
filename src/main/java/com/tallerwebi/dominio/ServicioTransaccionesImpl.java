@@ -14,10 +14,11 @@ import java.time.LocalDate;
 public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
     RepositorioTransacciones repositorioTransacciones;
-
+    ServicioUsuario servicioUsuario;
     @Autowired
-    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones) {
+    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones, ServicioUsuario servicioUsuario) {
         this.repositorioTransacciones = repositorioTransacciones;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @Override
@@ -34,7 +35,11 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
                 //aca creo la transaccion.
                 Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda,cantidadDeCripto);
                 //le RESTO el saldo al usuario
-                usuario.setSaldo(usuario.getSaldo() - precioTotalDeTransaccion);
+                //System.out.println("saldo antes: " + usuario.getSaldo());
+                //usuario.setSaldo(usuario.getSaldo() - precioTotalDeTransaccion);
+                servicioUsuario.restarSaldo(usuario.getId(), precioTotalDeTransaccion);
+                //System.out.println("saldo despues: " + usuario.getSaldo());
+
                 //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
                 repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
                 //y retorno el msj exitoso
@@ -48,7 +53,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
                 //ceo la trnasaccion
                 Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
                 //le SUMO al saldo del usuario
-                usuario.setSaldo(usuario.getSaldo() + precioTotalDeTransaccion);
+                usuario.setSaldo(usuario.getSaldo() + precioTotalDeTransaccion); // hacer un metodo como el que hice para comprar pero para vender desde el repo
                 //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
                 repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
                 //y retorno el msj exitoso

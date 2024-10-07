@@ -56,6 +56,11 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     }
 
     @Override
+    public void restarSaldo(Long idUsuario, Double precioTotalDeTransaccion) {
+        repositorioUsuario.restarSaldo(idUsuario, precioTotalDeTransaccion);
+    }
+
+    @Override
     public Usuario buscarUsuarioPorEmail(String email) {
         return repositorioUsuario.buscar(email);
     }
