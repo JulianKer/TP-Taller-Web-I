@@ -1,5 +1,6 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicio.impl;
 
+import com.tallerwebi.dominio.servicio.ServicioHome;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

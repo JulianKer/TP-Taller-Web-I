@@ -1,8 +1,14 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicio.impl;
 
+import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Transaccion;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
+import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
+import com.tallerwebi.dominio.servicio.ServicioTransacciones;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

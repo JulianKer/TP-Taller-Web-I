@@ -1,5 +1,6 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.infraestructura.servicio;
 
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 
 public interface ServicioLogin {

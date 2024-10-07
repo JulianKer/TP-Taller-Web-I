@@ -1,8 +1,11 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.servicio.impl;
 
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.MenorDeEdadException;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
 import com.tallerwebi.dominio.excepcion.TelefonoConLongitudIncorrectaException;
+import com.tallerwebi.dominio.repositorio.RepositorioUsuario;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

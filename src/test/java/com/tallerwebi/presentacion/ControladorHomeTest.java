@@ -1,12 +1,8 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Criptomoneda;
-import com.tallerwebi.dominio.ServicioHome;
-import com.tallerwebi.dominio.ServicioHomeImpl;
+import com.tallerwebi.dominio.servicio.ServicioHome;
+import com.tallerwebi.dominio.servicio.impl.ServicioHomeImpl;
 import org.junit.jupiter.api.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.util.AssertionErrors;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

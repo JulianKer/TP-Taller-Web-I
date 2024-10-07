@@ -1,8 +1,14 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
+import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
+import com.tallerwebi.dominio.servicio.ServicioTransacciones;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
+import com.tallerwebi.dominio.servicio.impl.ServicioTransaccionesImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

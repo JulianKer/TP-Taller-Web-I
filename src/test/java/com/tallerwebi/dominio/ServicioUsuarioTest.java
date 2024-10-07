@@ -1,8 +1,12 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.MenorDeEdadException;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
 import com.tallerwebi.dominio.excepcion.TelefonoConLongitudIncorrectaException;
+import com.tallerwebi.dominio.repositorio.RepositorioUsuario;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
+import com.tallerwebi.dominio.servicio.impl.ServicioUsuarioImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

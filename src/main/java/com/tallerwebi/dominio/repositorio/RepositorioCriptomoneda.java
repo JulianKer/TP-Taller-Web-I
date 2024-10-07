@@ -1,4 +1,6 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.repositorio;
+
+import com.tallerwebi.dominio.entidades.Criptomoneda;
 
 import java.util.List;
 

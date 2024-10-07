@@ -1,9 +1,8 @@
 package com.tallerwebi.infraestructura;
 
 
-import com.tallerwebi.dominio.Criptomoneda;
-import com.tallerwebi.dominio.RepositorioTransaccionesImpl;
-import com.tallerwebi.dominio.Transaccion;
+import com.tallerwebi.dominio.repositorio.impl.RepositorioTransaccionesImpl;
+import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import org.junit.jupiter.api.Test;

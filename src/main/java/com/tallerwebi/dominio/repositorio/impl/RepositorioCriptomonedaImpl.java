@@ -1,5 +1,7 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.repositorio.impl;
 
+import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;

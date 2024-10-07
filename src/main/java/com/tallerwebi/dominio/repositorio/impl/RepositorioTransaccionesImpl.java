@@ -1,6 +1,8 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.repositorio.impl;
 
+import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
+import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;

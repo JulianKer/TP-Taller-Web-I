@@ -1,6 +1,10 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
+import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
