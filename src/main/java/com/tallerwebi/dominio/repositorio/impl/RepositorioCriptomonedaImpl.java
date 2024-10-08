@@ -38,4 +38,9 @@ public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
         return (ArrayList<Criptomoneda>) sessionFactory.getCurrentSession().createCriteria(Criptomoneda.class)
                 .list();
     }
+
+    @Override
+    public void actualizarCriptomoneda(Criptomoneda criptoDeMiBdd) {
+        sessionFactory.getCurrentSession().update(criptoDeMiBdd);
+    }
 }

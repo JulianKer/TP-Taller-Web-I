@@ -13,4 +13,6 @@ public interface RepositorioCriptomoneda {
     void guardarCriptomoneda(Criptomoneda criptomoneda);
 
     ArrayList<Criptomoneda> dameElNombreDeTodasLasCriptos();
+
+    void actualizarCriptomoneda(Criptomoneda criptoDeMiBdd);
 }

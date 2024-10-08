@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.PrecioCripto;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
@@ -13,10 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @Transactional
@@ -67,7 +67,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
         for (JsonElement criptoDelArrayApi : arrayData) {
             JsonObject objCripto = criptoDelArrayApi.getAsJsonObject();
             String id = objCripto.get("id").getAsString();
-            String name = objCripto.get("name").getAsString();
+            //String name = objCripto.get("name").getAsString(); // este no lo usé
             double precio = objCripto.get("priceUsd").getAsDouble();
             System.out.println(id);
             System.out.println(precio);
@@ -80,6 +80,18 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                 if (id.equals(criptoDeMiBdd.getNombre())){
                     precio = convertiPrecioSegunLaDivisa(moneda, precio);
                     precios.put(criptoDeMiBdd, precio);
+
+                    criptoDeMiBdd.setPrecioActual(precio);
+                    // este basicamente,lo hago para que se le actualice el precio, el metodo tiene un .save() pero NO va
+                    // a reemplazar la cripto, simplemente: si existe le hace un update y como SE que esa cripto existe,
+                    // SIEMPRE le va a hacer el update je
+                    repositorioCriptomoneda.actualizarCriptomoneda(criptoDeMiBdd);
+
+                    PrecioCripto precioCripto = new PrecioCripto();
+                    LocalDateTime fechaDeHoy = LocalDateTime.now();
+                    precioCripto.setCriptomoneda(criptoDeMiBdd);
+                    precioCripto.setPrecioActual(precio);
+                    precioCripto.setFechaDelPrecio(fechaDeHoy);
                 }
             }
         }
