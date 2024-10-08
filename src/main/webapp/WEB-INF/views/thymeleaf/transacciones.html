@@ -63,8 +63,8 @@
     </div>
     <div>
       <label for="nombreDeCripto">Seleccione la criptomoneda:</label>
-      <select id="nombreDeCripto" name="nombreDeCripto" th:each="nombreCripto : ${criptos}" class="inputs">
-        <option th:value="${nombreCripto}" th:text="${nombreCripto}"></option>
+      <select id="nombreDeCripto" name="nombreDeCripto" class="inputs">
+        <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombre()}"></option>
       </select>
     </div>
     <div>

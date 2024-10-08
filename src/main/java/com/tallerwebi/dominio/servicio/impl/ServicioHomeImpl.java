@@ -17,14 +17,14 @@ import com.google.gson.JsonParser;
 public class ServicioHomeImpl implements ServicioHome {
 
 
-    @Override
+    /*@Override
     public Map<String, Double> obtenerCrypto(List<String> criptos, String moneda) {
 
         RestTemplate restTemplate = new RestTemplate();
         Map<String, Double> precios = new HashMap<>();
 
         for (String cripto : criptos) {
-            String url = "https://api.coincap.io/v2/assets/" + cripto                /*moneda.toUpperCase()*/; // Convierte la moneda a mayúsculas
+            String url = "https://api.coincap.io/v2/assets/" + cripto                /*moneda.toUpperCase()/; // Convierte la moneda a mayúsculas
 
             try {
                 // Realiza la solicitud y obtiene la respuesta en formato JSON
@@ -71,8 +71,7 @@ public class ServicioHomeImpl implements ServicioHome {
         }
         return precio;
     }
-
-
+*/
 
 
 
