@@ -5,8 +5,12 @@ import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 
+import java.util.List;
+
 
 public interface ServicioTransacciones {
+
+    List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario);
 
     Transaccion generarTransaccion(Double precioDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion, Criptomoneda criptoEncontrada, Double cantidadDeCripto);
 
@@ -15,4 +19,5 @@ public interface ServicioTransacciones {
     String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario);
 
     Boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(String nombreDeCripto, Double cantidadDeCripto, Long id);
+
 }

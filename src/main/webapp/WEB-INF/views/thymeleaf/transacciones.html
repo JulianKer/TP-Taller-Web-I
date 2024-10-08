@@ -1,25 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Transacciones</title>
-
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transacciones</title>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-  <script src="js/jquery.min.js"></script>
-  <!-- Bootstrap y FontAwesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
   <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
-  <link rel="stylesheet" th:href="@{/css/transacciones.css}"/>
-  <script th:src="@{/js/headerNuevo.js}" defer></script>
+  <link rel="stylesheet" th:href="@{/css/transacciones.css}">
   <link rel="icon" th:href="@{/img/logoCripto.png}">
-
 </head>
 <body>
 <header id="arriba">
   <nav>
-    <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}"></a>
+    <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}" alt="Logo"></a>
 
     <ul class="contLinks">
       <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
@@ -39,23 +34,29 @@
 
     <div class="contUserLogout">
       <a th:href="@{/perfil}" class="contUser">
-        <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
+        <img th:src="@{/img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
       </a>
       <a th:href="@{/cerrarSesion}" class="contLogout">
-        <img th:src="@{img/icons/icon_logout.svg}"  alt="Cerrar sesión" title="Cerrar sesión">
+        <img th:src="@{/img/icons/icon_logout.svg}" alt="Cerrar sesión" title="Cerrar sesión">
       </a>
-      <img th:src="@{img/icons/icon_burger.svg}" id="imgBurger" alt="Menu" title="Menú" class="imgMenuBurguer">
+      <img th:src="@{/img/icons/icon_burger.svg}" id="imgBurger" alt="Menu" title="Menú" class="imgMenuBurguer">
     </div>
   </nav>
 </header>
 
-
-
 <main class="mainTransacciones">
-  <p th:if="${param.mensaje}" th:text="${param.mensaje}"></p>
+  <h1>Transacciones</h1>
+
+<div th:if="${param.mensaje}">
+  <div th:if='${!param.mensaje.equals("Transaccion exitosa.") }'>
+    <p th:text="${param.mensaje}" class="alert alert-warning"></p>
+  </div>
+</div>
+
+
   <form class="form-nueva-transaccion" th:action="@{/realizarTransaccion}" method="post">
     <div>
-      <label for="tipoDeTransaccion">Seleccione el tipo de transaccion:</label>
+      <label for="tipoDeTransaccion">Seleccione el tipo de transacción:</label>
       <select id="tipoDeTransaccion" name="tipoDeTransaccion" class="inputs">
         <option value="COMPRA">Compra</option>
         <option value="VENTA">Venta</option>
@@ -63,8 +64,10 @@
     </div>
     <div>
       <label for="nombreDeCripto">Seleccione la criptomoneda:</label>
-      <select id="nombreDeCripto" name="nombreDeCripto" th:each="nombreCripto : ${criptos}" class="inputs">
-        <option th:value="${nombreCripto}" th:text="${nombreCripto}"></option>
+      <select id="nombreDeCripto" name="nombreDeCripto" class="inputs">
+        <option th:each="nombreCripto : ${criptos}"
+                th:value="${nombreCripto}"
+                th:text="${nombreCripto}"></option>
       </select>
     </div>
     <div>
@@ -76,13 +79,66 @@
   </form>
 
   <section class="historial">
-    <!-- aca iria la tabla con el historial de las transaccioenes-->
+    <h2>Historial de Transacciones</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>Nombre de Usuario</th>
+        <th>Apellido de Usuario</th>
+        <th>Nombre de Criptomoneda</th>
+        <th>Monto Total</th>
+        <th>Precio al que se Hizo</th>
+        <th>Fecha de Transacción</th>
+        <th>Tipo de Transacción</th>
+        <th>Cantidad de Cripto</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--<tr th:if="${#lists.isEmpty(historialTransacciones)}"  th:each="registroTransacion : ${historialTransacciones}">
+        <td th:text="${registroTransacion.getUsuario().getNombre()}"></td>
+        <td th:text="${registroTransacion.getUsuario().getApellido()}"></td>
+        <td th:text="${registroTransacion.getCriptomoneda().getNombre()}"></td>
+        <td th:text="${registroTransacion.getMontoTotal()}"></td>
+        <td th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
+        <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
+        <td th:text="${registroTransacion.getTipo()}"></td>
+        <td th:text="${registroTransacion.getCantidadDeCripto()}"></td>
+      </tr>
+      <tr th:unless="${#lists.isEmpty(historialTransacciones)}">
+        <h4 class="alert alert-danger">
+          Todavia no hay Transacciones
+        </h4>
+
+      </tr>-->
+
+      <!-- Si la lista de historialTransacciones está vacía, muestra el mensaje de alerta -->
+      <tr th:if="${#lists.isEmpty(historialTransacciones)}">
+        <td colspan="8">
+          <h6 class="alert alert-danger">
+            Todavía no hay Transacciones
+          </h6>
+        </td>
+      </tr>
+
+      <!-- Si la lista NO está vacía, itera sobre cada registro de transacción -->
+      <tr th:each="registroTransacion : ${historialTransacciones}" th:unless="${#lists.isEmpty(historialTransacciones)}">
+        <td th:text="${registroTransacion.getUsuario().getNombre()}"></td>
+        <td th:text="${registroTransacion.getUsuario().getApellido()}"></td>
+        <td th:text="${registroTransacion.getCriptomoneda().getNombre()}"></td>
+        <td th:text="${registroTransacion.getMontoTotal()}"></td>
+        <td th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
+        <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
+        <td th:text="${registroTransacion.getTipo()}"></td>
+        <td th:text="${registroTransacion.getCantidadDeCripto()}"></td>
+      </tr>
+
+      </tbody>
+    </table>
   </section>
-
-
 </main>
 
-
-
+<script th:src="@{/js/headerNuevo.js}" defer></script>
+<!-- Bootstrap core JS -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
