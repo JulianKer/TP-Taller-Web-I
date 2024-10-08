@@ -8,7 +8,9 @@
     <!-- Bootstrap y FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+    <link rel="stylesheet" th:href="@{/css/suscripcion.css}"/>
     <script th:src="@{/js/headerNuevo.js}" defer></script>
     <link rel="icon" th:href="@{/img/logoCripto.png}">
 
@@ -46,13 +48,22 @@
     </nav>
 </header>
 
+<div class="container">
+    <h1>Plan de Suscripción</h1>
+    <div class="plan">
+        <h2>Plan Diamante</h2>
+        <div class="price">$20/mes</div>
+        <div class="features">
+            <ul>
+                <li>Soporte premium 24/7</li>
 
+            </ul>
+        </div>
+        <a th:href="@{/validarSuscripcion}" class="subscribe-btn">Suscribirse</a>
+    </div>
 
-
-
-<!--COMPLETAR CON LA VISTA-->
-
-
-
+    <p th:if="${param.mensaje}" th:text="${ param.mensaje } " class="alert alert-warning mensaje "> </p>
+</div>
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>

@@ -93,10 +93,11 @@
         <div class="contenedor_input_botones">
           <div>
             <p>Suscripción: </p>
-            <p th:text="${premiumActivo}">PREMIUM</p>
+            <p th:if="${premiumActivo==true}" th:text="PREMIUM">PREMIUM</p>
+            <p th:if="${premiumActivo==false}" th:text="GRATIS">GRATIS</p>
           </div>
 
-          <a th:href="@{/suscripciones}" class="botones verPlan">Ver plan</a>
+          <a th:href="@{/suscripcion}" class="botones verPlan">Ver plan</a>
         </div>
 
         <!--<div class="contenedor_input_perfil">

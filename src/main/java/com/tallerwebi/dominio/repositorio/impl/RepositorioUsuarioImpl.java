@@ -63,4 +63,15 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         sessionFactory.getCurrentSession().update(user);
     }
 
+    @Override
+    public void cambiarEstado(Long idUsuario, boolean estado) {
+        Usuario user = (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+                .add(Restrictions.eq("id", idUsuario))
+                .uniqueResult();
+
+        user.setActivo(estado);
+        sessionFactory.getCurrentSession().update(user);
+
+    }
+
 }
