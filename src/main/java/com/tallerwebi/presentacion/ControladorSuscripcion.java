@@ -25,8 +25,12 @@ public class ControladorSuscripcion {
     //cree este metodo solo para tener linkeado el navbar, despues cuando tengan que
     //hacer algo, modifiquenlo como quieran.
     @GetMapping("/suscripcion")
-    public String transacciones(){
-        return "suscripcion";
+    public ModelAndView suscripcion(HttpServletRequest request){
+        if (request.getSession().getAttribute("emailUsuario") == null) {
+            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
+        }
+
+        return new ModelAndView("suscripcion");
     }
 
     @GetMapping("/validarSuscripcion")

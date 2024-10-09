@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioHome;
 import com.tallerwebi.dominio.servicio.impl.ServicioHomeImpl;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class ControladorHomeTest {
 
+    private MockHttpServletRequest request = new MockHttpServletRequest();
     private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomoneda.class);
     private ControladorHome controladorHome = new ControladorHome(servicioCriptomoneda);
 
@@ -61,7 +63,7 @@ public class ControladorHomeTest {
         mapa.put(criptomoneda, 1.0);
 
         when(servicioCriptomoneda.obtenerCrypto(misCriptos, "eur")).thenReturn(mapa);
-        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("eur", "bitcoin");
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("eur", "bitcoin", request);
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "EUR");
     }
@@ -82,7 +84,7 @@ public class ControladorHomeTest {
         mapa.put(criptomoneda, 1.0);
 
         when(servicioCriptomoneda.obtenerCrypto( misCriptos, "brl")).thenReturn(mapa);
-        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("brl", "bitcoin");
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("brl", "bitcoin", request);
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "BRL");
     }
@@ -103,7 +105,7 @@ public class ControladorHomeTest {
         mapa.put(criptomoneda, 1.0);
 
         when(servicioCriptomoneda.obtenerCrypto(misCriptos, "ars")).thenReturn(mapa);
-        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("ars", "bitcoin");
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("ars", "bitcoin", request);
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "ARS");
     }
@@ -124,7 +126,7 @@ public class ControladorHomeTest {
         mapa.put(criptomoneda, 1.0);
 
         when(servicioCriptomoneda.obtenerCrypto(misCriptos, "cny")).thenReturn(mapa);
-        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("cny", "bitcoin");
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("cny", "bitcoin", request);
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "CNY");
     }
@@ -145,7 +147,7 @@ public class ControladorHomeTest {
         mapa.put(criptomoneda, 1.0);
 
         when(servicioCriptomoneda.obtenerCrypto(misCriptos, "usd")).thenReturn(mapa);
-        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("usd", "bitcoin");
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("usd", "bitcoin", request);
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "USD");
     }
@@ -166,7 +168,7 @@ public class ControladorHomeTest {
         mapa.put(criptomoneda, 1.0);
 
         when(servicioCriptomoneda.obtenerCrypto(misCriptos, "gbp")).thenReturn(mapa);
-        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("gbp", "bitcoin");
+        ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("gbp", "bitcoin", request);
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "GBP");
     }

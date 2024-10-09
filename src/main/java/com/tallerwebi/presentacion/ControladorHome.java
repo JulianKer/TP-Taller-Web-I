@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
@@ -27,22 +28,14 @@ public class ControladorHome {
     @RequestMapping(path = "/home", method = RequestMethod.GET)
     public ModelAndView cargarPrecioDeCryptos(
             @RequestParam(value = "moneda",required = false, defaultValue = "usd") String moneda,
-            @RequestParam(value = "criterioDeBusqueda",required = false, defaultValue = "") String criterioDeBusqueda) {
+            @RequestParam(value = "criterioDeBusqueda",required = false, defaultValue = "") String criterioDeBusqueda,
+            HttpServletRequest request) {
 
         ModelMap model = new ModelMap();
         Map<Criptomoneda, Double> mapaMonedaPrecios = new HashMap<>();
         moneda = moneda.toUpperCase();
 
         ArrayList<Criptomoneda> misCriptos = servicioCriptomoneda.obtenerNombreDeTodasLasCriptos();
-        /*
-        misCriptos.add("bitcoin");
-        misCriptos.add("ethereum");
-        misCriptos.add("tether");
-        misCriptos.add("solana");
-        misCriptos.add("steth");
-        misCriptos.add("dogecoin");
-        misCriptos.add("binance-coin");
-        */
 
         if (criterioDeBusqueda.isEmpty()){
             mapaMonedaPrecios = servicioCriptomoneda.obtenerCrypto(misCriptos, moneda);
