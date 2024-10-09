@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
+import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
@@ -72,7 +73,7 @@ public class ControladorTransacciones {
         try{
             mensaje = servicioTransacciones.crearTransaccion(criptomonedaEncontrada,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuarioEncontrado);
             return new ModelAndView("redirect:/transacciones?mensaje=" + mensaje);
-        }catch (SaldoInsuficienteException e){
+        }catch (SaldoInsuficienteException | CriptomonedasInsuficientesException e){
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage());
         }
     }

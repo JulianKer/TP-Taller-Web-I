@@ -60,7 +60,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
                 //ceo la trnasaccion
                 Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
                 //le SUMO al saldo del usuario
-                usuario.setSaldo(usuario.getSaldo() + precioTotalDeTransaccion); // hacer un metodo como el que hice para comprar pero para vender desde el repo
+                servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
                 //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
                 repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
                 //y retorno el msj exitoso
@@ -82,8 +82,8 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
           AHORA: cantidadDeCriptosTotales = cantidaddeCiptosCompradas - cantidadDeCriptosVentidas;
            A mi me interesa el resultado de esa resta para comparar con la cantidadDeCripto que quiere vender el usuario.
           */
-        Double cantidadCompradaDeUnaCripto = repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario) == 0 ? 0 : repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario);
-        Double cantidadVendidaDeUnaCripto = repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario) == 0 ? 0 : repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario);
+        Double cantidadCompradaDeUnaCripto = repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario) == null ? 0.0 : repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario);
+        Double cantidadVendidaDeUnaCripto = repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario) == null ? 0.0 : repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario);
 
         Double cantidadTotalDeUnaCriptoDelUsuario = cantidadCompradaDeUnaCripto - cantidadVendidaDeUnaCripto;
 

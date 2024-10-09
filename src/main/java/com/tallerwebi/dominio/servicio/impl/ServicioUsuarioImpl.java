@@ -81,6 +81,11 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     }
 
     @Override
+    public void sumarSaldo(Long idUsuario, Double precioTotalDeTransaccion) {
+        repositorioUsuario.sumarSaldo(idUsuario, precioTotalDeTransaccion);
+    }
+
+    @Override
     public Usuario buscarUsuarioPorEmail(String email) {
         return repositorioUsuario.buscar(email);
     }

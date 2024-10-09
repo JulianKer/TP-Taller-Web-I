@@ -74,4 +74,14 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     }
 
+    @Override
+    public void sumarSaldo(Long idUsuario, Double precioTotalDeTransaccion) {
+        Usuario user = (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+                .add(Restrictions.eq("id", idUsuario))
+                .uniqueResult();
+
+        user.setSaldo(user.getSaldo() + precioTotalDeTransaccion);
+        sessionFactory.getCurrentSession().update(user);
+    }
+
 }

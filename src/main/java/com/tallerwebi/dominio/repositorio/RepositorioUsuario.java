@@ -15,5 +15,7 @@ public interface RepositorioUsuario /*extends JpaRepository<Usuario, Long>  me d
     void restarSaldo(Long idUsuario, Double precioTotalDeTransaccion);
 
     void cambiarEstado(Long id, boolean estado);
+
+    void sumarSaldo(Long idUsuario, Double precioTotalDeTransaccion);
 }
 

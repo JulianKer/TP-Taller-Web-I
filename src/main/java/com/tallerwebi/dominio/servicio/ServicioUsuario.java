@@ -11,4 +11,6 @@ public interface ServicioUsuario {
     void cambiarEstado(Long id, boolean b);
 
     boolean verificarQueTengaSaldoSuficienteParaComprar(double v, Double saldo);
+
+    void sumarSaldo(Long id, Double precioTotalDeTransaccion);
 }
