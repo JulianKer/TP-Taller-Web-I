@@ -69,20 +69,22 @@
   <!--  <h2 class="text-center">Tabla con Gráficos</h2>-->
   <!-- Tabla de criptomonedas -->
   <form  id="formulario" class="cabezaCripto" method="get" action="" th:action="@{/home}">
-    <input type="text" placeholder="Buscar criptomoneda" name="criterioDeBusqueda">
-    <button type="submit">Buscar</button>
+    <input type="text" placeholder="Buscar criptomoneda" name="criterioDeBusqueda"
+           th:value="${criterioDeBusqueda != null and !#strings.isEmpty(criterioDeBusqueda) ? criterioDeBusqueda : ''}" />    <button type="submit">Buscar</button>
     <!--<button type="submit">Actualizar criptomoneda</button>-->
     <a th:href="@{/home}" class="color-b">Actualizar precio</a>
     <label  for="selectDivisa">Selecciones la divisa a mostrar:</label>
     <select id="selectDivisa" name="moneda">
-      <option value="eur"> EUR</option>
-      <option value="brl">BRL</option>
-      <option value="gbp">GBP</option>
-      <option value="ars">ARS</option>
-      <option value="cny">CNY</option>
-      <option value="usd" selected> USD</option>
+      <option value="eur" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'eur')}"> EUR</option>
+      <option value="brl" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'brl')}">BRL</option>
+      <option value="gbp" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'gbp')}">GBP</option>
+      <option value="ars" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'ars')}">ARS</option>
+      <option value="cny" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'cny')}">CNY</option>
+      <option value="usd" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'usd')}"> USD</option>
     </select>
   </form>
+
+  <p th:if="${msjNoHayCoincidencias}" th:text="${msjNoHayCoincidencias}" class="alert alert-danger"></p>
   <div class="table-container">
     <table class="table-crypto">
       <thead>
