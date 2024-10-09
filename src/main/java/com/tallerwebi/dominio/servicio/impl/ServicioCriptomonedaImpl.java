@@ -47,10 +47,25 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
     @Override
     public Double obtenerPrecioDeCriptoPorNombre(String nombreDeCripto) {
 
-        // aca hay q hacer lo de la API y devolver SOLO ese precio de la cripto
-        // pero tengo q esperar a que lo haga julian por lo q le dijo la profe, asiq
-        // por el momento dejo este return y cualquier cripto vale eso jaja
-        return 100.0;
+        // para este metodo voy a usar la logicq que habia hecho de pedir solo UNA cripto por peticion ya que el metodo
+        // necesito que haga eso, no llamo al metoodo de esta clase (obtenerCrypto) pq me devuelve un map y no me sirve
+        // asiq prefiero hacer la una peticion nueva y listo
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://api.coincap.io/v2/assets/" + nombreDeCripto;
+        Double precio = 0.0;
+
+        try {
+            // hago la peticion y tengo la respuesta en json
+            String response = restTemplate.getForObject(url, String.class);
+            JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
+            precio = jsonResponse.getAsJsonObject("data").get("priceUsd").getAsDouble(); // no lo convierto pq me innteresa en usd directamente
+            return precio;
+        }catch (Exception e) {
+            e.printStackTrace();
+            // aca podria hacer que te tire una excepcion pero supongo yo
+            // q nunca falla pq son correctas las criptos q te paso, PERO puede ser
+        }
+        return precio;
     }
 
     @Override
@@ -82,10 +97,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                     precios.put(criptoDeMiBdd, precio);
 
                     criptoDeMiBdd.setPrecioActual(precio);
-                    // este basicamente,lo hago para que se le actualice el precio, el metodo tiene un .save() pero NO va
-                    // a reemplazar la cripto, simplemente: si existe le hace un update y como SE que esa cripto existe,
-                    // SIEMPRE le va a hacer el update je
-                    repositorioCriptomoneda.actualizarCriptomoneda(criptoDeMiBdd);
+                    repositorioCriptomoneda.actualizarCriptomoneda(criptoDeMiBdd); //este seeria el update
 
                     PrecioCripto precioCripto = new PrecioCripto();
                     LocalDateTime fechaDeHoy = LocalDateTime.now();
@@ -95,33 +107,6 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                 }
             }
         }
-
-
-
-        /*for (String cripto : misCriptos) {
-             url = "https://api.coincap.io/v2/assets/" + cripto                /*moneda.toUpperCase()/; // Convierte la moneda a mayúsculas
-
-            try {
-                // Realiza la solicitud y obtiene la respuesta en formato JSON
-                 response = restTemplate.getForObject(url, String.class);
-                 //jsonResponse = JsonParser.parseString(response).getAsJsonObject();
-                double precio = jsonResponse.getAsJsonObject("data").get("priceUsd").getAsDouble();
-
-
-                precio = convertiPrecioSegunLaDivisa(moneda, precio);
-                System.out.println(precio);
-
-                // Formatea la clave con la primera letra en mayúscula
-                String minusculas = cripto.toLowerCase();//Bitcoin
-                String resultado = minusculas.substring(0, 1).toUpperCase() + minusculas.substring(1);
-
-                precios.put(resultado, precio);
-            } catch (Exception e) {
-                e.printStackTrace();
-                precios.put(cripto, 0.0); // Agrega null si hay un error
-            }
-        }*/
-
         return precios;
     }
 
