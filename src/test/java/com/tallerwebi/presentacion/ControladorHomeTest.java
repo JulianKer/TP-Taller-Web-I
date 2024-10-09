@@ -1,5 +1,7 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioHome;
 import com.tallerwebi.dominio.servicio.impl.ServicioHomeImpl;
 import org.junit.jupiter.api.Test;
@@ -17,8 +19,8 @@ import static org.mockito.Mockito.when;
 
 public class ControladorHomeTest {
 
-    private ServicioHome servicioHome = mock(ServicioHomeImpl.class);
-    private ControladorHome controladorHome = new ControladorHome(servicioHome);
+    private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomoneda.class);
+    private ControladorHome controladorHome = new ControladorHome(servicioCriptomoneda);
 
     // este lo deberia usar para "pasar una session" al home y qcy, mostrar el nombre del user en el nav segun el email logueado
     // private MockHttpServletRequest request = new MockHttpServletRequest();
@@ -49,13 +51,16 @@ public class ControladorHomeTest {
 
         ModelAndView mav = new ModelAndView("home", modelo);
 
-        ArrayList<String> misCriptos = new ArrayList<>();
-        misCriptos.add("bitcoin");
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
 
-        Map<String, Double> mapa=new HashMap<>();
-        mapa.put("bitcoin", 1.0);
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
+        misCriptos.add(criptomoneda);
 
-        when(servicioHome.obtenerCrypto(misCriptos, "eur")).thenReturn(mapa);
+        Map<Criptomoneda, Double> mapa = new HashMap<Criptomoneda, Double>();
+        mapa.put(criptomoneda, 1.0);
+
+        when(servicioCriptomoneda.obtenerCrypto(misCriptos, "eur")).thenReturn(mapa);
         ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("eur", "bitcoin");
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "EUR");
@@ -67,13 +72,16 @@ public class ControladorHomeTest {
 
         ModelAndView mav = new ModelAndView("home", modelo);
 
-        ArrayList<String> misCriptos = new ArrayList<>();
-        misCriptos.add("bitcoin");
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
 
-        Map<String, Double> mapa=new HashMap<>();
-        mapa.put("bitcoin", 1.0);
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
+        misCriptos.add(criptomoneda);
 
-        when(servicioHome.obtenerCrypto(misCriptos, "brl")).thenReturn(mapa);
+        Map<Criptomoneda, Double> mapa = new HashMap<Criptomoneda, Double>();
+        mapa.put(criptomoneda, 1.0);
+
+        when(servicioCriptomoneda.obtenerCrypto( misCriptos, "brl")).thenReturn(mapa);
         ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("brl", "bitcoin");
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "BRL");
@@ -85,13 +93,16 @@ public class ControladorHomeTest {
 
         ModelAndView mav = new ModelAndView("home", modelo);
 
-        ArrayList<String> misCriptos = new ArrayList<>();
-        misCriptos.add("bitcoin");
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
 
-        Map<String, Double> mapa=new HashMap<>();
-        mapa.put("bitcoin", 1.0);
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
+        misCriptos.add(criptomoneda);
 
-        when(servicioHome.obtenerCrypto(misCriptos, "ars")).thenReturn(mapa);
+        Map<Criptomoneda, Double> mapa = new HashMap<Criptomoneda, Double>();
+        mapa.put(criptomoneda, 1.0);
+
+        when(servicioCriptomoneda.obtenerCrypto(misCriptos, "ars")).thenReturn(mapa);
         ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("ars", "bitcoin");
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "ARS");
@@ -103,13 +114,16 @@ public class ControladorHomeTest {
 
         ModelAndView mav = new ModelAndView("home", modelo);
 
-        ArrayList<String> misCriptos = new ArrayList<>();
-        misCriptos.add("bitcoin");
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
 
-        Map<String, Double> mapa=new HashMap<>();
-        mapa.put("bitcoin", 1.0);
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
+        misCriptos.add(criptomoneda);
 
-        when(servicioHome.obtenerCrypto(misCriptos, "cny")).thenReturn(mapa);
+        Map<Criptomoneda, Double> mapa = new HashMap<Criptomoneda, Double>();
+        mapa.put(criptomoneda, 1.0);
+
+        when(servicioCriptomoneda.obtenerCrypto(misCriptos, "cny")).thenReturn(mapa);
         ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("cny", "bitcoin");
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "CNY");
@@ -121,13 +135,16 @@ public class ControladorHomeTest {
 
         ModelAndView mav = new ModelAndView("home", modelo);
 
-        ArrayList<String> misCriptos = new ArrayList<>();
-        misCriptos.add("bitcoin");
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
 
-        Map<String, Double> mapa=new HashMap<>();
-        mapa.put("bitcoin", 1.0);
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
+        misCriptos.add(criptomoneda);
 
-        when(servicioHome.obtenerCrypto(misCriptos, "usd")).thenReturn(mapa);
+        Map<Criptomoneda, Double> mapa = new HashMap<Criptomoneda, Double>();
+        mapa.put(criptomoneda, 1.0);
+
+        when(servicioCriptomoneda.obtenerCrypto(misCriptos, "usd")).thenReturn(mapa);
         ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("usd", "bitcoin");
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "USD");
@@ -139,13 +156,16 @@ public class ControladorHomeTest {
 
         ModelAndView mav = new ModelAndView("home", modelo);
 
-        ArrayList<String> misCriptos = new ArrayList<>();
-        misCriptos.add("bitcoin");
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
 
-        Map<String, Double> mapa=new HashMap<>();
-        mapa.put("bitcoin", 1.0);
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
+        misCriptos.add(criptomoneda);
 
-        when(servicioHome.obtenerCrypto(misCriptos, "gbp")).thenReturn(mapa);
+        Map<Criptomoneda, Double> mapa = new HashMap<Criptomoneda, Double>();
+        mapa.put(criptomoneda, 1.0);
+
+        when(servicioCriptomoneda.obtenerCrypto(misCriptos, "gbp")).thenReturn(mapa);
         ModelAndView mavRecibido = controladorHome.cargarPrecioDeCryptos("gbp", "bitcoin");
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "GBP");

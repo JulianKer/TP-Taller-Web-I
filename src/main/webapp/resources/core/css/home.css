@@ -7,11 +7,19 @@
 
 }
 
+.cabezaCripto{
+    width: 100%;
+    background-color: red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+}
 .cabezaCripto input{
     color: grey;
     background-color: rgb(36, 32, 32);
-    width: 50%;
-    border-radius: 15px;
+    width: 35%;
+    border-radius: 3px;
 
 }
 
@@ -67,4 +75,8 @@ canvas {
 .color-b{
     text-decoration: none;
     color: #fff;
+}
+
+td img{
+    max-width: 64px;
 }

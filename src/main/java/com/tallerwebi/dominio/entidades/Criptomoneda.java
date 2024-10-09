@@ -13,6 +13,16 @@ public class Criptomoneda {
     private Long id;
     private String nombre;
     private Double precioActual;
+    private String imagen;
+
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 
     // Lógica para actualizar el precio
     public void actualizarPrecio(Double nuevoPrecio) {

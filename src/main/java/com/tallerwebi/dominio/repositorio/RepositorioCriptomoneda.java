@@ -2,6 +2,7 @@ package com.tallerwebi.dominio.repositorio;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface RepositorioCriptomoneda {
@@ -11,5 +12,7 @@ public interface RepositorioCriptomoneda {
 
     void guardarCriptomoneda(Criptomoneda criptomoneda);
 
-    List<String> dameElNombreDeTodasLasCriptos();
+    ArrayList<Criptomoneda> dameElNombreDeTodasLasCriptos();
+
+    void actualizarCriptomoneda(Criptomoneda criptoDeMiBdd);
 }

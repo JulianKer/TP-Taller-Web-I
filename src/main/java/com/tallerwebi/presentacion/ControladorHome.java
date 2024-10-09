@@ -1,6 +1,9 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioHome;
+import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,11 +17,11 @@ import java.util.*;
 @Controller
 public class ControladorHome {
 
-    private ServicioHome servicioHome;
+    private ServicioCriptomoneda servicioCriptomoneda;
 
     @Autowired
-    public ControladorHome(ServicioHome servicioHome){
-        this.servicioHome = servicioHome;
+    public ControladorHome(ServicioCriptomoneda servicioCriptomoneda){
+        this.servicioCriptomoneda = servicioCriptomoneda;
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
@@ -27,26 +30,30 @@ public class ControladorHome {
             @RequestParam(value = "criterioDeBusqueda",required = false, defaultValue = "") String criterioDeBusqueda) {
 
         ModelMap model = new ModelMap();
-        Map<String, Double> mapaMonedaPrecios = new HashMap<>();
+        Map<Criptomoneda, Double> mapaMonedaPrecios = new HashMap<>();
         moneda = moneda.toUpperCase();
 
-        ArrayList<String> misCriptos = new ArrayList<>();
+        ArrayList<Criptomoneda> misCriptos = servicioCriptomoneda.obtenerNombreDeTodasLasCriptos();
+        /*
         misCriptos.add("bitcoin");
-        /*misCriptos.add("litecoin");
         misCriptos.add("ethereum");
+        misCriptos.add("tether");
+        misCriptos.add("solana");
+        misCriptos.add("steth");
         misCriptos.add("dogecoin");
-        misCriptos.add("steth");*/
+        misCriptos.add("binance-coin");
+        */
 
         if (criterioDeBusqueda.isEmpty()){
-            mapaMonedaPrecios = servicioHome.obtenerCrypto(misCriptos, moneda);
+            mapaMonedaPrecios = servicioCriptomoneda.obtenerCrypto(misCriptos, moneda);
         }else{
-            ArrayList<String> coincidenciasDeBusqueda = new ArrayList<>();
-            for (String cripto : misCriptos) {
-                if (cripto.contains(criterioDeBusqueda)) {
+            ArrayList<Criptomoneda> coincidenciasDeBusqueda = new ArrayList<>();
+            for (Criptomoneda cripto : misCriptos) {
+                if (cripto.getNombre().contains(criterioDeBusqueda)) {
                     coincidenciasDeBusqueda.add(cripto);
                 }
             }
-            mapaMonedaPrecios = servicioHome.obtenerCrypto(coincidenciasDeBusqueda, moneda);
+            mapaMonedaPrecios = servicioCriptomoneda.obtenerCrypto(coincidenciasDeBusqueda, moneda);
         }
 
 

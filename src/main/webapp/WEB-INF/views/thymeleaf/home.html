@@ -66,29 +66,26 @@
 </header>
 
 <div class="container mt-5">
-  <h2 class="titulo" th:text="${emailLogueado}"></h2>
-
   <!--  <h2 class="text-center">Tabla con Gráficos</h2>-->
   <!-- Tabla de criptomonedas -->
+  <form  id="formulario" class="cabezaCripto" method="get" action="" th:action="@{/home}">
+    <input type="text" placeholder="Buscar criptomoneda" name="criterioDeBusqueda">
+    <button type="submit">Buscar</button>
+    <!--<button type="submit">Actualizar criptomoneda</button>-->
+    <a th:href="@{/home}" class="color-b">Actualizar precio</a>
+    <label  for="selectDivisa">Selecciones la divisa a mostrar:</label>
+    <select id="selectDivisa" name="moneda">
+      <option value="eur"> EUR</option>
+      <option value="brl">BRL</option>
+      <option value="gbp">GBP</option>
+      <option value="ars">ARS</option>
+      <option value="cny">CNY</option>
+      <option value="usd" selected> USD</option>
+    </select>
+  </form>
   <table class="table table-red">
     <thead>
     <tr>
-      <form  id="formulario" class="cabezaCripto" method="get" action="" th:action="@{/home}">
-        <input type="text" placeholder="Buscar criptomoneda" name="criterioDeBusqueda">
-        <button type="submit">Buscar</button>
-        <!--<button type="submit">Actualizar criptomoneda</button>-->
-        <a th:href="@{/home}" class="color-b">Actualizar precio</a>
-      <label  for="selectDivisa">Selecciones la divisa a mostrar:</label>
-        <select id="selectDivisa" name="moneda">
-          <option value="eur"> EUR</option>
-          <option value="brl">BRL</option>
-          <option value="gbp">GBP</option>
-          <option value="ars">ARS</option>
-          <option value="cny">CNY</option>
-          <option value="usd" selected> USD</option>
-        </select>
-      </form>
-
       <th>Criptomoneda</th>
       <th>Fluctuación</th>
       <th>Precio</th>
@@ -99,8 +96,8 @@
     <!----------------------------------------- Fila para Bitcoin ----------------------------------------->
     <tr th:each="entry : ${mapaMonedaPrecios}">
       <td>
-        <img th:src="@{'/img/logoCriptomonedas/' + ${entry.key} + '.webp'}">
-        <p th:text="${entry.key}"></p>
+        <img th:src="@{'/img/logoCriptomonedas/' + ${entry.key.getImagen()}}">
+        <p th:text="${entry.key.getNombre()}"></p>
       </td>
       <td>
         <div class="chart-container">

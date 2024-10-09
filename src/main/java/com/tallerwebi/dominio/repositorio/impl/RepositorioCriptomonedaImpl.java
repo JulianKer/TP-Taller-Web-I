@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -33,9 +34,13 @@ public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
     }
 
     @Override
-    public List<String> dameElNombreDeTodasLasCriptos() {
-        return (List<String>) sessionFactory.getCurrentSession().createCriteria(Criptomoneda.class)
-                .setProjection(Projections.property("nombre"))
+    public ArrayList<Criptomoneda> dameElNombreDeTodasLasCriptos() {
+        return (ArrayList<Criptomoneda>) sessionFactory.getCurrentSession().createCriteria(Criptomoneda.class)
                 .list();
+    }
+
+    @Override
+    public void actualizarCriptomoneda(Criptomoneda criptoDeMiBdd) {
+        sessionFactory.getCurrentSession().update(criptoDeMiBdd);
     }
 }
