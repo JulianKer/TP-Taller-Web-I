@@ -13,5 +13,7 @@ public interface RepositorioUsuario /*extends JpaRepository<Usuario, Long>  me d
     List<Usuario> buscarPorRol(String rol);
 
     void restarSaldo(Long idUsuario, Double precioTotalDeTransaccion);
+
+    void cambiarEstado(Long id, boolean estado);
 }
 

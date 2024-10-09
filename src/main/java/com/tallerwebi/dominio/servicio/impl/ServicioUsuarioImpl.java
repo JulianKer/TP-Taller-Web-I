@@ -3,6 +3,7 @@ package com.tallerwebi.dominio.servicio.impl;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.MenorDeEdadException;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
+import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.excepcion.TelefonoConLongitudIncorrectaException;
 import com.tallerwebi.dominio.repositorio.RepositorioUsuario;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
@@ -64,6 +65,22 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     }
 
     @Override
+    public void cambiarEstado(Long id, boolean estado) {
+        repositorioUsuario.cambiarEstado( id, estado);
+
+    }
+
+    @Override
+    public boolean verificarQueTengaSaldoSuficienteParaComprar(double precioTotalDeTransaccion, Double saldoDelUsuario) {
+
+        if (saldoDelUsuario >= precioTotalDeTransaccion){
+            return true;
+        }
+        throw new SaldoInsuficienteException("NO TIENE SUFICIENTE SALDO!");
+
+    }
+
+    @Override
     public Usuario buscarUsuarioPorEmail(String email) {
         return repositorioUsuario.buscar(email);
     }
@@ -80,4 +97,6 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         }
         return esMayor;
     }
+
+
 }

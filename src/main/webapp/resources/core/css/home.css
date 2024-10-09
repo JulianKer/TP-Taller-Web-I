@@ -1,6 +1,7 @@
 .cuerpo{
    /* background-image: url('../IMG/fondo\ 2.webp');*/
-    background: radial-gradient(circle ,#c1a236, #EDB913, #b18302, #232323);
+    /*background: radial-gradient(circle ,#c1a236, #EDB913, #b18302, #232323);*/
+    background-color: #282828;
     color: #FFFFFF;
     /*@{/img/logoCripto.png}*/
 

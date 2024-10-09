@@ -43,6 +43,9 @@ public class ControladorTransacciones {
         model.put("criptos", servicioCriptomoneda.obtenerNombreDeTodasLasCriptos());
         model.put("emailUsuario", request.getSession().getAttribute("emailUsuario"));
 
+        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail((String) request.getSession().getAttribute("emailUsuario"));
+        model.put("historialTransacciones", servicioTransacciones.obtenerHistorialTransaccionesDeUsuario(usuarioEncontrado.getId()));
+
         ModelAndView mav = new ModelAndView("transacciones", model);
         return mav;
     }
@@ -73,4 +76,6 @@ public class ControladorTransacciones {
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage());
         }
     }
+
+
 }

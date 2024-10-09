@@ -3,11 +3,14 @@ package com.tallerwebi.dominio.repositorio.impl;
 import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
+import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository("repositorioTransacciones") //lo tengo qe poner eso??
 public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
@@ -47,5 +50,15 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
                 .add(Restrictions.eq("tipo", TipoTransaccion.VENTA))
                 .setProjection(Projections.sum("cantidadDeCripto"))
                 .uniqueResult();
+    }
+
+    @Override
+    public List<Transaccion> obtenerHistorialUsuario(Long idDeUsuario) {
+        return (List<Transaccion>) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
+                .createAlias("usuario", "u")
+                .createAlias("criptomoneda", "c")
+                .add(Restrictions.eq("u.id", idDeUsuario))
+                .setFetchMode("criptomoneda", FetchMode.JOIN)
+                .list();
     }
 }

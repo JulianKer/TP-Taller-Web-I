@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional
@@ -87,6 +88,11 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         Double cantidadTotalDeUnaCriptoDelUsuario = cantidadCompradaDeUnaCripto - cantidadVendidaDeUnaCripto;
 
         return cantidadTotalDeUnaCriptoDelUsuario >= cantidadDeCripto;
+    }
+
+    @Override
+    public List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario) {
+        return repositorioTransacciones.obtenerHistorialUsuario(idDeUsuario);
     }
 
     @Override
