@@ -47,11 +47,19 @@
 <main class="mainTransacciones">
   <h1>Transacciones</h1>
 
-<div th:if="${param.mensaje}">
+<!--<div th:if="${param.mensaje}">
   <div th:if='${!param.mensaje.equals("Transaccion exitosa.") }'>
     <p th:text="${param.mensaje}" class="alert alert-warning"></p>
   </div>
-</div>
+</div>-->
+  <div th:if="${param.mensaje}">
+    <div th:if="${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}">
+      <p th:text="${param.mensaje[0]}" class="alert alert-danger"></p>
+    </div>
+    <div th:if="${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}">
+      <p th:text="${param.mensaje[0]}" class="alert alert-success"></p>
+    </div>
+  </div>
 
 
   <form class="form-nueva-transaccion" th:action="@{/realizarTransaccion}" method="post">
