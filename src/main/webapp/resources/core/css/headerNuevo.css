@@ -86,6 +86,11 @@ header{
     text-underline-offset: 5px;
 }
 
+header .seleccionado{
+    color: #EEB913 !important;
+    text-decoration: underline solid 2px #EEB913;
+    text-underline-offset: 5px;
+}
 
 .imgMenuBurguer,
 .contLinksResponsive{

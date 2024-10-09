@@ -11,7 +11,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tabla con Gráficos</title>
+  <title>Inicio | Crypto</title>
 
   <!-- Enlaces a los archivos CSS -->
   <link rel="stylesheet" href="./css/home.css">
@@ -38,14 +38,14 @@
     <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}"></a>
 
     <ul class="contLinks">
-      <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
+      <li class="linksNav seleccionado"><a th:href="@{/home}">Inicio</a></li>
       <li class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
       <li class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
       <li class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
     </ul>
 
     <ul class="contLinksResponsive" id="contLinksResponsive">
-      <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
+      <li class="linksNav seleccionado"><a th:href="@{/home}">Inicio</a></li>
       <li class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
       <li class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
       <li class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
@@ -83,36 +83,34 @@
       <option value="usd" selected> USD</option>
     </select>
   </form>
-  <table class="table table-red">
-    <thead>
-    <tr>
-      <th>Criptomoneda</th>
-      <th>Fluctuación</th>
-      <th>Precio</th>
-      <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!----------------------------------------- Fila para Bitcoin ----------------------------------------->
-    <tr th:each="entry : ${mapaMonedaPrecios}">
-      <td>
-        <img th:src="@{'/img/logoCriptomonedas/' + ${entry.key.getImagen()}}">
-        <p th:text="${entry.key.getNombre()}"></p>
-      </td>
-      <td>
-        <div class="chart-container">
-          <canvas id="line-chart-1"></canvas>
-        </div>
-      </td>
-      <td th:text="${#numbers.formatDecimal(entry.value, 1, 7)} + ' ' + ${divisaAMostrar}"></td>
-      <td>
-        <button class="btn btn-success"><a th:href="@{/transacciones}" class="color-b">Comprar</a></button>
-        <button class="btn btn-danger"><a th:href="@{/transacciones}" class="color-b">Vender</a></button>
-      </td>
-    </tr>
-    <!------------------------------------------------------------------------------------------------------->
-    </tbody>
-  </table>
+  <div class="table-container">
+    <table class="table-crypto">
+      <thead>
+      <tr>
+        <th>Criptomoneda</th>
+        <th>Fluctuación</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="entry : ${mapaMonedaPrecios}">
+        <td class="crypto-name">
+          <img th:src="@{'/img/logoCriptomonedas/' + ${entry.key.getImagen()}}" class="crypto-icon" alt="Logo criptomoneda">
+          <span th:text="${entry.key.getNombre()}"></span>
+        </td>
+        <td class="crypto-chart">
+          <!-- Aquí iría el gráfico de fluctuación -->
+        </td>
+        <td class="crypto-price" th:text="${#numbers.formatDecimal(entry.value, 1, 7)} + ' ' + ${divisaAMostrar}"></td>
+        <td class="crypto-actions">
+          <a th:href="@{/transacciones}" class="boton boton-buy">Comprar</a>
+          <a th:href="@{/transacciones}" class="boton boton-sell">Vender</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <!-- Incluir Chart.js -->
