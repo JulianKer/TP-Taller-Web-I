@@ -31,6 +31,10 @@ public class ControladorHome {
             @RequestParam(value = "criterioDeBusqueda",required = false, defaultValue = "") String criterioDeBusqueda,
             HttpServletRequest request) {
 
+        if (request.getSession().getAttribute("emailUsuario") == null){
+            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
+        }
+
         ModelMap model = new ModelMap();
         Map<Criptomoneda, Double> mapaMonedaPrecios = new HashMap<>();
         moneda = moneda.toUpperCase();
@@ -57,6 +61,7 @@ public class ControladorHome {
             }
         }
 
+        model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
         model.addAttribute("mapaMonedaPrecios", mapaMonedaPrecios);
         model.addAttribute("divisaAMostrar", moneda);
         return new ModelAndView("home", model);

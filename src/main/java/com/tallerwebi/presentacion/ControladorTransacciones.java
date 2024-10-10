@@ -40,7 +40,7 @@ public class ControladorTransacciones {
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
         ModelMap model = new ModelMap();
-
+        model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
         model.put("criptos", servicioCriptomoneda.obtenerNombreDeTodasLasCriptos());
         model.put("emailUsuario", request.getSession().getAttribute("emailUsuario"));
 

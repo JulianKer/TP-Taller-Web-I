@@ -18,16 +18,26 @@
 
     <ul class="contLinks">
       <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
-      <li class="linksNav seleccionado"><a th:href="@{/transacciones}">Transacciones</a></li>
-      <li class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
-      <li class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
+
+      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav seleccionado"><a th:href="@{/transacciones}">Transacciones</a></li>
+      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
+      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
+
+      <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
+      <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
+
     </ul>
 
     <ul class="contLinksResponsive" id="contLinksResponsive">
       <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
-      <li class="linksNav seleccionado"><a th:href="@{/transacciones}">Transacciones</a></li>
-      <li class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
-      <li class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
+
+      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav seleccionado"><a th:href="@{/transacciones}">Transacciones</a></li>
+      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
+      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
+
+      <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
+      <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
+
       <li class="linksNav"><a th:href="@{/perfil}">Perfil</a></li>
       <li class="linksNav"><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
     </ul>

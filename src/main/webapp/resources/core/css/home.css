@@ -226,6 +226,12 @@ thead{
     color: white;
 }
 
+.boton-edit{
+    background-color: #007BFF;
+    color: white;
+}
+
+
 .boton:hover {
     opacity: 0.8;
     text-decoration: none;
