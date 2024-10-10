@@ -81,22 +81,21 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
         for (JsonElement criptoDelArrayApi : arrayData) {
             JsonObject objCripto = criptoDelArrayApi.getAsJsonObject();
-            String id = objCripto.get("id").getAsString();
-            //String name = objCripto.get("name").getAsString(); // este no lo usé
-            double precio = objCripto.get("priceUsd").getAsDouble();
-            System.out.println(id);
-            System.out.println(precio);
+            String id = objCripto.get("id").getAsString(); //bitcoin
+            String name = objCripto.get("name").getAsString(); // Bitcoin
+            String simbolo = objCripto.get("symbol").getAsString(); // BTC
+            double precio = objCripto.get("priceUsd").getAsDouble(); // en usd
 
             for (Criptomoneda criptoDeMiBdd : misCriptos){
-                System.out.println(id);
-                System.out.println(criptoDeMiBdd.getNombre());
-                System.out.println(id.equals(criptoDeMiBdd.getNombre()));
 
                 if (id.equals(criptoDeMiBdd.getNombre())){
                     precio = convertiPrecioSegunLaDivisa(moneda, precio);
                     precios.put(criptoDeMiBdd, precio);
 
                     criptoDeMiBdd.setPrecioActual(precio);
+                    criptoDeMiBdd.setNombre(id);
+                    criptoDeMiBdd.setNombreConMayus(name);
+                    criptoDeMiBdd.setSimbolo(simbolo);
                     repositorioCriptomoneda.actualizarCriptomoneda(criptoDeMiBdd); //este seeria el update
 
                     PrecioCripto precioCripto = new PrecioCripto();

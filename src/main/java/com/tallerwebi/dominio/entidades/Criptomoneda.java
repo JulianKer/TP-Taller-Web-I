@@ -13,6 +13,8 @@ public class Criptomoneda {
     private Long id;
     private String nombre;
     private Double precioActual;
+    private String simbolo;
+    private String nombreConMayus;
     private String imagen;
 
 
@@ -51,5 +53,21 @@ public class Criptomoneda {
 
     public void setPrecioActual(Double precioActual) {
         this.precioActual = precioActual;
+    }
+
+    public String getSimbolo() {
+        return simbolo;
+    }
+
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
+    }
+
+    public String getNombreConMayus() {
+        return nombreConMayus;
+    }
+
+    public void setNombreConMayus(String nombreConMayus) {
+        this.nombreConMayus = nombreConMayus;
     }
 }

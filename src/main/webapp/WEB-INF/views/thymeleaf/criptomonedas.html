@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Usuarios | Crypto</title>
+  <title>Criptomonedas | Crypto</title>
 
   <!-- Enlaces a los archivos CSS -->
   <link rel="stylesheet" href="./css/usuarios.css">
@@ -15,6 +15,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+  <link rel="stylesheet" th:href="@{/css/criptomonedas.css}"/>
   <script th:src="@{/js/headerNuevo.js}" defer></script>
   <link rel="icon" th:href="@{/img/logoCripto.png}">
 
@@ -66,9 +67,35 @@
   </nav>
 </header>
 
-<div class="container mt-5">
-
+<div class="add-crypto-form">
+  <h3>Agregar Nueva Criptomoneda</h3>
+  <form th:action="@{/agregarCriptomoneda}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="nombreCripto">Nombre de la Criptomoneda:</label>
+      <input type="text" id="nombreCripto" name="nombreCripto" required class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="logoCripto">Logo de la Criptomoneda:</label>
+      <input type="file" id="logoCripto" name="logoCripto" required class="form-control-file">
+    </div>
+    <button type="submit" class="btn btn-primary">Agregar Criptomoneda</button>
+  </form>
 </div>
+
+<div class="container mt-5">
+  <div class="container">
+    <h3>Criptomonedas agregadas</h3>
+    <div class="card-grid">
+      <div th:each="cripto : ${criptosBdd}" class="card">
+        <img th:src="@{'/img/logoCriptomonedas/' + ${cripto.getImagen()}}" alt="Crypto Logo" class="card-logo">
+        <p th:text="${cripto.getNombreConMayus()}" class="card-title">Bitcoin</p>
+        <p th:text="'(' + ${cripto.getSimbolo()} + ')'" class="card-title">Bitcoin</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <!-- Incluir Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

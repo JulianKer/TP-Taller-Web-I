@@ -102,7 +102,7 @@
         <th>Criptomoneda</th>
         <th>Fluctuación</th>
         <th>Precio</th>
-        <th>Acciones</th>
+        <th th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}">Acciones</th>
       </tr>
       </thead>
       <tbody>
@@ -115,10 +115,9 @@
           <!-- Aquí iría el gráfico de fluctuación -->
         </td>
         <td class="crypto-price" th:text="${#numbers.formatDecimal(entry.value, 1, 7)} + ' ' + ${divisaAMostrar}"></td>
-        <td class="crypto-actions">
-          <a th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" th:href="@{/transacciones}" class="boton boton-buy">Comprar</a>
-          <a th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" th:href="@{/transacciones}" class="boton boton-sell">Vender</a>
-          <a th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" th:href="@{/criptomonedas}" class="boton boton-edit">Editar</a>
+        <td th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="crypto-actions">
+          <a th:href="@{/transacciones}" class="boton boton-buy">Comprar</a>
+          <a th:href="@{/transacciones}" class="boton boton-sell">Vender</a>
         </td>
       </tr>
       </tbody>
