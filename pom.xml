@@ -125,6 +125,14 @@
             <version>2.8.9</version> <!-- Versión estable -->
         </dependency>
 
+        <!-- para poder subir imgs puse esta dependencia-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- ......................................... -->
+
 
     </dependencies>
 

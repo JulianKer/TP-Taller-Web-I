@@ -72,13 +72,22 @@
   <form th:action="@{/agregarCriptomoneda}" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label for="nombreCripto">Nombre de la Criptomoneda:</label>
-      <input type="text" id="nombreCripto" name="nombreCripto" required class="form-control">
+      <input type="text" id="nombreCripto" name="nombreCripto" class="form-control">
     </div>
     <div class="form-group">
-      <label for="logoCripto">Logo de la Criptomoneda:</label>
-      <input type="file" id="logoCripto" name="logoCripto" required class="form-control-file">
+      <label for="imagenCripto">Logo de la Criptomoneda: (jpeg, jpg, webp, png o svg)</label>
+      <input type="file" id="imagenCripto" name="imagenCripto" class="form-control-file"> <!-- Asegúrate de que este nombre sea "imagenCripto" -->
     </div>
     <button type="submit" class="btn btn-primary">Agregar Criptomoneda</button>
+    <div th:if="${param.mensaje}">
+      <div th:if="${!#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda agregada con exito.')}">
+        <p th:text="${param.mensaje}" class="alert alert-danger msj"></p>
+      </div>
+
+      <div th:if="${#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda agregada con exito.')}">
+        <p th:text="${param.mensaje}" class="alert alert-success msj"></p>
+      </div>
+    </div>
   </form>
 </div>
 

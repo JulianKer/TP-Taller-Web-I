@@ -47,7 +47,7 @@ public class ControladorHomeTest {
 
     @Test
     public void queAlSeleccionarLaMonedaEUREnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
-
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "EUR");
 
@@ -69,6 +69,8 @@ public class ControladorHomeTest {
     }
     @Test
     public void queAlSeleccionarLaMonedaBRLEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "BRL");
 
@@ -90,6 +92,8 @@ public class ControladorHomeTest {
     }
     @Test
     public void queAlSeleccionarLaMonedaARSEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "ARS");
 
@@ -111,6 +115,8 @@ public class ControladorHomeTest {
     }
     @Test
     public void queAlSeleccionarLaMonedaCNYEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "CNY");
 
@@ -132,6 +138,8 @@ public class ControladorHomeTest {
     }
     @Test
     public void queAlSeleccionarLaMonedaUSDEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "USD");
 
@@ -153,6 +161,8 @@ public class ControladorHomeTest {
     }
     @Test
     public void queAlSeleccionarLaMonedaGBPEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "GBP");
 
