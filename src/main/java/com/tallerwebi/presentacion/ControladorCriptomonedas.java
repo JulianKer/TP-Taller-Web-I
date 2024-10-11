@@ -1,6 +1,9 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,21 +12,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @Controller
 public class ControladorCriptomonedas {
 
-    private final ServicioCriptomoneda servicioCriptomoneda;
+    private ServicioCriptomoneda servicioCriptomoneda;
+    private ServicioSubirImagen servicioSubirImagen;
 
     @Autowired
-    public ControladorCriptomonedas(ServicioCriptomoneda servicioCriptomoneda) {
+    public ControladorCriptomonedas(ServicioCriptomoneda servicioCriptomoneda, ServicioSubirImagen servicioSubirImagen) {
         this.servicioCriptomoneda = servicioCriptomoneda;
+        this.servicioSubirImagen = servicioSubirImagen;
     }
 
     @RequestMapping(path = "/criptomonedas", method = RequestMethod.GET)
@@ -53,56 +53,32 @@ public class ControladorCriptomonedas {
             return new ModelAndView("redirect:/criptomonedas?mensaje=Los campos no deben estar vacios.");
         }
 
-        // veo si la extension es la que yo quiero (puse jpeg jpg webp svg y png)
-        String originalFilename = imagenCripto.getOriginalFilename();
-        if (!validarExtension(originalFilename)) {
-            return new ModelAndView("redirect:/criptomonedas?mensaje=Formato de imagen no valido. Solo se aceptan JPG, JPEG, PNG, SVG y WEBP.");
+        // aca lo hago en minusculas pq en la api los id son en minusculas, x eso (desp tengo todos sus datos pero la busco en minuscula)
+        String nombreRecibidoEnMinusculas = nombreCripto.toLowerCase();
+        if (!servicioCriptomoneda.dameLaCriptoVerificandoSiEstaEnElPaginadoYAgregarla(nombreRecibidoEnMinusculas)) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=Por el momento no podemos agregar esa criptomoneda. Intente con otra.");
         }
+
+        // este try lo hago por las dudas pero no deberia traerme la exepcion pq sino el anterior if no lo pasaria, pero bueno
+        Criptomoneda criptoAgregada;
+        try {
+            // pa saber si se agregó correctamente, la busco
+            criptoAgregada = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreRecibidoEnMinusculas);
+        } catch (NoSeEncontroLaCriptomonedaException e) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=Criptomoneda no encontrada.");
+        }
+
+        // de la cripto agregada (como ya tiene su simbol, name, nameEnMayus, etc) le pido el nombre en mayus
+        // (pq asi puse q se guarden las img) y le añado la extension del archivo q se subio (basicamente le cambio el nombre je)
+        // y desp la updateo en la bdd con su debida img
+        String nombreImgConExtension = criptoAgregada.getNombreConMayus() + servicioSubirImagen.dameLaExtencionDelArchivo(imagenCripto.getOriginalFilename());
+        criptoAgregada.setImagen(nombreImgConExtension);
+        servicioCriptomoneda.actualizarCripto(criptoAgregada);
 
         // creo la ruta a donde se va a subir, con el get realpath en teoria me da toda la ruta desde
         // el raiz del server agregando la q puse en el paretesis
         String rutaASubir = request.getServletContext().getRealPath("/resources/core/img/logoCriptomonedas/");
-
-        // aca le creo el nombre del archivo q voy a usar el q se ingreso en el input
-        String nuevoNombreArchivo = nombreCripto + dameLaExtencionDelArchivo(originalFilename);
-
-        // lo creo y me fijo si ya esa ruta con la img ya existe pa q no se repita
-        // (puede ser la misma img con otro nombre y dira q son distintas pero bueno je)
-        File destino = new File(rutaASubir + File.separator + nuevoNombreArchivo);
-        if (destino.exists()) {
-            return new ModelAndView("redirect:/criptomonedas?mensaje=Ya existe una criptomoneda con ese nombre.");
-        }
-
-        try {
-            // intento guardr la img en la ruta q defini antes
-            Files.createDirectories(Paths.get(rutaASubir)); // creo la ruta si no existe
-            imagenCripto.transferTo(destino); // por ultimo la guardo
-        } catch (IOException e) {
-            //e.printStackTrace(); no lo dejo asi no me rompe la web xd
-            return new ModelAndView("redirect:/criptomonedas?mensaje=Error al guardar la imagen.");
-        }
-
-        // si paso tod ok, te mando con msj de exito
-        return new ModelAndView("redirect:/criptomonedas?mensaje=Criptomoneda agregada con exito.");
-    }
-
-    private boolean validarExtension(String filename) {
-        String extension = dameLaExtencionDelArchivo(filename);
-        return extension.equals(".jpg") ||
-                extension.equals(".jpeg") ||
-                extension.equals(".png") ||
-                extension.equals(".svg") ||
-                extension.equals(".webp");
-    }
-
-    private String dameLaExtencionDelArchivo(String nombreArchivo) {
-        if (nombreArchivo == null || nombreArchivo.isEmpty()) {
-            return "";
-        }
-        int dotIndex = nombreArchivo.lastIndexOf('.');
-        if (dotIndex > 0 && dotIndex < nombreArchivo.length() - 1) {
-            return nombreArchivo.substring(dotIndex).toLowerCase();
-        }
-        return "";
+        String msj = servicioSubirImagen.subirImagen(criptoAgregada.getNombreConMayus(),imagenCripto, rutaASubir);
+        return new ModelAndView("redirect:/criptomonedas?mensaje=" + msj);
     }
 }

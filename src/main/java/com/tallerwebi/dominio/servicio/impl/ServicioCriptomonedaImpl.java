@@ -9,12 +9,12 @@ import com.tallerwebi.dominio.entidades.PrecioCripto;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,11 +23,13 @@ import java.util.*;
 public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
 
+    private ServicioSubirImagen servicioSubirImagen;
     private RepositorioCriptomoneda repositorioCriptomoneda;
 
     @Autowired
-    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda) {
+    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda, ServicioSubirImagen servicioSubirImagen) {
         this.repositorioCriptomoneda = repositorioCriptomoneda;
+        this.servicioSubirImagen = servicioSubirImagen;
     }
 
     @Override
@@ -103,14 +105,15 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                     precioCripto.setCriptomoneda(criptoDeMiBdd);
                     precioCripto.setPrecioActual(precio);
                     precioCripto.setFechaDelPrecio(fechaDeHoy);
+                    // aca faltaria guardarlo el preciocripto en la bdd
                 }
             }
         }
         return precios;
     }
 
-
-    private static double convertiPrecioSegunLaDivisa(String moneda, double precio) {
+    @Override
+    public double convertiPrecioSegunLaDivisa(String moneda, double precio) {
 
         switch (moneda){
             case "EUR":
@@ -130,5 +133,54 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                 break;
         }
         return precio;
+    }
+
+    @Override
+    public boolean dameLaCriptoVerificandoSiEstaEnElPaginadoYAgregarla(String nombreRecibido) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        String url = "https://api.coincap.io/v2/assets?limit=20"; // aca esta lo del "paginado", osea, nose si seria un "paginado" sino q le pido solo la primeras 20 (no uso todas sino q filtro solo las q quiero)
+        String response = restTemplate.getForObject(url, String.class);
+        JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
+        JsonArray arrayData = jsonResponse.getAsJsonArray("data");
+
+        for (JsonElement criptoDelArrayApi : arrayData) {
+            JsonObject objCripto = criptoDelArrayApi.getAsJsonObject();
+            String id = objCripto.get("id").getAsString(); //bitcoin
+
+            if (id.equals(nombreRecibido) && verificarQueNoTengaEsaCriptoEnMiBdd(nombreRecibido)){
+                // las pongo aca asi no las estoy inicializando en cada iteracion
+                String name = objCripto.get("name").getAsString(); // Bitcoin
+                String simbolo = objCripto.get("symbol").getAsString(); // BTC
+                double precio = objCripto.get("priceUsd").getAsDouble(); // en usd
+
+                Criptomoneda criptoAAgregar = new Criptomoneda(); // cre0 la cripto y le seteo sus parametros menos la img
+                criptoAAgregar.setPrecioActual(precio);
+                criptoAAgregar.setNombre(id);
+                criptoAAgregar.setNombreConMayus(name);
+                criptoAAgregar.setSimbolo(simbolo);
+                repositorioCriptomoneda.guardarCriptomoneda(criptoAAgregar);
+
+                // y este para q se guarde su primer fluctuacion d precio :)
+                PrecioCripto precioCripto = new PrecioCripto();
+                LocalDateTime fechaDeHoy = LocalDateTime.now();
+                precioCripto.setCriptomoneda(criptoAAgregar);
+                precioCripto.setPrecioActual(precio);
+                precioCripto.setFechaDelPrecio(fechaDeHoy);
+                // aca faltaria guardarlo el precioCripto en la bdd
+                return true; // si la encontre en el paginado, la puedo agregar
+            }
+        }
+        return false; //sino, no.
+    }
+
+    @Override
+    public boolean verificarQueNoTengaEsaCriptoEnMiBdd(String nombreRecibido) {
+        return repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreRecibido) == null;
+    }
+
+    @Override
+    public void actualizarCripto(Criptomoneda criptoAActualizar) {
+        repositorioCriptomoneda.actualizarCriptomoneda(criptoAActualizar);
     }
 }

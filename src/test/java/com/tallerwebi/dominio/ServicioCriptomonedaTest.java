@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
+import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -15,7 +16,8 @@ import static org.mockito.Mockito.when;
 public class ServicioCriptomonedaTest {
 
     private RepositorioCriptomoneda repositorioCriptomoneda = mock(RepositorioCriptomoneda.class);
-    private ServicioCriptomoneda servicioCriptomoneda = new ServicioCriptomonedaImpl(repositorioCriptomoneda);
+    private ServicioSubirImagen servicioSubirImagen;
+    private ServicioCriptomoneda servicioCriptomoneda = new ServicioCriptomonedaImpl(repositorioCriptomoneda,servicioSubirImagen);
 
     @Test
     public void queAlBuscarCriptomonedaPorNombreLaEncuentre() {
