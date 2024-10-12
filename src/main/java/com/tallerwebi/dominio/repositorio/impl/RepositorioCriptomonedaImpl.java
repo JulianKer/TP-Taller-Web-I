@@ -47,4 +47,10 @@ public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
         sessionFactory.getCurrentSession().delete(criptomonedaAEliminar);
         return buscarCriptomonedaPorNombre(criptomonedaAEliminar.getNombre()) == null;
     }
+
+    @Override
+    public Boolean inhabilitarCriptomoneda(Criptomoneda criptoAEliminar) {
+        sessionFactory.getCurrentSession().update(criptoAEliminar);
+        return buscarCriptomonedaPorNombre(criptoAEliminar.getNombre()).getHabilitada();
+    }
 }

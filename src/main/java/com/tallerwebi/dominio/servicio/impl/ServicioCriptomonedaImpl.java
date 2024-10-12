@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.PrecioCripto;
+import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
@@ -191,7 +192,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
     }
 
     @Override
-    public Boolean eliminarCriptomoneda(String idCriptomoneda) {
+    public Boolean inhabilitarCriptomoneda(String idCriptomoneda) {
         Criptomoneda criptoAEliminar = buscarCriptomonedaPorNombre(idCriptomoneda);
         ArrayList<Usuario> usuarios = servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins();
         Double precioDeEsaCripto = obtenerPrecioDeCriptoPorNombre(idCriptomoneda);
@@ -206,6 +207,15 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
             }
         }
 
-        return repositorioCriptomoneda.eliminarCriptomoneda(criptoAEliminar);
+        /*List<Transaccion> transaccionesConEsaCripto = servicioTransacciones.obtenerTransaccionesDeEstaCripto(idCriptomoneda);
+        if (transaccionesConEsaCripto != null) {
+            for (Transaccion transaccion : transaccionesConEsaCripto) {
+                servicioTransacciones.eliminarTransaccion(transaccion);
+            }
+        }*/
+
+        criptoAEliminar.setHabilitada(false);
+        //return repositorioCriptomoneda.eliminarCriptomoneda(criptoAEliminar);
+        return repositorioCriptomoneda.inhabilitarCriptomoneda(criptoAEliminar);
     }
 }

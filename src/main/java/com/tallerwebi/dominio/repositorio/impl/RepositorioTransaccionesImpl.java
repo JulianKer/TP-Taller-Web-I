@@ -61,4 +61,17 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
                 .setFetchMode("criptomoneda", FetchMode.JOIN)
                 .list();
     }
+
+    @Override
+    public List<Transaccion> obtenerTransaccionesDeEstaCripto(String idCriptomoneda) {
+        return  (List<Transaccion>) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
+                .createAlias("criptomoneda", "c")
+                .add(Restrictions.eq("c.nombre", idCriptomoneda))
+                .list();
+    }
+
+    @Override
+    public void eliminarTransaccion(Transaccion transaccion) {
+        sessionFactory.getCurrentSession().delete(transaccion);
+    }
 }

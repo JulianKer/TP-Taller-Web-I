@@ -21,4 +21,8 @@ public interface ServicioTransacciones {
     String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario);
 
     Boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(String nombreDeCripto, Double cantidadDeCripto, Long id);
+
+    List<Transaccion> obtenerTransaccionesDeEstaCripto(String idCriptomoneda);
+
+    void eliminarTransaccion(Transaccion transaccion);
 }

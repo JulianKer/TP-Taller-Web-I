@@ -3,7 +3,6 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
-import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -104,30 +103,24 @@ public class ControladorCriptomonedasTest {
     }
 
     @Test
-    public void queSeNOPuedaEliminarUnaCriptomonedaPorqueElIdEstaVacio(){
-        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
-
+    public void queSeNOPuedaInhabilitarUnaCriptomonedaPorqueElIdEstaVacio(){
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre("")).thenReturn(null);
-        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda("", request);
+        ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda("");
 
         assertEquals("redirect:/criptomonedas?mensaje=Debe seleccionar una criptomoneda para eliminarla.", mav.getViewName());
     }
 
     @Test
-    public void queNoSePuedaEliminarUnaCriptomonedaPorqueNoExiste(){
-        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
-
+    public void queNoSePuedaInhabilitarUnaCriptomonedaPorqueNoExiste(){
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre("criptoInexistente")).thenReturn(null);
-        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda("criptoInexistente", request);
+        ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda("criptoInexistente");
 
-        assertEquals("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda.", mav.getViewName());
     }
 
 
     @Test
-    public void queNoSePuedaEliminarUnaCriptomonedaPorqueHuboUnErrorAlIntentarEliminarlaEliminarla(){
-        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
-
+    public void queNoSePuedaInhabilitarUnaCriptomonedaPorqueHuboUnErrorAlIntentarEliminarlaEliminarla(){
         Usuario user = new Usuario();
         user.setId(1L);
 
@@ -136,16 +129,16 @@ public class ControladorCriptomonedasTest {
         cripto.setNombre(nombreDeCripto);
 
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(cripto);
-        when(servicioCriptomoneda.eliminarCriptomoneda(cripto.getNombre())).thenReturn(false);
-        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda(nombreDeCripto, request);
+        // este te va a devolver el estado en el q quedo la cripto, como intente pero no pudo, me debe
+        // dar habilitada = TRUE (q es el default q tiene)
+        when(servicioCriptomoneda.inhabilitarCriptomoneda(cripto.getNombre())).thenReturn(true);
+        ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda(nombreDeCripto);
 
-        assertEquals("redirect:/criptomonedas?mensaje=No hemos podido eliminar la criptomoneda.", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=No hemos podido inhabilitar la criptomoneda.", mav.getViewName());
     }
 
     @Test
-    public void queSePuedaEliminarUnaCriptomoneda(){
-        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
-
+    public void queSePuedaInhabilitarUnaCriptomoneda(){
         Usuario user = new Usuario();
         user.setId(1L);
 
@@ -154,9 +147,10 @@ public class ControladorCriptomonedasTest {
         cripto.setNombre(nombreDeCripto);
 
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(cripto);
-        when(servicioCriptomoneda.eliminarCriptomoneda(cripto.getNombre())).thenReturn(true);
-        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda(nombreDeCripto, request);
+        // este te va a devolver el estado en el q quedo la cripto, como la inhabilité, me debe dar habilitada = FALSE
+        when(servicioCriptomoneda.inhabilitarCriptomoneda(cripto.getNombre())).thenReturn(false);
+        ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda(nombreDeCripto);
 
-        assertEquals("redirect:/criptomonedas?mensaje=CriptomonedaEliminadaConExito", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda inhabilitada con exito.", mav.getViewName());
     }
 }

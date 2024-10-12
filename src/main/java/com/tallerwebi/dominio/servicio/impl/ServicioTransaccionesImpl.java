@@ -117,7 +117,27 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
     @Override
     public Double dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(Usuario usuario, String idCriptomoneda) {
-        return repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId()) - repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId());
+        Double cantComprada = repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId());
+        Double cantVendida = repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId());
+
+        if (cantComprada == null || cantComprada <= 0.0) {
+            return 0.0;
+        }
+
+        if (cantVendida == null) {
+            cantVendida = 0.0;
+        }
+        return cantComprada-cantVendida;
+    }
+
+    @Override
+    public List<Transaccion> obtenerTransaccionesDeEstaCripto(String idCriptomoneda) {
+        return repositorioTransacciones.obtenerTransaccionesDeEstaCripto(idCriptomoneda);
+    }
+
+    @Override
+    public void eliminarTransaccion(Transaccion transaccion) {
+        repositorioTransacciones.eliminarTransaccion(transaccion);
     }
 
 }

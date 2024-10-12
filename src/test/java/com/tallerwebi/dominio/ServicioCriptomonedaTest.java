@@ -8,7 +8,6 @@ import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
-import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -91,7 +90,7 @@ public class ServicioCriptomonedaTest {
 
 
     @Test
-    public void queSePuedaEliminarUnaCriptomoneda(){
+    public void queSePuedaInhabilitarUnaCriptomoneda(){
         String nombreDeCripto = "bitcoin";
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
@@ -109,13 +108,13 @@ public class ServicioCriptomonedaTest {
         when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user1, nombreDeCripto)).thenReturn(2.0);
         when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user2, nombreDeCripto)).thenReturn(0.0);
         when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(repositorioCriptomoneda.eliminarCriptomoneda(criptomoneda)).thenReturn(true);
+        when(repositorioCriptomoneda.inhabilitarCriptomoneda(criptomoneda)).thenReturn(false);
 
-        assertTrue(servicioCriptomoneda.eliminarCriptomoneda(criptomoneda.getNombre()));
+        assertFalse(servicioCriptomoneda.inhabilitarCriptomoneda(criptomoneda.getNombre()));
     }
 
     @Test
-    public void queNoSePuedaEliminarUnaCriptomonedaPorqueHuboUnErrorAlEliminarla(){
+    public void queNoSePuedaInhabilitarUnaCriptomonedaPorqueHuboUnErrorAlInhabilitarla(){
         // este test lo pongo para probar el metodo de eliminarCriptomoneda pero en TEORIA
         // no deberia nunca NO poder eliminarse (salvo q falle el .delete() de la bdd) pero bueno
         // lo pongo para q se testea igual, ademas si es que no se elimino pq no se encontró, NUNCA se ejecuta este
@@ -138,8 +137,8 @@ public class ServicioCriptomonedaTest {
         when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user1, nombreDeCripto)).thenReturn(2.0);
         when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user2, nombreDeCripto)).thenReturn(0.0);
         when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(repositorioCriptomoneda.eliminarCriptomoneda(criptomoneda)).thenReturn(false);
+        when(repositorioCriptomoneda.inhabilitarCriptomoneda(criptomoneda)).thenReturn(true);
 
-        assertFalse(servicioCriptomoneda.eliminarCriptomoneda(criptomoneda.getNombre()));
+        assertTrue(servicioCriptomoneda.inhabilitarCriptomoneda(criptomoneda.getNombre()));
     }
 }

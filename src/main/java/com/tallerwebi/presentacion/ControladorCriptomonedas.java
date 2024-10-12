@@ -30,7 +30,7 @@ public class ControladorCriptomonedas {
     @RequestMapping(path = "/criptomonedas", method = RequestMethod.GET)
     public ModelAndView cargarPrecioDeCryptos(HttpServletRequest request) {
 
-        if (request.getSession().getAttribute("emailUsuario") == null){
+        if (request.getSession().getAttribute("emailUsuario") == null) {
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
         ModelMap model = new ModelMap();
@@ -45,7 +45,7 @@ public class ControladorCriptomonedas {
                                             @RequestParam("imagenCripto") MultipartFile imagenCripto,
                                             HttpServletRequest request) {
 
-        if (request.getSession().getAttribute("emailUsuario") == null){
+        if (request.getSession().getAttribute("emailUsuario") == null) {
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
 
@@ -79,26 +79,25 @@ public class ControladorCriptomonedas {
         // creo la ruta a donde se va a subir, con el get realpath en teoria me da toda la ruta desde
         // el raiz del server agregando la q puse en el paretesis
         String rutaASubir = request.getServletContext().getRealPath("/resources/core/img/logoCriptomonedas/");
-        String msj = servicioSubirImagen.subirImagen(criptoAgregada.getNombreConMayus(),imagenCripto, rutaASubir);
+        String msj = servicioSubirImagen.subirImagen(criptoAgregada.getNombreConMayus(), imagenCripto, rutaASubir);
         return new ModelAndView("redirect:/criptomonedas?mensaje=" + msj);
     }
 
-    @RequestMapping(path = "/eliminarCriptomoneda/{idCriptomoneda}", method = RequestMethod.GET)
-    public ModelAndView eliminarCriptomoneda(@PathVariable(value = "idCriptomoneda", required = true) String idCriptomoneda,
-                                             HttpServletRequest request) {
+    @RequestMapping(path = "/inhabilitarCriptomoneda/{idCriptomoneda}", method = RequestMethod.GET)
+    public ModelAndView inhabilitarCriptomoneda(@PathVariable(value = "idCriptomoneda", required = true) String idCriptomoneda) {
 
         if (idCriptomoneda == null || idCriptomoneda.isEmpty()) {
             return new ModelAndView("redirect:/criptomonedas?mensaje=Debe seleccionar una criptomoneda para eliminarla.");
         }
 
-        if (servicioCriptomoneda.buscarCriptomonedaPorNombre(idCriptomoneda) == null){
-            return new ModelAndView("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda");
+        if (servicioCriptomoneda.buscarCriptomonedaPorNombre(idCriptomoneda) == null) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda.");
         }
 
-        Boolean eliminada = servicioCriptomoneda.eliminarCriptomoneda(idCriptomoneda);
-        if (!eliminada){
-            return new ModelAndView("redirect:/criptomonedas?mensaje=No hemos podido eliminar la criptomoneda.");
+        Boolean estaHabilitada = servicioCriptomoneda.inhabilitarCriptomoneda(idCriptomoneda);
+        if (estaHabilitada) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=No hemos podido inhabilitar la criptomoneda.");
         }
-        return new ModelAndView("redirect:/criptomonedas?mensaje=CriptomonedaEliminadaConExito");
+        return new ModelAndView("redirect:/criptomonedas?mensaje=Criptomoneda inhabilitada con exito.");
     }
 }

@@ -13,4 +13,8 @@ public interface RepositorioTransacciones {
     Double buscarCantidadVendidadeUnaCriptoDeUnUsuario(String nombreDeCripto, Long idDeUsuario);
 
     List<Transaccion> obtenerHistorialUsuario(Long idDeUsuario);
+
+    List<Transaccion> obtenerTransaccionesDeEstaCripto(String idCriptomoneda);
+
+    void eliminarTransaccion(Transaccion transaccion);
 }

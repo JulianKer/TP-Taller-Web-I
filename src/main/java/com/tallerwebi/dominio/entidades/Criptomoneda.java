@@ -16,6 +16,7 @@ public class Criptomoneda {
     private String simbolo;
     private String nombreConMayus;
     private String imagen;
+    private Boolean habilitada = true;
 
 
     public String getImagen() {
@@ -69,5 +70,13 @@ public class Criptomoneda {
 
     public void setNombreConMayus(String nombreConMayus) {
         this.nombreConMayus = nombreConMayus;
+    }
+
+    public Boolean getHabilitada() {
+        return habilitada;
+    }
+
+    public void setHabilitada(Boolean habilitada) {
+        this.habilitada = habilitada;
     }
 }

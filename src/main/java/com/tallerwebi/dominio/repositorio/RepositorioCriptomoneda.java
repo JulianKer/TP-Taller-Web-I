@@ -17,4 +17,6 @@ public interface RepositorioCriptomoneda {
     void actualizarCriptomoneda(Criptomoneda criptoDeMiBdd);
 
     Boolean eliminarCriptomoneda(Criptomoneda criptomonedaAEliminar);
+
+    Boolean inhabilitarCriptomoneda(Criptomoneda criptoAEliminar);
 }
