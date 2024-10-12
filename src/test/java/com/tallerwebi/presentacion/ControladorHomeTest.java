@@ -27,20 +27,43 @@ public class ControladorHomeTest {
     //request.getSession().setAttribute("ROL", "ADMIN");
 
     @Test
-    public void queAlEntrarAlHomeMeDevuelvaUnMapConMonedaPrecioDeCriptos() {
-/*
-        when(servicioHome.obtenerCrypto("ethereum", "usd")).thenReturn(null);
+    public void queAlEntrarAlHomeElMapaQueMeDevuelvaEsteVacio() {
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
 
-        ModelAndView mav = controladorHome.cargarPrecioDeCryptos("usd");
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
 
-        Map<String, Double> mapaMonedaPrecios = (Map<String, Double>) mav.getModel().get("mapaMonedaPrecios");
+        // en este le digo q no me devuelva un mapa sino q me devuelva null entonces es como si no hubiese recibido nada
+        when(servicioCriptomoneda.obtenerCrypto(misCriptos, "usd")).thenReturn(null);
+        ModelAndView mav = controladorHome.cargarPrecioDeCryptos("usd", "", request);
 
-        assertFalse(mapaMonedaPrecios.isEmpty());*/
+        Map<Criptomoneda, Double> mapaMonedaPreciosRecibido = (Map<Criptomoneda, Double>) mav.getModel().get("mapaMonedaPrecios");
+
+        assertTrue(mapaMonedaPreciosRecibido.isEmpty());
     }
 
     @Test
-    public void queAlEntrarAlHomeMeArrojeUnaExcepcionPorLaPeticionALaApi() {
+    public void queAlEntrarAlHomeMeDevuelvaUnMapConMonedaPrecioDeCriptos() {
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
 
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
+
+        ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
+        misCriptos.add(criptomoneda);
+
+        Map<Criptomoneda, Double> mapaQueDeberiaRecibir = new HashMap<>();
+        mapaQueDeberiaRecibir.put(criptomoneda, 61000.0);
+
+        // en este le digo q no me devuelva un mapa sino q me devuelva null entonces es como si no hubiese recibido nada
+        when(servicioCriptomoneda.obtenerNombreDeTodasLasCriptos()).thenReturn(misCriptos);
+        when(servicioCriptomoneda.obtenerCrypto(misCriptos, "")).thenReturn(mapaQueDeberiaRecibir);
+
+        ModelAndView mav = controladorHome.cargarPrecioDeCryptos("", "", request);
+
+        Map<Criptomoneda, Double> mapaMonedaPreciosRecibido = (Map<Criptomoneda, Double>) mav.getModel().get("mapaMonedaPrecios");
+
+        assertFalse(mapaMonedaPreciosRecibido.isEmpty());
+        assertEquals(mapaMonedaPreciosRecibido.get(criptomoneda), 61000.0);
     }
 
     @Test
@@ -65,6 +88,7 @@ public class ControladorHomeTest {
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "EUR");
     }
+
     @Test
     public void queAlSeleccionarLaMonedaBRLEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
         request.getSession().setAttribute("emailUsuario", "german@gmail.com");
