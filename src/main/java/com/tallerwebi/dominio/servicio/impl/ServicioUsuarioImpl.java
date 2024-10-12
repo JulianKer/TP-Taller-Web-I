@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 @Service
 @Transactional
@@ -83,6 +84,11 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     @Override
     public void sumarSaldo(Long idUsuario, Double precioTotalDeTransaccion) {
         repositorioUsuario.sumarSaldo(idUsuario, precioTotalDeTransaccion);
+    }
+
+    @Override
+    public ArrayList<Usuario> obtenerUnaListaDeTodosLosUsuariosNoAdmins() {
+        return repositorioUsuario.obtenerUnaListaDeTodosLosUsuariosClientes();
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.tallerwebi.dominio.servicio;
 
 import com.tallerwebi.dominio.entidades.Usuario;
 
+import java.util.ArrayList;
+
 public interface ServicioUsuario {
     Usuario buscarUsuarioPorEmail(String email);
     Usuario registrar(String mail, String pass, String nombre, String apellido, Long telefono, String fechaNacimiento);
@@ -13,4 +15,6 @@ public interface ServicioUsuario {
     boolean verificarQueTengaSaldoSuficienteParaComprar(double v, Double saldo);
 
     void sumarSaldo(Long id, Double precioTotalDeTransaccion);
+
+    ArrayList<Usuario> obtenerUnaListaDeTodosLosUsuariosNoAdmins();
 }

@@ -6,9 +6,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.PrecioCripto;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioTransacciones;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +27,15 @@ import java.util.*;
 public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
 
-    private ServicioSubirImagen servicioSubirImagen;
+    private ServicioUsuario servicioUsuario;
+    private ServicioTransacciones servicioTransacciones;
     private RepositorioCriptomoneda repositorioCriptomoneda;
 
     @Autowired
-    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda, ServicioSubirImagen servicioSubirImagen) {
+    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda, ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones) {
         this.repositorioCriptomoneda = repositorioCriptomoneda;
-        this.servicioSubirImagen = servicioSubirImagen;
+        this.servicioUsuario = servicioUsuario;
+        this.servicioTransacciones = servicioTransacciones;
     }
 
     @Override
@@ -182,5 +188,24 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
     @Override
     public void actualizarCripto(Criptomoneda criptoAActualizar) {
         repositorioCriptomoneda.actualizarCriptomoneda(criptoAActualizar);
+    }
+
+    @Override
+    public Boolean eliminarCriptomoneda(String idCriptomoneda) {
+        Criptomoneda criptoAEliminar = buscarCriptomonedaPorNombre(idCriptomoneda);
+        ArrayList<Usuario> usuarios = servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins();
+        Double precioDeEsaCripto = obtenerPrecioDeCriptoPorNombre(idCriptomoneda);
+        Double cantidadDeCriptosPorUsuario = 0.0;
+
+        if (usuarios != null) {
+            for (Usuario usuario : usuarios) {
+                cantidadDeCriptosPorUsuario = servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(usuario, idCriptomoneda);
+                if (cantidadDeCriptosPorUsuario > 0.0){
+                    servicioTransacciones.crearTransaccion(criptoAEliminar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.VENTA, usuario);
+                }
+            }
+        }
+
+        return repositorioCriptomoneda.eliminarCriptomoneda(criptoAEliminar);
     }
 }

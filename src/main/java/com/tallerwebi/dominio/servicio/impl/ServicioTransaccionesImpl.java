@@ -115,4 +115,9 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         return saldoDelUsuario >= precioTotalDeTransaccion;
     }
 
+    @Override
+    public Double dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(Usuario usuario, String idCriptomoneda) {
+        return repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId()) - repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId());
+    }
+
 }

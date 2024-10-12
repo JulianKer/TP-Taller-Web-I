@@ -7,6 +7,7 @@ import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,5 +81,24 @@ public class ControladorCriptomonedas {
         String rutaASubir = request.getServletContext().getRealPath("/resources/core/img/logoCriptomonedas/");
         String msj = servicioSubirImagen.subirImagen(criptoAgregada.getNombreConMayus(),imagenCripto, rutaASubir);
         return new ModelAndView("redirect:/criptomonedas?mensaje=" + msj);
+    }
+
+    @RequestMapping(path = "/eliminarCriptomoneda/{idCriptomoneda}", method = RequestMethod.GET)
+    public ModelAndView eliminarCriptomoneda(@PathVariable(value = "idCriptomoneda", required = true) String idCriptomoneda,
+                                             HttpServletRequest request) {
+
+        if (idCriptomoneda == null || idCriptomoneda.isEmpty()) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=Debe seleccionar una criptomoneda para eliminarla.");
+        }
+
+        if (servicioCriptomoneda.buscarCriptomonedaPorNombre(idCriptomoneda) == null){
+            return new ModelAndView("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda");
+        }
+
+        Boolean eliminada = servicioCriptomoneda.eliminarCriptomoneda(idCriptomoneda);
+        if (!eliminada){
+            return new ModelAndView("redirect:/criptomonedas?mensaje=No hemos podido eliminar la criptomoneda.");
+        }
+        return new ModelAndView("redirect:/criptomonedas?mensaje=CriptomonedaEliminadaConExito");
     }
 }

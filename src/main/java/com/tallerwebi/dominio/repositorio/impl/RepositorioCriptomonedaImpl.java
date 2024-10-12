@@ -3,13 +3,11 @@ package com.tallerwebi.dominio.repositorio.impl;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
@@ -42,5 +40,11 @@ public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
     @Override
     public void actualizarCriptomoneda(Criptomoneda criptoDeMiBdd) {
         sessionFactory.getCurrentSession().update(criptoDeMiBdd);
+    }
+
+    @Override
+    public Boolean eliminarCriptomoneda(Criptomoneda criptomonedaAEliminar) {
+        sessionFactory.getCurrentSession().delete(criptomonedaAEliminar);
+        return buscarCriptomonedaPorNombre(criptomonedaAEliminar.getNombre()) == null;
     }
 }

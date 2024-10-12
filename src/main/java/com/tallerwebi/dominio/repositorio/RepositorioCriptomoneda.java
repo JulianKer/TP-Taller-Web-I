@@ -15,4 +15,6 @@ public interface RepositorioCriptomoneda {
     ArrayList<Criptomoneda> dameElNombreDeTodasLasCriptos();
 
     void actualizarCriptomoneda(Criptomoneda criptoDeMiBdd);
+
+    Boolean eliminarCriptomoneda(Criptomoneda criptomonedaAEliminar);
 }

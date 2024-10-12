@@ -22,4 +22,6 @@ public interface ServicioCriptomoneda {
     boolean verificarQueNoTengaEsaCriptoEnMiBdd(String nombreRecibido);
 
     void actualizarCripto(Criptomoneda criptoAgregada);
+
+    Boolean eliminarCriptomoneda(String idCriptomoneda);
 }

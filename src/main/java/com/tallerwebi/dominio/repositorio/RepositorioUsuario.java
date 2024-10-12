@@ -2,6 +2,7 @@ package com.tallerwebi.dominio.repositorio;
 
 import com.tallerwebi.dominio.entidades.Usuario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface RepositorioUsuario /*extends JpaRepository<Usuario, Long>  me dice q tengo agregar la dependencia a maven*/{
@@ -17,5 +18,7 @@ public interface RepositorioUsuario /*extends JpaRepository<Usuario, Long>  me d
     void cambiarEstado(Long id, boolean estado);
 
     void sumarSaldo(Long idUsuario, Double precioTotalDeTransaccion);
+
+    ArrayList<Usuario> obtenerUnaListaDeTodosLosUsuariosClientes();
 }
 

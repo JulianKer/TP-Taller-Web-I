@@ -1,7 +1,9 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -99,5 +101,62 @@ public class ControladorCriptomonedasTest {
 
         // Verificar el resultado
         assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda agregada con exito.", mav.getViewName());
+    }
+
+    @Test
+    public void queSeNOPuedaEliminarUnaCriptomonedaPorqueElIdEstaVacio(){
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre("")).thenReturn(null);
+        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda("", request);
+
+        assertEquals("redirect:/criptomonedas?mensaje=Debe seleccionar una criptomoneda para eliminarla.", mav.getViewName());
+    }
+
+    @Test
+    public void queNoSePuedaEliminarUnaCriptomonedaPorqueNoExiste(){
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre("criptoInexistente")).thenReturn(null);
+        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda("criptoInexistente", request);
+
+        assertEquals("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda", mav.getViewName());
+    }
+
+
+    @Test
+    public void queNoSePuedaEliminarUnaCriptomonedaPorqueHuboUnErrorAlIntentarEliminarlaEliminarla(){
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+
+        Usuario user = new Usuario();
+        user.setId(1L);
+
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(cripto);
+        when(servicioCriptomoneda.eliminarCriptomoneda(cripto.getNombre())).thenReturn(false);
+        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda(nombreDeCripto, request);
+
+        assertEquals("redirect:/criptomonedas?mensaje=No hemos podido eliminar la criptomoneda.", mav.getViewName());
+    }
+
+    @Test
+    public void queSePuedaEliminarUnaCriptomoneda(){
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+
+        Usuario user = new Usuario();
+        user.setId(1L);
+
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(cripto);
+        when(servicioCriptomoneda.eliminarCriptomoneda(cripto.getNombre())).thenReturn(true);
+        ModelAndView mav = controladorCriptomonedas.eliminarCriptomoneda(nombreDeCripto, request);
+
+        assertEquals("redirect:/criptomonedas?mensaje=CriptomonedaEliminadaConExito", mav.getViewName());
     }
 }

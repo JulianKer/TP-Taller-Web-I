@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("repositorioUsuario")
@@ -82,6 +83,13 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
         user.setSaldo(user.getSaldo() + precioTotalDeTransaccion);
         sessionFactory.getCurrentSession().update(user);
+    }
+
+    @Override
+    public ArrayList<Usuario> obtenerUnaListaDeTodosLosUsuariosClientes() {
+        return (ArrayList<Usuario>) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
+                .add(Restrictions.eq("rol", "CLIENTE"))
+                .list();
     }
 
 }
