@@ -8,8 +8,10 @@ import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.ArrayList;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -35,5 +37,51 @@ public class ServicioCriptomonedaTest {
 
         when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(null);
         assertThrows(NoSeEncontroLaCriptomonedaException.class,()->servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto));
+    }
+
+    @Test
+    public void queSeObtengaElMapaConLasCriptosQueTengaEnMiBddATravezDeLaApi() {
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
+
+        ArrayList<Criptomoneda> criptomonedas = new ArrayList<>();
+        criptomonedas.add(criptomoneda);
+
+        Map<Criptomoneda, Double> mapaRecibido = servicioCriptomoneda.obtenerCrypto(criptomonedas, "usd");
+        assertEquals(criptomonedas.size(), mapaRecibido.size());
+    }
+
+    @Test
+    public void queSePuedaObtenerElPrecioDeUnaCriptomonedaEnEspecifico() {
+        assertTrue(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre("bitcoin") > 0);
+    }
+
+    @Test
+    public void queSePuedaAgregarUnaCriptomoneda() {
+        assertTrue(servicioCriptomoneda.dameLaCriptoVerificandoSiEstaEnElPaginadoYAgregarla("avalanche"));
+    }
+
+    @Test
+    public void queAlBuscarlaEnLaBDDNOExistaEsaCripto() {
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombreConMayus("Bitcoin");
+        criptomoneda.setNombre("bitcoin");
+        criptomoneda.setImagen("Bitcoin.png");
+
+        when(repositorioCriptomoneda.buscarCriptomonedaPorNombre("criptoX")).thenReturn(null);
+
+        assertTrue(servicioCriptomoneda.verificarQueNoTengaEsaCriptoEnMiBdd("criptoX"));
+    }
+
+    @Test
+    public void queAlBuscarlaEnLaBDDSIExistaEsaCripto() {
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombreConMayus("Bitcoin");
+        criptomoneda.setNombre("bitcoin");
+        criptomoneda.setImagen("Bitcoin.png");
+
+        when(repositorioCriptomoneda.buscarCriptomonedaPorNombre("criptoX")).thenReturn(new Criptomoneda());
+
+        assertFalse(servicioCriptomoneda.verificarQueNoTengaEsaCriptoEnMiBdd("criptoX"));
     }
 }

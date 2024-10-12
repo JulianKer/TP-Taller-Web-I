@@ -49,7 +49,7 @@ public class ControladorCriptomonedas {
         }
 
         // q lo q ingrese no este vacio
-        if (imagenCripto.isEmpty() || nombreCripto.isEmpty()) {
+        if (imagenCripto == null || imagenCripto.isEmpty() || nombreCripto.isEmpty()) {
             return new ModelAndView("redirect:/criptomonedas?mensaje=Los campos no deben estar vacios.");
         }
 

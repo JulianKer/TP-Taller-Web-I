@@ -14,7 +14,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
@@ -48,5 +50,34 @@ public class RepositorioCriptomonedaTest {
         repositorioCriptomoneda.guardarCriptomoneda(criptomoneda);
 
         assertNotNull(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queMeDevuelvaElNombreDeTodasLasCriptosEnUnArray() {
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda);
+
+        ArrayList<Criptomoneda> arrayRecibido = repositorioCriptomoneda.dameElNombreDeTodasLasCriptos();
+
+        assertFalse(arrayRecibido.isEmpty());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queSePuedaActualizarCriptomoneda() {
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre("bitcoin");
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda);
+
+        criptomoneda.setNombre("ethereum");
+        repositorioCriptomoneda.actualizarCriptomoneda(criptomoneda);
+
+        Criptomoneda criptoEncontrada = repositorioCriptomoneda.buscarCriptomonedaPorNombre("ethereum");
+        assertEquals("ethereum", criptoEncontrada.getNombre());
     }
 }

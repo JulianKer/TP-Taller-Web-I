@@ -2,8 +2,6 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
-import com.tallerwebi.dominio.servicio.ServicioHome;
-import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
