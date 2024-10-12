@@ -44,7 +44,7 @@ public class ControladorHome {
         }else{
             ArrayList<Criptomoneda> coincidenciasDeBusqueda = new ArrayList<>();
             for (Criptomoneda cripto : misCriptos) {
-                if (cripto.getNombre().contains(criterioDeBusqueda)) {
+                if (cripto.getNombre().toLowerCase().contains(criterioDeBusqueda.toLowerCase()) || cripto.getSimbolo().toLowerCase().contains(criterioDeBusqueda.toLowerCase())) {
                     coincidenciasDeBusqueda.add(cripto);
                 }
             }

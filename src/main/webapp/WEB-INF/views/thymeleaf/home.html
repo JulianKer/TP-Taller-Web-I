@@ -109,7 +109,7 @@
       <tr th:each="entry : ${mapaMonedaPrecios}">
         <td class="crypto-name">
           <img th:src="@{'/img/logoCriptomonedas/' + ${entry.key.getImagen()}}" class="crypto-icon" alt="Logo criptomoneda">
-          <span th:text="${entry.key.getNombre()}"></span>
+          <span th:text="${entry.key.getNombreConMayus()} + ' (' + ${entry.key.getSimbolo()} + ')'"></span>
         </td>
         <td class="crypto-chart">
           <!-- Aquí iría el gráfico de fluctuación -->
