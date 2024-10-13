@@ -16,7 +16,7 @@ public class Criptomoneda {
     private String simbolo;
     private String nombreConMayus;
     private String imagen;
-    private Boolean habilitada = true;
+    private Boolean habilitada;
 
 
     public String getImagen() {

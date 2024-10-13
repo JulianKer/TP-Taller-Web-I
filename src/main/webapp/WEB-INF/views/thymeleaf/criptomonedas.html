@@ -99,6 +99,8 @@
         <img th:src="@{'/img/logoCriptomonedas/' + ${cripto.getImagen()}}" alt="Crypto Logo" class="card-logo">
         <p th:text="${cripto.getNombreConMayus()}" class="card-title">Bitcoin</p>
         <p th:text="'(' + ${cripto.getSimbolo()} + ')'" class="card-title">Bitcoin</p>
+        <a th:if="${!cripto.getHabilitada()}" th:href="@{/habilitarCriptomoneda/{id}(id=${cripto.nombre})}" class="boton boton-habilitar">Habilitar</a>
+        <a th:if="${cripto.getHabilitada()}" th:href="@{/inhabilitarCriptomoneda/{id}(id=${cripto.nombre})}" class="boton boton-inhabilitar">Inhabilitar</a>
       </div>
     </div>
   </div>

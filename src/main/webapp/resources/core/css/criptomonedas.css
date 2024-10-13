@@ -122,6 +122,45 @@ h1 {
     background-color: #0056b3;
 }
 
+.boton-habilitar{
+    background-color: #00b800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-inhabilitar{
+    background-color: #e40000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-inhabilitar:hover{
+    background-color: #e81d1d;
+    color: white;
+}
+.boton-habilitar:hover{
+    background-color: #1dd81d;
+    color: white;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 10px;
