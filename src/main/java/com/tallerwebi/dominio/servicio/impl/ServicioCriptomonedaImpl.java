@@ -166,6 +166,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                 criptoAAgregar.setNombre(id);
                 criptoAAgregar.setNombreConMayus(name);
                 criptoAAgregar.setSimbolo(simbolo);
+                criptoAAgregar.setHabilitada(true);
                 repositorioCriptomoneda.guardarCriptomoneda(criptoAAgregar);
 
                 // y este para q se guarde su primer fluctuacion d precio :)

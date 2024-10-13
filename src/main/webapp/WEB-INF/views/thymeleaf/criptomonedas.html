@@ -80,11 +80,15 @@
     </div>
     <button type="submit" class="btn btn-primary">Agregar Criptomoneda</button>
     <div th:if="${param.mensaje}">
-      <div th:if="${!#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda agregada con exito.')}">
+      <div th:if="${!#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda agregada con exito.')
+             and !#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda habilitada con exito.')
+             and !#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda inhabilitada con exito.')}">
         <p th:text="${param.mensaje}" class="alert alert-danger msj"></p>
       </div>
 
-      <div th:if="${#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda agregada con exito.')}">
+      <div th:if="${#strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda agregada con exito.')
+             or #strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda habilitada con exito.')
+             or #strings.equalsIgnoreCase(param.mensaje, 'Criptomoneda inhabilitada con exito.')}">
         <p th:text="${param.mensaje}" class="alert alert-success msj"></p>
       </div>
     </div>
