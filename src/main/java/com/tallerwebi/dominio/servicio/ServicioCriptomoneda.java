@@ -24,4 +24,6 @@ public interface ServicioCriptomoneda {
     void actualizarCripto(Criptomoneda criptoAgregada);
 
     Boolean inhabilitarCriptomoneda(String idCriptomoneda);
+
+    Boolean habilitarCriptomoneda(String idCriptomoneda);
 }

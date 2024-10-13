@@ -18,5 +18,7 @@ public interface RepositorioCriptomoneda {
 
     Boolean eliminarCriptomoneda(Criptomoneda criptomonedaAEliminar);
 
-    Boolean inhabilitarCriptomoneda(Criptomoneda criptoAEliminar);
+    Boolean inhabilitarCriptomoneda(Criptomoneda criptoAInhabilitar);
+
+    Boolean habilitarCriptomoneda(Criptomoneda criptoAhabilitar);
 }

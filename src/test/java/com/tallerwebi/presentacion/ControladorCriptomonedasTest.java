@@ -153,4 +153,18 @@ public class ControladorCriptomonedasTest {
 
         assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda inhabilitada con exito.", mav.getViewName());
     }
+
+    @Test
+    public void queSePuedaHabilitarUnaCriptomoneda(){
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(cripto);
+        // este te va a devolver el estado en el q quedo la cripto, como la inhabilité, me debe dar habilitada = FALSE
+        when(servicioCriptomoneda.habilitarCriptomoneda(cripto.getNombre())).thenReturn(true);
+        ModelAndView mav = controladorCriptomonedas.habilitarCriptomoneda(nombreDeCripto);
+
+        assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda habilitada con exito.", mav.getViewName());
+    }
 }

@@ -100,4 +100,23 @@ public class ControladorCriptomonedas {
         }
         return new ModelAndView("redirect:/criptomonedas?mensaje=Criptomoneda inhabilitada con exito.");
     }
+
+    @RequestMapping(path = "/habilitarCriptomoneda/{idCriptomoneda}", method = RequestMethod.GET)
+    public ModelAndView habilitarCriptomoneda(@PathVariable(value = "idCriptomoneda", required = true) String idCriptomoneda) {
+
+        if (idCriptomoneda == null || idCriptomoneda.isEmpty()) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=Debe seleccionar una criptomoneda para eliminarla.");
+        }
+
+        if (servicioCriptomoneda.buscarCriptomonedaPorNombre(idCriptomoneda) == null) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda.");
+        }
+
+        Boolean estaHabilitada = servicioCriptomoneda.habilitarCriptomoneda(idCriptomoneda);
+        if (!estaHabilitada) {
+            return new ModelAndView("redirect:/criptomonedas?mensaje=No hemos podido inhabilitar la criptomoneda.");
+        }
+
+        return new ModelAndView("redirect:/criptomonedas?mensaje=Criptomoneda habilitada con exito.");
+    }
 }

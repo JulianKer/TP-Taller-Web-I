@@ -193,7 +193,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
     @Override
     public Boolean inhabilitarCriptomoneda(String idCriptomoneda) {
-        Criptomoneda criptoAEliminar = buscarCriptomonedaPorNombre(idCriptomoneda);
+        Criptomoneda criptoAInhabilitar = buscarCriptomonedaPorNombre(idCriptomoneda);
         ArrayList<Usuario> usuarios = servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins();
         Double precioDeEsaCripto = obtenerPrecioDeCriptoPorNombre(idCriptomoneda);
         Double cantidadDeCriptosPorUsuario = 0.0;
@@ -202,20 +202,19 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
             for (Usuario usuario : usuarios) {
                 cantidadDeCriptosPorUsuario = servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(usuario, idCriptomoneda);
                 if (cantidadDeCriptosPorUsuario > 0.0){
-                    servicioTransacciones.crearTransaccion(criptoAEliminar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.VENTA, usuario);
+                    servicioTransacciones.crearTransaccion(criptoAInhabilitar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.VENTA, usuario);
                 }
             }
         }
 
-        /*List<Transaccion> transaccionesConEsaCripto = servicioTransacciones.obtenerTransaccionesDeEstaCripto(idCriptomoneda);
-        if (transaccionesConEsaCripto != null) {
-            for (Transaccion transaccion : transaccionesConEsaCripto) {
-                servicioTransacciones.eliminarTransaccion(transaccion);
-            }
-        }*/
+        criptoAInhabilitar.setHabilitada(false);
+        return repositorioCriptomoneda.inhabilitarCriptomoneda(criptoAInhabilitar);
+    }
 
-        criptoAEliminar.setHabilitada(false);
-        //return repositorioCriptomoneda.eliminarCriptomoneda(criptoAEliminar);
-        return repositorioCriptomoneda.inhabilitarCriptomoneda(criptoAEliminar);
+    @Override
+    public Boolean habilitarCriptomoneda(String idCriptomoneda) {
+        Criptomoneda criptoAHabilitar = buscarCriptomonedaPorNombre(idCriptomoneda);
+        criptoAHabilitar.setHabilitada(true);
+        return repositorioCriptomoneda.habilitarCriptomoneda(criptoAHabilitar);
     }
 }
