@@ -37,7 +37,8 @@ public class ControladorHome {
         Map<Criptomoneda, Double> mapaMonedaPrecios = new HashMap<>();
         moneda = moneda.toUpperCase();
 
-        ArrayList<Criptomoneda> misCriptos = servicioCriptomoneda.obtenerNombreDeTodasLasCriptos();
+        //ArrayList<Criptomoneda> misCriptos = servicioCriptomoneda.obtenerNombreDeTodasLasCriptos();
+        ArrayList<Criptomoneda> misCriptos = servicioCriptomoneda.obtenerCriptosHabilitadas();
 
         if (criterioDeBusqueda.isEmpty()){
             mapaMonedaPrecios = servicioCriptomoneda.obtenerCrypto(misCriptos, moneda);

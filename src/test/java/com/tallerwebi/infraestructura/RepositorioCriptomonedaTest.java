@@ -15,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -79,5 +80,36 @@ public class RepositorioCriptomonedaTest {
 
         Criptomoneda criptoEncontrada = repositorioCriptomoneda.buscarCriptomonedaPorNombre("ethereum");
         assertEquals("ethereum", criptoEncontrada.getNombre());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queSePuedaObtenerLasCriptosHabilitadas() {
+        Criptomoneda criptomoneda1 = new Criptomoneda();
+        criptomoneda1.setId(1L);
+        criptomoneda1.setNombre("bitcoin");
+        criptomoneda1.setHabilitada(true);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda1);
+
+        Criptomoneda criptomoneda2 = new Criptomoneda();
+        criptomoneda2.setId(2L);
+        criptomoneda2.setNombre("ethereum");
+        criptomoneda2.setHabilitada(false);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda2);
+
+        Criptomoneda criptomoneda3 = new Criptomoneda();
+        criptomoneda3.setId(4L);
+        criptomoneda3.setNombre("dogecoin");
+        criptomoneda3.setHabilitada(true);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda3);
+
+        List<Criptomoneda> criptomonedasHabilitadas = new ArrayList<>();
+        criptomonedasHabilitadas.add(criptomoneda1);
+        criptomonedasHabilitadas.add(criptomoneda3);
+
+        ArrayList<Criptomoneda> criptosRecibidas = repositorioCriptomoneda.obtenerCriptosHabilitadas();
+
+        assertEquals(criptosRecibidas, criptomonedasHabilitadas);
     }
 }

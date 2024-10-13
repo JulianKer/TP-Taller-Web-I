@@ -218,4 +218,9 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
         criptoAHabilitar.setHabilitada(true);
         return repositorioCriptomoneda.habilitarCriptomoneda(criptoAHabilitar);
     }
+
+    @Override
+    public ArrayList<Criptomoneda> obtenerCriptosHabilitadas() {
+        return repositorioCriptomoneda.obtenerCriptosHabilitadas();
+    }
 }

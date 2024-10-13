@@ -21,4 +21,6 @@ public interface RepositorioCriptomoneda {
     Boolean inhabilitarCriptomoneda(Criptomoneda criptoAInhabilitar);
 
     Boolean habilitarCriptomoneda(Criptomoneda criptoAhabilitar);
+
+    ArrayList<Criptomoneda> obtenerCriptosHabilitadas();
 }

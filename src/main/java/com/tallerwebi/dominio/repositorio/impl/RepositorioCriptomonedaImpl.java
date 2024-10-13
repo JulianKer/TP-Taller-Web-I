@@ -59,4 +59,11 @@ public class RepositorioCriptomonedaImpl implements RepositorioCriptomoneda {
         sessionFactory.getCurrentSession().update(criptoAHabilitar);
         return buscarCriptomonedaPorNombre(criptoAHabilitar.getNombre()).getHabilitada();
     }
+
+    @Override
+    public ArrayList<Criptomoneda> obtenerCriptosHabilitadas() {
+        return (ArrayList<Criptomoneda>) sessionFactory.getCurrentSession().createCriteria(Criptomoneda.class)
+                .add(Restrictions.eq("habilitada", true))
+                .list();
+    }
 }

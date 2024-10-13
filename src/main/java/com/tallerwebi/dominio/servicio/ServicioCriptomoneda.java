@@ -26,4 +26,6 @@ public interface ServicioCriptomoneda {
     Boolean inhabilitarCriptomoneda(String idCriptomoneda);
 
     Boolean habilitarCriptomoneda(String idCriptomoneda);
+
+    ArrayList<Criptomoneda> obtenerCriptosHabilitadas();
 }

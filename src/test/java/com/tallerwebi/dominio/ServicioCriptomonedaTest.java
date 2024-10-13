@@ -11,6 +11,7 @@ import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -140,5 +141,37 @@ public class ServicioCriptomonedaTest {
         when(repositorioCriptomoneda.inhabilitarCriptomoneda(criptomoneda)).thenReturn(true);
 
         assertTrue(servicioCriptomoneda.inhabilitarCriptomoneda(criptomoneda.getNombre()));
+    }
+
+    @Test
+    public void queSeObtenganLasCriptosHabilitadas(){
+        Criptomoneda criptomoneda1 = new Criptomoneda();
+        criptomoneda1.setId(1L);
+        criptomoneda1.setNombre("bitcoin");
+        criptomoneda1.setHabilitada(true);
+
+        Criptomoneda criptomoneda2 = new Criptomoneda();
+        criptomoneda2.setId(2L);
+        criptomoneda2.setNombre("ethereum");
+        criptomoneda2.setHabilitada(false);
+
+        Criptomoneda criptomoneda3 = new Criptomoneda();
+        criptomoneda3.setId(4L);
+        criptomoneda3.setNombre("dogecoin");
+        criptomoneda3.setHabilitada(true);
+
+        List<Criptomoneda> criptomonedasHabilitadas = new ArrayList<>();
+        criptomonedasHabilitadas.add(criptomoneda1);
+        criptomonedasHabilitadas.add(criptomoneda3);
+
+
+        List<Criptomoneda> criptomonedasTotales = new ArrayList<>();
+        criptomonedasTotales.add(criptomoneda1);
+        criptomonedasTotales.add(criptomoneda2);
+        criptomonedasTotales.add(criptomoneda3);
+
+        when(repositorioCriptomoneda.obtenerCriptosHabilitadas()).thenReturn((ArrayList<Criptomoneda>) criptomonedasHabilitadas);
+        ArrayList<Criptomoneda> criptosRecibidas = servicioCriptomoneda.obtenerCriptosHabilitadas();
+        assertEquals(criptosRecibidas, criptomonedasHabilitadas);
     }
 }

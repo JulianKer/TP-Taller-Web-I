@@ -55,7 +55,8 @@ public class ControladorHomeTest {
         mapaQueDeberiaRecibir.put(criptomoneda, 61000.0);
 
         // en este le digo q no me devuelva un mapa sino q me devuelva null entonces es como si no hubiese recibido nada
-        when(servicioCriptomoneda.obtenerNombreDeTodasLasCriptos()).thenReturn(misCriptos);
+        //when(servicioCriptomoneda.obtenerNombreDeTodasLasCriptos()).thenReturn(misCriptos);
+        when(servicioCriptomoneda.obtenerCriptosHabilitadas()).thenReturn(misCriptos);
         when(servicioCriptomoneda.obtenerCrypto(misCriptos, "")).thenReturn(mapaQueDeberiaRecibir);
 
         ModelAndView mav = controladorHome.cargarPrecioDeCryptos("", "", request);
@@ -204,5 +205,4 @@ public class ControladorHomeTest {
 
         assertEquals(mavRecibido.getModel().get("divisaAMostrar"), "GBP");
     }
-
 }
