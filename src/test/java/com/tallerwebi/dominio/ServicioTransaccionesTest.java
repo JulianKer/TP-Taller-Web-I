@@ -9,6 +9,7 @@ import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioTransaccionesImpl;
+import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +21,8 @@ public class ServicioTransaccionesTest {
 
     private RepositorioTransacciones repositorioTransacciones = mock(RepositorioTransacciones.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
-    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones, servicioUsuario);
+    private ServicioEmail servicioEmail = mock(ServicioEmail.class);
+    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones, servicioUsuario, servicioEmail);
 
 
     @Test

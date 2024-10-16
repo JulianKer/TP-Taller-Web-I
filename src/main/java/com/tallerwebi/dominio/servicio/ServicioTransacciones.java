@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,4 +26,6 @@ public interface ServicioTransacciones {
     List<Transaccion> obtenerTransaccionesDeEstaCripto(String idCriptomoneda);
 
     void eliminarTransaccion(Transaccion transaccion);
+
+    List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario);
 }
