@@ -20,5 +20,7 @@ public interface RepositorioUsuario /*extends JpaRepository<Usuario, Long>  me d
     void sumarSaldo(Long idUsuario, Double precioTotalDeTransaccion);
 
     ArrayList<Usuario> obtenerUnaListaDeTodosLosUsuariosClientes();
+
+    Usuario buscarUsuarioPorId(Long idUsuario);
 }
 

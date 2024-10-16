@@ -92,6 +92,41 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     }
 
     @Override
+    public String bloquearUsuario(Long idUsuario) {
+        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuarioPorId(idUsuario);
+
+        System.out.println(idUsuario);
+        if (usuarioEncontrado == null) {
+            return "No se pudo bloquear";
+        }
+
+        if(usuarioEncontrado.getEstaBloqueado()==true){
+            return "ya esta bloqueado";
+        }
+
+        usuarioEncontrado.setEstaBloqueado(true);
+        repositorioUsuario.guardar(usuarioEncontrado);
+        return "Usuario bloqueado con exito";
+    }
+
+    @Override
+    public String desbloquearUsuario(Long idUsuario) {
+        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuarioPorId(idUsuario);
+        if (usuarioEncontrado == null) {
+            return "No se pudo bloquear";
+        }
+
+        if(usuarioEncontrado.getEstaBloqueado()==false){
+            return "no esta bloqueado";
+        }
+
+        usuarioEncontrado.setEstaBloqueado(false);
+        repositorioUsuario.guardar(usuarioEncontrado);
+        return "Usuario desbloqueado con exito";
+    }
+
+
+    @Override
     public Usuario buscarUsuarioPorEmail(String email) {
         return repositorioUsuario.buscar(email);
     }

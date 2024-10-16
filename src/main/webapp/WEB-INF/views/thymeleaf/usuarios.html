@@ -72,7 +72,19 @@
         <input type="text" placeholder="Buscar usuario">
         <button>Buscar</button>
     </div>
-    <div class="table-container">  <!-- Update: Added table-container div -->
+
+    <div class="table-container">
+        <div th:if="${param.mensaje}">
+            <div th:if="${!#strings.equalsIgnoreCase(param.mensaje, 'Usuario bloqueado con exito')
+            and !#strings.equalsIgnoreCase(param.mensaje, 'Usuario desbloqueado con exito')}">
+                <p th:text="${param.mensaje}" class="alert alert-danger msj"></p>
+            </div>
+
+            <div th:if="${#strings.equalsIgnoreCase(param.mensaje, 'Usuario bloqueado con exito')
+            or #strings.equalsIgnoreCase(param.mensaje, 'Usuario desbloqueado con exito')}">
+                <p th:text="${param.mensaje}" class="alert alert-success msj"></p>
+            </div>
+        </div>
         <table>
             <thead>
             <tr>
@@ -82,50 +94,40 @@
                 <th>Teléfono</th>
                 <th>Rol</th>
                 <th>Saldo</th>
-                <th>Activo</th>
+                <th>Plan</th>
                 <th>Acción</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Juan</td>
-                <td>Pérez</td>
-                <td>juan.perez@email.com</td>
-                <td>+1234567890</td>
-                <td>Usuario</td>
-                <td>$1,000.00</td>
-                <td><span class="status active">Activo</span></td>
-                <td>
-                    <button class="action-button block-button">Bloquear</button>
+            <tr th:each="usuarioDeLalista : ${misUsuarios}">
+                <td th:text="${usuarioDeLalista.getNombre()}"></td>
+                <td th:text="${usuarioDeLalista.getApellido()}"></td>
+                <td th:text="${usuarioDeLalista.getEmail()}"></td>
+                <td th:text="${usuarioDeLalista.getTelefono()}"></td>
+               <td th:text="${usuarioDeLalista.getRol()}"></td>
+
+                <td th:text="${usuarioDeLalista.getSaldo()}"></td>
+
+
+                <td th:if="${usuarioDeLalista.getActivo()==true}">
+                    <span class="status active">Premium</span>
                 </td>
-            </tr>
-            <tr>
-                <td>María</td>
-                <td>González</td>
-                <td>maria.gonzalez@email.com</td>
-                <td>+0987654321</td>
-                <td>Administrador</td>
-                <td>$5,000.00</td>
-                <td><span class="status active">Activo</span></td>
-                <td>
-                    <button class="action-button block-button">Bloquear</button>
+                <td th:if="${usuarioDeLalista.getActivo()==false}">
+                    <span class="status inactive">Gratis</span>
                 </td>
-            </tr>
-            <tr>
-                <td>Carlos</td>
-                <td>Rodríguez</td>
-                <td>carlos.rodriguez@email.com</td>
-                <td>+1122334455</td>
-                <td>Usuario</td>
-                <td>$500.00</td>
-                <td><span class="status inactive">Inactivo</span></td>
-                <td>
-                    <button class="action-button unblock-button">Desbloquear</button>
+
+
+                <td th:if="${usuarioDeLalista.getEstaBloqueado()==false}">
+                    <a th:href="@{'/bloquearUsuario/' + ${usuarioDeLalista.getId()}}" class="action-button block-button">Bloquear</a>
+                </td>
+
+                <td th:if="${usuarioDeLalista.getEstaBloqueado()==true}">
+                    <a th:href="@{'/desbloquearUsuario/' + ${usuarioDeLalista.getId()}}" class="action-button unblock-button">Desbloquear</a>
                 </td>
             </tr>
             </tbody>
         </table>
-    </div>  <!-- Update: Closed table-container div -->
+    </div>
 </div>
 
 <!-- Incluir Chart.js -->

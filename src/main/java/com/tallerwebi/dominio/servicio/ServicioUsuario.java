@@ -17,4 +17,8 @@ public interface ServicioUsuario {
     void sumarSaldo(Long id, Double precioTotalDeTransaccion);
 
     ArrayList<Usuario> obtenerUnaListaDeTodosLosUsuariosNoAdmins();
+
+    String bloquearUsuario(Long idUsuario);
+
+    String desbloquearUsuario(Long idUsuario);
 }

@@ -21,6 +21,7 @@ public class Usuario {
     private String rol;
     private Double saldo;
     private Boolean activo = false;
+    private Boolean estaBloqueado = false;
 
     public String getApellido() {return apellido;}
     public void setApellido(String apellido) {this.apellido = apellido;}
@@ -79,5 +80,11 @@ public class Usuario {
     public void setNombre(String nombre) {this.nombre = nombre;}
     public String getNombre() {return this.nombre;}
 
+    public Boolean getEstaBloqueado() {
+        return this.estaBloqueado;
+    }
 
+    public void setEstaBloqueado(Boolean estaBloqueado) {
+        this.estaBloqueado = estaBloqueado;
+    }
 }
