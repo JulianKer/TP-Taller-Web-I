@@ -9,6 +9,7 @@ import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
+import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,15 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
     RepositorioTransacciones repositorioTransacciones;
     ServicioUsuario servicioUsuario;
+    private ServicioEmail servicioEmail;
+
+
     @Autowired
-    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones, ServicioUsuario servicioUsuario) {
+    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones, ServicioUsuario servicioUsuario, ServicioEmail servicioEmail) {
         this.repositorioTransacciones = repositorioTransacciones;
         this.servicioUsuario = servicioUsuario;
+        this.servicioEmail = servicioEmail;
+
     }
 
     @Override
@@ -49,6 +55,14 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
                 //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
                 repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+
+                //Envio el mail con el resumen de la transaccion al user.
+                String destinatario = usuario.getEmail();
+                String asunto = "Resumen de transacción";
+                String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
+
+                servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
+
                 //y retorno el msj exitoso
                 return "Transaccion exitosa.";
             }else {
@@ -63,6 +77,14 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
                 servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
                 //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
                 repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+
+                //Envio el mail con el resumen de la transaccion al user.
+                String destinatario = usuario.getEmail();
+                String asunto = "Resumen de transacción";
+                String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
+
+                servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
+
                 //y retorno el msj exitoso
                 return "Transaccion exitosa.";
             }else {
