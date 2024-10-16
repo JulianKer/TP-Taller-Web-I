@@ -10,6 +10,7 @@
   <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
   <link rel="stylesheet" th:href="@{/css/transacciones.css}">
   <link rel="icon" th:href="@{/img/logoCripto.png}">
+  <script th:src="@{/js/filtroTransaccion.js}" defer></script>
 </head>
 <body>
 <header id="arriba">
@@ -95,18 +96,26 @@
   </form>
 
   <section class="historial">
-    <h2>Historial de Transacciones</h2>
+    <form th:action="@{/transacciones}" method="get" class="filter-container" id="form_filtro">
+      <h2>Historial de Transacciones</h2>
+      <div class="container_select_label">
+        <label for="transaction-filter">Filtrar:</label>
+        <select name = "tipoTransaccion" id="transaction-filter">
+          <option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
+          <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(filtro, 'COMPRA')}">Compras</option>
+          <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(filtro, 'VENTA')}">Ventas</option>
+        </select>
+      </div>
+    </form>
     <table>
       <thead>
       <tr>
-        <th>Nombre de Usuario</th>
-        <th>Apellido de Usuario</th>
-        <th>Nombre de Criptomoneda</th>
-        <th>Monto Total</th>
-        <th>Precio al que se Hizo</th>
-        <th>Fecha de Transacción</th>
         <th>Tipo de Transacción</th>
-        <th>Cantidad de Cripto</th>
+        <th>Fecha de Transacción</th>
+        <th>Criptomoneda</th>
+        <th>Precio Unitario</th>
+        <th>Cantidad</th>
+        <th>Total</th>
       </tr>
       </thead>
       <tbody>
@@ -138,14 +147,12 @@
 
       <!-- Si la lista NO está vacía, itera sobre cada registro de transacción -->
       <tr th:each="registroTransacion : ${historialTransacciones}" th:unless="${#lists.isEmpty(historialTransacciones)}">
-        <td th:text="${registroTransacion.getUsuario().getNombre()}"></td>
-        <td th:text="${registroTransacion.getUsuario().getApellido()}"></td>
-        <td th:text="${registroTransacion.getCriptomoneda().getNombre()}"></td>
-        <td th:text="${registroTransacion.getMontoTotal()}"></td>
-        <td th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
-        <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
         <td th:text="${registroTransacion.getTipo()}"></td>
+        <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
+        <td th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></td>
+        <td th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
         <td th:text="${registroTransacion.getCantidadDeCripto()}"></td>
+        <td th:text="${registroTransacion.getMontoTotal()}"></td>
       </tr>
 
       </tbody>

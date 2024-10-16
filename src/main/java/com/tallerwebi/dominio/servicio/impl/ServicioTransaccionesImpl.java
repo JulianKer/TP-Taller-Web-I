@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -160,6 +161,11 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     @Override
     public void eliminarTransaccion(Transaccion transaccion) {
         repositorioTransacciones.eliminarTransaccion(transaccion);
+    }
+
+    @Override
+    public List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario) {
+        return repositorioTransacciones.filtrarTransacciones(tipoTransaccion, idUsuario);
     }
 
 }

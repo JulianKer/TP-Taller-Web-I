@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
@@ -16,9 +17,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ControladorTransacciones {
@@ -35,19 +39,36 @@ public class ControladorTransacciones {
     }
 
     @GetMapping("/transacciones")
-    public ModelAndView transacciones(HttpServletRequest request){
+    public ModelAndView transacciones(@RequestParam(value = "tipoTransaccion",required = false, defaultValue = "todos") String tipoTransaccion,
+                                      HttpServletRequest request){
 
         if (request.getSession().getAttribute("emailUsuario") == null){
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
+
+        String emailUsuario = (String) request.getSession().getAttribute("emailUsuario");
+
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
         //model.put("criptos", servicioCriptomoneda.obtenerNombreDeTodasLasCriptos());
-        model.put("criptos", servicioCriptomoneda.obtenerCriptosHabilitadas());
-        model.put("emailUsuario", request.getSession().getAttribute("emailUsuario"));
+        List<Transaccion> historialTransacciones;
+        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario);
+        Long idUsuario = usuarioEncontrado.getId();
 
-        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail((String) request.getSession().getAttribute("emailUsuario"));
-        model.put("historialTransacciones", servicioTransacciones.obtenerHistorialTransaccionesDeUsuario(usuarioEncontrado.getId()));
+        try {
+            TipoTransaccion tipoTransaccionEncontrada = TipoTransaccion.valueOf(tipoTransaccion);
+            historialTransacciones = servicioTransacciones.filtrarTransacciones(tipoTransaccionEncontrada, idUsuario);
+        } catch (IllegalArgumentException e) {
+            historialTransacciones = servicioTransacciones.obtenerHistorialTransaccionesDeUsuario(idUsuario);
+        }
+
+
+        model.put("criptos", servicioCriptomoneda.obtenerCriptosHabilitadas());
+        model.put("emailUsuario", usuarioEncontrado.getEmail());
+
+
+        model.put("historialTransacciones", historialTransacciones);
+        model.put("filtro", tipoTransaccion);
 
         ModelAndView mav = new ModelAndView("transacciones", model);
         return mav;

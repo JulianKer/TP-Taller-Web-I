@@ -48,7 +48,7 @@ h1 {
 }
 
 #btnRealizarTransaccion {
-    background-color: #007bff;
+    background-color: #EEB913;
     color: #fff;
     border: none;
     cursor: pointer;
@@ -56,7 +56,7 @@ h1 {
 }
 
 #btnRealizarTransaccion:hover {
-    background-color: #0056b3;
+    background-color: #bd960a;
 }
 
 /* Table Styles */
@@ -89,6 +89,45 @@ h1 {
 .MensajeExitoso{
     background-color: #78ff78;
     color: #3c763d;
+}
+
+.filter-container {
+    margin-bottom: 20px;
+    min-width: 100%;
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container_select_label {
+    display: flex;
+    gap: 1em;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.filter-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+}
+
+.filter-container select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,.25);
 }
 
 

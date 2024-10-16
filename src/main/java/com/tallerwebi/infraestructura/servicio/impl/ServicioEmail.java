@@ -59,13 +59,13 @@ public class ServicioEmail {
                 "            color: #FFF;\n" +
                 "        }\n" +
                 "        .container {\n" +
-                "            background-color: #fff;\n" +
+                "            background-color: #282828;\n" +
                 "            border-radius: 5px;\n" +
                 "            padding: 20px;\n" +
                 "            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n" +
                 "        }\n" +
                 "        h1 {\n" +
-                "            color: #333;\n" +
+                "            color: #EEB913;\n" +
                 "        }\n" +
                 "        .footer {\n" +
                 "            margin-top: 20px;\n" +

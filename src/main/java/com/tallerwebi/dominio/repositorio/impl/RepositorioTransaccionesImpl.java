@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("repositorioTransacciones") //lo tengo qe poner eso??
@@ -73,5 +74,19 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
     @Override
     public void eliminarTransaccion(Transaccion transaccion) {
         sessionFactory.getCurrentSession().delete(transaccion);
+    }
+
+    @Override
+    public List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario) {
+
+        return(ArrayList<Transaccion>) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
+                .createAlias("usuario", "u")
+                .createAlias("criptomoneda", "c")
+                .add(Restrictions.eq("tipo", tipoTransaccion))
+                .add(Restrictions.eq("u.id", idUsuario))
+                .setFetchMode("criptomoneda", FetchMode.JOIN)
+                .list();
+
+
     }
 }
