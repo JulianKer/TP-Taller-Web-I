@@ -67,8 +67,65 @@
     </nav>
 </header>
 
-<div class="container mt-5">
-
+<div class="container">
+    <div class="search-bar">
+        <input type="text" placeholder="Buscar usuario">
+        <button>Buscar</button>
+    </div>
+    <div class="table-container">  <!-- Update: Added table-container div -->
+        <table>
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Saldo</th>
+                <th>Activo</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Juan</td>
+                <td>Pérez</td>
+                <td>juan.perez@email.com</td>
+                <td>+1234567890</td>
+                <td>Usuario</td>
+                <td>$1,000.00</td>
+                <td><span class="status active">Activo</span></td>
+                <td>
+                    <button class="action-button block-button">Bloquear</button>
+                </td>
+            </tr>
+            <tr>
+                <td>María</td>
+                <td>González</td>
+                <td>maria.gonzalez@email.com</td>
+                <td>+0987654321</td>
+                <td>Administrador</td>
+                <td>$5,000.00</td>
+                <td><span class="status active">Activo</span></td>
+                <td>
+                    <button class="action-button block-button">Bloquear</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Carlos</td>
+                <td>Rodríguez</td>
+                <td>carlos.rodriguez@email.com</td>
+                <td>+1122334455</td>
+                <td>Usuario</td>
+                <td>$500.00</td>
+                <td><span class="status inactive">Inactivo</span></td>
+                <td>
+                    <button class="action-button unblock-button">Desbloquear</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>  <!-- Update: Closed table-container div -->
 </div>
 
 <!-- Incluir Chart.js -->

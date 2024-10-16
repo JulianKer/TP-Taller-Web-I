@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+
+}
+.container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    max-width: 100%; /* Update: max-width changed to 100% */
+    margin: 2em auto;
+}
+.search-bar {
+    display: flex;
+    margin-bottom: 20px;
+}
+.search-bar input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px 0 0 4px;
+}
+.search-bar button {
+    padding: 10px 20px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+.table-container { /* Update: Added table-container styles */
+    width: 100%;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px; /* Update: Added min-width to table */
+}
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8em;
+}
+.active {
+    background-color: #e6f4ea;
+    color: #137333;
+}
+.inactive {
+    background-color: #fce8e6;
+    color: #c5221f;
+}
+.action-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+.block-button {
+    background-color: #c5221f;
+}
+.unblock-button {
+    background-color: #137333;
+}
