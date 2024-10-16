@@ -40,6 +40,10 @@ public class ControladorLogin {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
             request.getSession().setAttribute("emailUsuario", datosLogin.getEmail());
             request.getSession().setAttribute("usuario", usuarioBuscado);
+            if(usuarioBuscado.getRol().equals("CLIENTE")&&usuarioBuscado.getEstaBloqueado()){
+                return new ModelAndView("redirect:/login?error=Usuario bloqueado", model);
+            }
+
             return new ModelAndView("redirect:/home", model);
         } else {
             model.put("error", "Usuario o clave incorrecta");
