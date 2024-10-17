@@ -239,6 +239,21 @@ thead{
     font-weight: bold;
 }
 
+#loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    padding: 20px;
+    font-size: 18px;
+    border-radius: 10px;
+    display: block; /* Por defecto está oculto */
+}
+
+
+
+
 @media (max-width: 768px) {
     .table-crypto {
         font-size: 14px;
