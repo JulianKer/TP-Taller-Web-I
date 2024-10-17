@@ -9,7 +9,8 @@ INSERT INTO Criptomoneda(nombre, precioActual, imagen, habilitada) VALUES
                                                    ('ethereum', 100.0, 'Ethereum.webp', true),
                                                    ('binance-coin', 100.0, 'BNB.svg', true),
                                                    ('dogecoin', 100.0, 'Dogecoin.webp', true),
-                                                   ('steth', 100.0, 'Steth.webp', true),
+                                                   ('usd-coin', 100.0, 'USDC.png', true),
+                                                   --('steth', 100.0, 'Steth.webp', true),
                                                    ('solana', 100.0, 'Solana.svg', true),
                                                    ('tether', 100.0, 'Tether.svg', true);
 

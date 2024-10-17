@@ -83,7 +83,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
         RestTemplate restTemplate = new RestTemplate();
         Map<Criptomoneda, Double> precios = new HashMap<>();
 
-        String url = "https://api.coincap.io/v2/assets?limit=20"; // aca esta lo del "paginado", osea, nose si seria un "paginado" sino q le pido solo la primeras 20 (no uso todas sino q filtro solo las q quiero)
+        String url = "https://api.coincap.io/v2/assets?limit=30"; // aca esta lo del "paginado", osea, nose si seria un "paginado" sino q le pido solo la primeras 30 (no uso todas sino q filtro solo las q quiero)
         String response = restTemplate.getForObject(url, String.class);
         JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
         JsonArray arrayData = jsonResponse.getAsJsonArray("data");
@@ -97,22 +97,24 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
             for (Criptomoneda criptoDeMiBdd : misCriptos){
 
-                if (id.equals(criptoDeMiBdd.getNombre())){
-                    precio = convertiPrecioSegunLaDivisa(moneda, precio);
-                    precios.put(criptoDeMiBdd, precio);
+                if (criptoDeMiBdd != null){
+                    if (id.equals(criptoDeMiBdd.getNombre())){
+                        precio = convertiPrecioSegunLaDivisa(moneda, precio);
+                        precios.put(criptoDeMiBdd, precio);
 
-                    criptoDeMiBdd.setPrecioActual(precio);
-                    criptoDeMiBdd.setNombre(id);
-                    criptoDeMiBdd.setNombreConMayus(name);
-                    criptoDeMiBdd.setSimbolo(simbolo);
-                    repositorioCriptomoneda.actualizarCriptomoneda(criptoDeMiBdd); //este seeria el update
+                        criptoDeMiBdd.setPrecioActual(precio);
+                        criptoDeMiBdd.setNombre(id);
+                        criptoDeMiBdd.setNombreConMayus(name);
+                        criptoDeMiBdd.setSimbolo(simbolo);
+                        repositorioCriptomoneda.actualizarCriptomoneda(criptoDeMiBdd); //este seeria el update
 
-                    PrecioCripto precioCripto = new PrecioCripto();
-                    LocalDateTime fechaDeHoy = LocalDateTime.now();
-                    precioCripto.setCriptomoneda(criptoDeMiBdd);
-                    precioCripto.setPrecioActual(precio);
-                    precioCripto.setFechaDelPrecio(fechaDeHoy);
-                    // aca faltaria guardarlo el preciocripto en la bdd
+                        PrecioCripto precioCripto = new PrecioCripto();
+                        LocalDateTime fechaDeHoy = LocalDateTime.now();
+                        precioCripto.setCriptomoneda(criptoDeMiBdd);
+                        precioCripto.setPrecioActual(precio);
+                        precioCripto.setFechaDelPrecio(fechaDeHoy);
+                        // aca faltaria guardarlo el preciocripto en la bdd
+                    }
                 }
             }
         }
