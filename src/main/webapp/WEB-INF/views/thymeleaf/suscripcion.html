@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Suscripcion | Crypto</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <script src="js/jquery.min.js"></script>
+  <!--  <script src="js/jquery.min.js"></script> saque el script ya que no cambia nada y al inspecionar la pag tiraba error  -->
     <!-- Bootstrap y FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -58,20 +58,22 @@
     </nav>
 </header>
 
+
+<div id="wallet_container">  <!-- este div con este id es necesario para integrar con mercado pago -->
 <div class="container">
     <h1>Plan de Suscripción</h1>
     <div class="plan">
         <h2>Plan Diamante</h2>
-        <div class="price">$20/mes</div>
+        <div id="precio-diamante" class="price">$20/mes</div>
         <div class="features">
             <ul>
                 <li>Soporte premium 24/7</li>
 
             </ul>
-        </div>
-        <a th:href="@{/validarSuscripcion}" class="subscribe-btn">Suscribirse</a>
+        </div> <!-- th:href="@{/validarSuscripcion}" para hacer la compra de mp hay que quitar este metodo ya que el usuario ya tiene una suscripcion de prueba -->
+        <a class="subscribe-btn" th:href="@{/validarSuscripcion}"  data-id="suscripcionDiamante"  onclick="comprar(this)" >Suscribirse</a>
     </div>
-
+</div>
     <!--<p th:if="${param.mensaje}" th:text="${ param.mensaje } " class="alert alert-warning mensaje "> </p>-->
     <div th:if="${param.mensaje}">
         <div th:if="${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'SE HA SUSCRIPTO CON EXITO')}">
@@ -82,6 +84,9 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+    <!--<script th:src="@{/js/mercadoPago.js}" ></script>-->
+<script th:src="@{/js/mercadoPago.js}" defer></script>
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
