@@ -30,10 +30,9 @@ public class ControladorCriptomonedasTest {
                 "image/png",
                 "contenido imagen".getBytes()
         );
-        // Llamar directamente al metod del controlador
+
         ModelAndView mav = controladorCriptomonedas.agregarCriptomoneda("", imagenCripto, request);
 
-        // Verificar el resultado
         assertEquals("redirect:/criptomonedas?mensaje=Los campos no deben estar vacios.", mav.getViewName());
     }
 
@@ -42,10 +41,9 @@ public class ControladorCriptomonedasTest {
         request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
 
         MockMultipartFile imagenCripto = null;
-        // Llamar directamente al metod del controlador
+
         ModelAndView mav = controladorCriptomonedas.agregarCriptomoneda("nombreIngresadoje", imagenCripto, request);
 
-        // Verificar el resultado
         assertEquals("redirect:/criptomonedas?mensaje=Los campos no deben estar vacios.", mav.getViewName());
     }
 
@@ -60,13 +58,10 @@ public class ControladorCriptomonedasTest {
                 "contenido imagen".getBytes()
         );
 
-        // Simular el comportamiento del servicio
         when(servicioCriptomoneda.dameLaCriptoVerificandoSiEstaEnElPaginadoYAgregarla("bitcoin")).thenReturn(false);
 
-        // Llamar directamente al metod del controlador
         ModelAndView mav = controladorCriptomonedas.agregarCriptomoneda("bitcoin", imagenCripto, request);
 
-        // Verificar el resultado
         assertEquals("redirect:/criptomonedas?mensaje=Por el momento no podemos agregar esa criptomoneda. Intente con otra.", mav.getViewName());
     }
 
@@ -81,7 +76,6 @@ public class ControladorCriptomonedasTest {
                 "contenido imagen".getBytes()
         );
 
-        // Simular el comportamiento del servicio
         when(servicioCriptomoneda.dameLaCriptoVerificandoSiEstaEnElPaginadoYAgregarla("avalanche")).thenReturn(true);
 
         Criptomoneda criptomoneda = new Criptomoneda();
@@ -95,10 +89,8 @@ public class ControladorCriptomonedasTest {
                 request.getServletContext().getRealPath("/resources/core/img/logoCriptomonedas/")))
                 .thenReturn("Criptomoneda agregada con exito.");
 
-        // Llamar directamente al metod del controlador
         ModelAndView mav = controladorCriptomonedas.agregarCriptomoneda("avalanche", imagenCripto, request);
 
-        // Verificar el resultado
         assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda agregada con exito.", mav.getViewName());
     }
 
@@ -107,7 +99,7 @@ public class ControladorCriptomonedasTest {
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre("")).thenReturn(null);
         ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda("");
 
-        assertEquals("redirect:/criptomonedas?mensaje=Debe seleccionar una criptomoneda para eliminarla.", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=Debe seleccionar una criptomoneda para eliminarla.#anlca-criptomonedas", mav.getViewName());
     }
 
     @Test
@@ -115,7 +107,7 @@ public class ControladorCriptomonedasTest {
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre("criptoInexistente")).thenReturn(null);
         ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda("criptoInexistente");
 
-        assertEquals("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda.", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=No se ha encontrado la criptomoneda.#anlca-criptomonedas", mav.getViewName());
     }
 
 
@@ -134,7 +126,7 @@ public class ControladorCriptomonedasTest {
         when(servicioCriptomoneda.inhabilitarCriptomoneda(cripto.getNombre())).thenReturn(true);
         ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda(nombreDeCripto);
 
-        assertEquals("redirect:/criptomonedas?mensaje=No hemos podido inhabilitar la criptomoneda.", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=No hemos podido inhabilitar la criptomoneda.#anlca-criptomonedas", mav.getViewName());
     }
 
     @Test
@@ -151,7 +143,7 @@ public class ControladorCriptomonedasTest {
         when(servicioCriptomoneda.inhabilitarCriptomoneda(cripto.getNombre())).thenReturn(false);
         ModelAndView mav = controladorCriptomonedas.inhabilitarCriptomoneda(nombreDeCripto);
 
-        assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda inhabilitada con exito.", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda inhabilitada con exito.#anlca-criptomonedas", mav.getViewName());
     }
 
     @Test
@@ -165,6 +157,6 @@ public class ControladorCriptomonedasTest {
         when(servicioCriptomoneda.habilitarCriptomoneda(cripto.getNombre())).thenReturn(true);
         ModelAndView mav = controladorCriptomonedas.habilitarCriptomoneda(nombreDeCripto);
 
-        assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda habilitada con exito.", mav.getViewName());
+        assertEquals("redirect:/criptomonedas?mensaje=Criptomoneda habilitada con exito.#anlca-criptomonedas", mav.getViewName());
     }
 }

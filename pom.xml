@@ -146,11 +146,6 @@
         <!-- Para la explicación de como funciona leer los comentarios de las clases EmailConfig,
         EmailServiceImpl y de la función "bloquearUsuario" de la clase ServicioUsuario (En ese orden). -->
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>5.2.22.RELEASE</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

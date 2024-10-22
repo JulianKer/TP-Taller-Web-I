@@ -161,6 +161,26 @@ h1 {
     color: white;
 }
 
+#anlca-criptomonedas{
+    background-color: transparent;
+    color: transparent;
+    position: absolute;
+    z-index: -10;
+    top: -100px;
+}
+
+.container{
+    position: relative;
+}
+
+.mensajesDeError{
+    position: fixed;
+    z-index: 100;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 10px;
