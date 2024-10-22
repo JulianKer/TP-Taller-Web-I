@@ -35,13 +35,6 @@ public class ControladorMercadoPago {
         MercadoPagoConfig.setAccessToken("APP_USR-5475377288084995-101015-d8c2349afb05691bdaaa53b80fd5c174-2031088844");
 
         BigDecimal precioReal = new BigDecimal(suscripcionValor);
-       // BigDecimal precioReal;
-      /* try {
-            System.out.println(suscripcionValor);
-            precioReal = new BigDecimal(suscripcionValor);
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("Invalid subscription value");
-        }*/
 
         // creacion del producto
         PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
@@ -50,7 +43,7 @@ public class ControladorMercadoPago {
                 .quantity(1)
                 .currencyId("ARS")
                 .unitPrice(precioReal)
-                .pictureUrl("http://localhost:8080/spring/img/suscripcionDiamante.webp") //este lo arregle pq yo habia configurado q para las imgs puedo acceder con el img/ directamente y como MP es externo, tiene q acceder por toda la url publica
+                //.pictureUrl("http://192.168.1.54:8080/spring/img/suscripcionDiamante.webp") //este lo arregle pq yo habia configurado q para las imgs puedo acceder con el img/ directamente y como MP es externo, tiene q acceder por toda la url publica, nose, aunq ponga una imagen publica no la muestra jaj
                 .build();
 
         List<PreferenceItemRequest> items = new ArrayList<>();

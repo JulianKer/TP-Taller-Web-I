@@ -5,7 +5,6 @@ import com.tallerwebi.dominio.servicio.ServicioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -23,7 +22,8 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
     }
 
     @Override
-    public ModelAndView verificarEstadoDelPago(HttpServletRequest request, String status, String payment_id, String payment_type) {
+    public String verificarEstadoDelPago(HttpServletRequest request, String status, String payment_id, String payment_type) {
+        String parametroADevolver = "";
         switch (status){
             case "approved":
                 String emailABuscar = request.getSession().getAttribute("emailUsuario").toString();
@@ -32,15 +32,17 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
 
                 String tipoDePago = obtenerTipoDePago(payment_type);
                 servicioEmail.enviarEmail(userEncontrado.getEmail(), "Suscripcion | Crypto", servicioEmail.dameElMensajeParaSuscripcion(userEncontrado, "Aprobado", payment_id, tipoDePago));
-                return new ModelAndView("redirect:/suscripcion?mensaje=Suscripcion exitosa.");
+                parametroADevolver = "?mensaje=Suscripcion exitosa.";
+                break;
             case "pending":
-                return new ModelAndView("redirect:/suscripcion?mensaje=Estamos esperando que se realize el pago.");
+                parametroADevolver = "?mensaje=Estamos esperando que se realize el pago.";
+                break;
 
             case "failure":
-                return new ModelAndView("redirect:/suscripcion?mensaje=Hubo un error al intentar procesar el pago.");
-            default:
-                return new ModelAndView("redirect:/suscripcion");
+                parametroADevolver = "?mensaje=Hubo un error al intentar procesar el pago. Vuelava a intentarlo.";
+                break;
         }
+        return parametroADevolver;
     }
 
     @Override

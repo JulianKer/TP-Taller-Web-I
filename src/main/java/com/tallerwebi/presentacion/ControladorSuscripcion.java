@@ -17,12 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ControladorSuscripcion {
 
-    private ServicioUsuario servicioUsuario;
     private ServicioSuscripcion servicioSuscripcion;
 
     @Autowired
-    public ControladorSuscripcion(ServicioUsuario servicioUsuario, ServicioSuscripcion servicioSuscripcion) {
-        this.servicioUsuario = servicioUsuario;
+    public ControladorSuscripcion(ServicioSuscripcion servicioSuscripcion) {
         this.servicioSuscripcion = servicioSuscripcion;
     }
 
@@ -38,6 +36,11 @@ public class ControladorSuscripcion {
         model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
         return new ModelAndView("suscripcion", model);
     }
+/*
+
+        FALTARIA HACER LO DE QUE SI YA ESTA SUSCRIPTO QUE TE DIGA QUE NO TE PODES SUSCRIBIT Y NO TE
+        MANDE A MERCADO PAGO, ADEMAS FALTARIAN LOS TEST SOBRE EL SERVICIO DE SUSCRIPCIONES
+
 
     @GetMapping("/validarSuscripcion")
     public ModelAndView validarSuscripcion(HttpServletRequest request) {
@@ -66,7 +69,7 @@ public class ControladorSuscripcion {
         servicioUsuario.cambiarEstado(userEncontrado.getId(), true);
         return new ModelAndView("redirect:/suscripcion?mensaje=SE HA SUSCRIPTO CON EXITO");
     }
-
+*/
     @GetMapping("/procesarRespuestaDeSuscripcion")
     public ModelAndView procesarRespuestaDeSuscripcion(HttpServletRequest request,
                                                        @RequestParam("status") String status,
@@ -85,6 +88,7 @@ public class ControladorSuscripcion {
             return new ModelAndView("redirect:/home");
         }
 
-        return servicioSuscripcion.verificarEstadoDelPago(request, status, payment_id, payment_type);
+        String viewNameCompleto = "redirect:/suscripcion" + servicioSuscripcion.verificarEstadoDelPago(request, status, payment_id, payment_type);
+        return new ModelAndView(viewNameCompleto);
     }
 }
