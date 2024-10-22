@@ -48,6 +48,7 @@
         </ul>
 
         <div class="contUserLogout">
+            <p class="saldo" th:text="'$' + ${usuario.getSaldo()}"></p>
             <a th:href="@{/perfil}" class="contUser">
                 <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
             </a>
