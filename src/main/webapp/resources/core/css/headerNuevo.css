@@ -47,7 +47,7 @@ header{
 .contUserLogout{
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
     gap: 2em;
 }
 
@@ -61,6 +61,18 @@ header{
 
     gap: 3em;
     height: 56px;
+}
+
+.saldo{
+    color: #FFFFFF;
+    padding-top: 1rem;
+
+}
+.saldo:hover{
+    color: #6EBD71;
+    cursor:default;
+
+
 }
 
 .linksNav{
