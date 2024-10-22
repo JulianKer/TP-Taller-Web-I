@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.mercadopago.MercadoPagoConfig;
+import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
@@ -49,14 +50,26 @@ public class ControladorMercadoPago {
                 .quantity(1)
                 .currencyId("ARS")
                 .unitPrice(precioReal)
-                .pictureUrl("/imageswebapp/resources/core/img/suscripcionDiamante.webp") //Esto no funciona
+                .pictureUrl("http://localhost:8080/spring/img/suscripcionDiamante.webp") //este lo arregle pq yo habia configurado q para las imgs puedo acceder con el img/ directamente y como MP es externo, tiene q acceder por toda la url publica
                 .build();
 
         List<PreferenceItemRequest> items = new ArrayList<>();
         items.add(itemRequest);
 
-        // Esto seria el item que el usuario va a comprar
-        PreferenceRequest preferenceRequest = PreferenceRequest.builder().items(items).build();
+        // con este puedo definir a q urls ir en los distintos casos asiq para cad uno le pongo la misma pq quiero q te mande ahi
+        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+                .success("http://localhost:8080/spring/procesarRespuestaDeSuscripcion")  // este por si salio tod o okk
+                .failure("http://localhost:8080/spring/procesarRespuestaDeSuscripcion")  // por si hubo algun error, like no se pudo hacer el pago o demas
+                .pending("http://localhost:8080/spring/procesarRespuestaDeSuscripcion")  // por si es pago pendiente, osea si se esta procesando seria
+                .build();
+
+        // Crear la preferencia de pago
+        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+                .items(items)
+                .backUrls(backUrls)
+                .autoReturn("approved")  // con esto puedo hacer q si el pago se hizo okk, que te redirija automaticamente a la que defini mas arriba
+                .build();
+
         // Se crea un cliente de Mercado Pago que se utiliza que va a tener la solicitud de creación de la preferencia de pago.
         PreferenceClient client = new PreferenceClient();
 
@@ -69,6 +82,5 @@ public class ControladorMercadoPago {
             // son exepciones de un error en la comunicacion de mp o de la creacion de la preferencia
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("/error");
         }
-
     }
 }
