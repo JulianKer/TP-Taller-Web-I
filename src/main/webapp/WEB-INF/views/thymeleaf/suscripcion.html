@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Suscripcion | Crypto</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
-  <!--  <script src="js/jquery.min.js"></script> saque el script ya que no cambia nada y al inspecionar la pag tiraba error  -->
-    <!-- Bootstrap y FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
@@ -13,7 +11,10 @@
     <link rel="stylesheet" th:href="@{/css/suscripcion.css}"/>
     <script th:src="@{/js/headerNuevo.js}" defer></script>
     <link rel="icon" th:href="@{/img/logoCripto.png}">
+    <style>
 
+
+    </style>
 </head>
 <body>
 <header id="arriba">
@@ -58,35 +59,38 @@
     </nav>
 </header>
 
-
-<div id="wallet_container">  <!-- este div con este id es necesario para integrar con mercado pago -->
-<div class="container">
+<div id="wallet_container">
     <h1>Plan de Suscripción</h1>
     <div class="plan">
-        <h2>Plan Diamante</h2>
-        <div id="precio-diamante" class="price">$20/mes</div>
-        <div class="features">
-            <ul>
-                <li>Soporte premium 24/7</li>
+        <div class="cont-img-plan">
+            <img th:src="@{img/suscripcionDiamante.webp}" alt="Imagen Plan">
+        </div>
+        <div class="plan-description">
+            <h2>Plan Diamante</h2>
+            <div id="precio-diamante" class="price">$20/mes</div>
+            <div class="features">
+                <ul>
+                    <li>Soporte premium 24/7</li>
+                    <li>Acceso a todas las funciones</li>
+                    <li>Análisis avanzado de mercado</li>
+                </ul>
+            </div>
+            <a class="subscribe-btn" data-id="suscripcionDiamante" onclick="comprar(this)">Suscribirse</a>
+        </div>
+    </div>
 
-            </ul>
-        </div> <!-- th:href="@{/validarSuscripcion}" para hacer la compra de mp hay que quitar este metodo ya que el usuario ya tiene una suscripcion de prueba -->
-        <a class="subscribe-btn"  data-id="suscripcionDiamante"  onclick="comprar(this)" >Suscribirse</a>
-    </div>
-</div>
-    <!--<p th:if="${param.mensaje}" th:text="${ param.mensaje } " class="alert alert-warning mensaje "> </p>-->
     <div th:if="${param.mensaje}">
-        <div th:if="${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'SE HA SUSCRIPTO CON EXITO')}">
-            <p th:text="${param.mensaje[0]}" class="alert alert-danger mensaje"></p>
+        <div th:if="${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Suscripcion exitosa.')}">
+            <p th:text="${param.mensaje[0]}" class="mensaje alert-danger"></p>
         </div>
-        <div th:if="${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'SE HA SUSCRIPTO CON EXITO')}">
-            <p th:text="${param.mensaje[0]}" class="alert alert-success mensaje"></p>
+        <div th:if="${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Suscripcion exitosa.')}">
+            <p th:text="${param.mensaje[0]}" class="mensaje alert-success"></p>
         </div>
     </div>
 </div>
-    <!--<script th:src="@{/js/mercadoPago.js}" ></script>-->
+
 <script th:src="@{/js/mercadoPago.js}" defer></script>
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
