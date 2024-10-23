@@ -54,7 +54,7 @@ public class ControladorTransacciones {
         String emailUsuario = (String) request.getSession().getAttribute("emailUsuario");
 
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
+        model.addAttribute("usuario", userEncontrado);
         //model.put("criptos", servicioCriptomoneda.obtenerNombreDeTodasLasCriptos());
         List<Transaccion> historialTransacciones;
         Long idUsuario = userEncontrado.getId();

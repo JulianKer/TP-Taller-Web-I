@@ -1,7 +1,9 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,10 +19,12 @@ import java.util.*;
 public class ControladorHome {
 
     private ServicioCriptomoneda servicioCriptomoneda;
+    private ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorHome(ServicioCriptomoneda servicioCriptomoneda){
+    public ControladorHome(ServicioCriptomoneda servicioCriptomoneda, ServicioUsuario servicioUsuario) {
         this.servicioCriptomoneda = servicioCriptomoneda;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
@@ -59,8 +63,8 @@ public class ControladorHome {
                 mapaMonedaPrecios = servicioCriptomoneda.obtenerCrypto(coincidenciasDeBusqueda, moneda);
             }
         }
-
-        model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
+        Usuario usuarioEncontrado=servicioUsuario.buscarUsuarioPorEmail((String) request.getSession().getAttribute("emailUsuario"));
+        model.addAttribute("usuario", usuarioEncontrado);
         model.addAttribute("mapaMonedaPrecios", mapaMonedaPrecios);
         model.addAttribute("divisaAMostrar", moneda);
         return new ModelAndView("home", model);
