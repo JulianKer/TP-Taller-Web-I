@@ -124,6 +124,40 @@ h1 {
     font-size: 16px;
 }
 
+.boton-descargar {
+    text-decoration: none;
+    position: relative;
+    bottom: -1em;
+}
+
+.boton-descargar button {
+    display: inline-flex;
+    align-items: center;
+    background-color: #3498db;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-descargar button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.boton-descargar button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+
 .filter-container select:focus {
     outline: none;
     border-color: #007bff;
