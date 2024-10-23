@@ -1,135 +1,108 @@
- body {
-     margin: 0;
-     padding: 0;
-     font-family: Arial, sans-serif;
-     background: radial-gradient(circle ,#c1a236, #EDB913, #b18302, #232323);
-     /*background-image: url("../img/fondoLogin.jpg"); /* Fondo temático */
-     background-size: cover;
-     background-repeat: no-repeat;
- }
-
-
-
-.titulo{
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
-    margin-bottom: 1em;
-    border-bottom: solid 2px #EDB913;
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
 }
-
-.contenedor-inputs-general{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2em;
-
-    & >.contenedor_input_botones{
-        grid-column: 1/3;
-        height: auto;
-    }
-}
-
-label{
-    color: #fff;
-    margin-bottom: .4em;
-}
-
- .mainPerfil {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: center;
-     min-height: calc(100vh - 100px);
-     padding: 20px;
- }
-
- .mainPerfil .formularioPerfil {
-     width: 90%;
-     max-width: 900px;
-     background-color: rgba(0, 0, 0, 0.9);
-     padding: 20px;
-     border-radius: 10px;
-     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
- }
-
- .formularioPerfil input {
-     width: 100%;
-     padding: 12px;
-     border-radius: 5px;
-     border: none;
-     background-color: #333;
-     color: white;
-     font-size: 1em;
-     margin-bottom: 15px;
- }
-
- .formularioPerfil input::placeholder {
-     color: #aaa;
- }
-
-
- .contenedor_input_botones{
+.mainPerfil {
     display: flex;
-     /*background-color: #FF0000;*/
-     justify-content: space-evenly;
-     gap: 2em;
-     height: 107px;
-     align-items: center;
-     color: #fff;
+    justify-content: center;
+    padding: 2rem;
+}
 
-     & >a{
-         background-color: #FF0000;
-     }
+.formularioPerfil {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 800px;
+}
 
-     > button{
-         background-color: green;
-     }
+.titulo {
+    color: #333;
+    margin-bottom: 1.5rem;
+}
 
-     >div{
-         display: flex;
-         padding-top: 1em;
-         gap: .5em;
-     }
+.contenedor-inputs-general {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
 
- }
+.primer_cont, .segundo_cont {
+    flex: 1;
+    min-width: 250px;
+}
 
- .botones{
-     text-decoration: none;
-     color: #FFFFFF;
-     padding: .8em 1.5em;
-     background-color: #0000FF;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     border-radius: 5px;
-     border: none;
+.contenedor_input_perfil {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.contenedor_input_botones {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.botones {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.cancelar{
+    background-color: red;
+}
 
 
- }
-
-.botones:hover{
+.botones:hover {
+    background-color: #45a049;
+    text-decoration: none;
     color: #FFFFFF;
 }
 
-.contenedor_input_botones .verPlan{
-    background-color: #EEB913;
+.cancelar:hover{
+    background-color: #bf0101;
 }
 
- @media (max-width: 768px) {
-     .mainPerfil .formularioPerfil {
-         width: 100%;
-     }
+.verPlan {
+    background-color: #2196F3;
+}
 
-     .contenedor-inputs-general{
-         display: flex;
-         flex-direction: column;
-         gap: 0;
-     }
- }
+.verPlan:hover {
+    background-color: #1e87db;
+}
 
- @media (min-width: 1024px) {
-     .mainPerfil .formularioPerfil {
-         width: 50%;
-     }
- }
+@media (max-width: 768px) {
+    .contenedor-inputs-general {
+        flex-direction: column;
+    }
+
+    .contLinks {
+        display: none;
+    }
+
+    .imgMenuBurguer {
+        display: block;
+    }
+}

@@ -5,112 +5,6 @@ body {
     margin: 0;
     padding: 0;
 }
-/*
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    text-align: center;
-}
-
-h1 {
-    color: #202020;
-    text-shadow: -1px -1px 0 #f4f3f3;
-    padding: 10px;
-}
-
-.plan {
-    display: inline-block;
-    background-color: #f3f2f2;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 400px;
-
-}
-
-.plan h2 {
-    font-size: 24px;
-    color: #b18302;
-}
-
-.price {
-    font-size: 40px;
-    color: #333;
-}
-
-.features {
-    text-align: left;
-    margin-top: 20px;
-}
-
-.subscribe-btn {
-    display: block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #b18302;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.subscribe-btn:hover {
-    color: #FFFFFF;
-    text-decoration: none;
-    background-color: #836303;
-}
-
-.mensaje{
-    margin: auto;
-    max-width: 400px ;
-}
-
-@media (max-width: 768px) {
-    .container {
-        padding: 5px;
-    }
-
-    h1 {
-        font-size: 28px;
-    }
-
-    .plan {
-        width: 100%;
-        margin: 10px 0;
-    }
-
-    .plan h2 {
-        font-size: 20px;
-    }
-
-    .price {
-        font-size: 32px;
-    }
-
-    .subscribe-btn {
-        padding: 8px 15px;
-    }
-}
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #wallet_container {
     max-width: 800px;
     margin: 2rem auto;
@@ -181,6 +75,19 @@ h1 {
     background-color: #fdcd3e;
     cursor: pointer;
 }
+
+.bloqueado{
+    border: 0;
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.bloqueado:hover{
+    border: 0;
+    background-color: grey;
+    cursor: not-allowed;
+}
+
 .mensaje {
     margin-top: 1rem;
     padding: 1rem;

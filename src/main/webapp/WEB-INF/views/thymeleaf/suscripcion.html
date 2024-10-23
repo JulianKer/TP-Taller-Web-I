@@ -76,7 +76,12 @@
                     <li>Análisis avanzado de mercado</li>
                 </ul>
             </div>
-            <a class="subscribe-btn" data-id="suscripcionDiamante" onclick="comprar(this)">Suscribirse</a>
+            <div th:if="${!usuario.getActivo()}">
+            <a  class="subscribe-btn" data-id="suscripcionDiamante" onclick="comprar(this)">Suscribirse</a>
+            </div>
+            <div th:if="${usuario.getActivo()}">
+                <button disabled class="subscribe-btn bloqueado" data-id="suscripcionDiamante"  >Ya esta suscripto</button>
+            </div>
         </div>
     </div>
 
