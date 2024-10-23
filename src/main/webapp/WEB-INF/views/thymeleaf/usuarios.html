@@ -68,10 +68,10 @@
 </header>
 
 <div class="container">
-    <div class="search-bar">
-        <input type="text" placeholder="Buscar usuario">
+    <form class="search-bar" th:action="@{/usuarios}" method="get" >
+        <input type="search" name="busquedaUsuario" placeholder="Buscar usuario">
         <button>Buscar</button>
-    </div>
+    </form>
 
     <div class="table-container">
         <div th:if="${param.mensaje}">
@@ -87,6 +87,9 @@
         </div>
         <table>
             <thead>
+            <div th:if="${error}" >
+                <p th:text="${error}" class="alert alert-danger msj"></p>
+            </div>
             <tr>
                 <th>Nombre</th>
                 <th>Apellido</th>

@@ -73,6 +73,14 @@ th {
 .block-button {
     background-color: #c5221f;
 }
+.block-button:hover{
+    color: #1a1a1a;
+    text-decoration: none;
+}
 .unblock-button {
     background-color: #137333;
+}
+.unblock-button:hover{
+    color: #1a1a1a;
+    text-decoration: none;
 }

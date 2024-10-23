@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -123,6 +124,21 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         usuarioEncontrado.setEstaBloqueado(false);
         repositorioUsuario.guardar(usuarioEncontrado);
         return "Usuario desbloqueado con exito";
+    }
+
+    @Override
+    public List<Usuario> filtrarUsuarioPorBusqueda(List<Usuario> misUsuarios, String busquedaUsuario) {
+
+        List<Usuario> usuariosFiltrados = new ArrayList<>();
+        for(Usuario usuario: misUsuarios){
+
+            if(usuario.getNombre().toLowerCase().contains(busquedaUsuario.toLowerCase())
+            || usuario.getApellido().toLowerCase().contains(busquedaUsuario.toLowerCase())
+            || usuario.getEmail().toLowerCase().contains(busquedaUsuario.toLowerCase())){
+                usuariosFiltrados.add(usuario);
+            }
+        }
+        return usuariosFiltrados;
     }
 
 
