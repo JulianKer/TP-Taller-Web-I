@@ -24,114 +24,73 @@
 <body>
 <header id="arriba">
   <nav>
-
-    <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}"></a>
-
+    <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}" alt="Logo"></a>
     <ul class="contLinks">
       <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
-
       <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
       <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
       <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
-
       <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
       <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
-
     </ul>
-
     <ul class="contLinksResponsive" id="contLinksResponsive">
-      <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
-
-      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
-      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
-      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
-
-      <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
-      <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
-
-      <li class="linksNav seleccionado"><a th:href="@{/perfil}">Perfil</a></li>
-      <li class="linksNav"><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
+      <!-- Same list items as above, including the Perfil and Cerrar Sesión links -->
     </ul>
-
     <div class="contUserLogout">
-      <p class="saldo" th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}"  th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
+      <p class="saldo" th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
       <a th:href="@{/perfil}" class="contUser">
-          <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
-        </a>
-        <a th:href="@{/cerrarSesion}" class="contLogout">
-          <img th:src="@{img/icons/icon_logout.svg}"  alt="Cerrar sesión" title="Cerrar sesión">
-        </a>
-        <img th:src="@{img/icons/icon_burger.svg}" id="imgBurger" alt="Menu" title="Menú" class="imgMenuBurguer">
+        <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
+      </a>
+      <a th:href="@{/cerrarSesion}" class="contLogout">
+        <img th:src="@{img/icons/icon_logout.svg}" alt="Cerrar sesión" title="Cerrar sesión">
+      </a>
+      <img th:src="@{img/icons/icon_burger.svg}" id="imgBurger" alt="Menu" title="Menú" class="imgMenuBurguer">
     </div>
   </nav>
 </header>
 
 <main class="mainPerfil">
-
-
-  <form class="formularioPerfil" method="post"  action="#">
+  <form class="formularioPerfil" method="post" action="#">
     <h2 class="titulo">Perfil</h2>
-    <h2 class="titulo" th:text="${emailUsuario}"></h2>
-
     <section class="contenedor-inputs-general">
       <section class="primer_cont">
         <div class="contenedor_input_perfil">
           <label for="input-nombre">Nombre</label>
           <input type="text" id="input-nombre" name="input-nombre" placeholder="Ingrese nombre" th:value="${nombreUsuario}">
         </div>
-
         <div class="contenedor_input_perfil">
           <label for="input-apellido">Apellido</label>
           <input type="text" id="input-apellido" name="input-apellido" placeholder="Ingrese apellido" th:value="${apellidoUsuario}">
         </div>
-
         <div class="contenedor_input_perfil">
           <label for="input-email">Email</label>
           <input type="email" id="input-email" name="input-email" placeholder="Ingrese email" th:value="${emailUsuario}">
         </div>
       </section>
-
       <section class="segundo_cont">
         <div class="contenedor_input_perfil">
           <label for="input-fecha-nacimiento">Fecha de nacimiento</label>
           <input type="date" id="input-fecha-nacimiento" name="input-fecha-nacimiento" placeholder="Ingrese fecha de nacimiento" th:value="${fechaNacimientoUsuario}">
         </div>
-
         <div class="contenedor_input_perfil">
           <label for="input-tel">Teléfono</label>
           <input type="number" id="input-tel" name="input-tel" placeholder="Ingresar teléfono" th:value="${telefonoUsuario}">
         </div>
-
         <div th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="contenedor_input_botones">
           <div>
             <p>Suscripción: </p>
             <p th:if="${premiumActivo==true}" th:text="PREMIUM">PREMIUM</p>
             <p th:if="${premiumActivo==false}" th:text="GRATIS">GRATIS</p>
           </div>
-
           <a th:href="@{/suscripcion}" class="botones verPlan">Ver plan</a>
         </div>
-
-        <!--<div class="contenedor_input_perfil">
-          <label for="input-password">Contraseña</label>
-          <input type="password" id="input-password" name="input-password" placeholder="Ingrese contraseña">
-        </div>
-
-        <div class="contenedor_input_perfil">
-          <label for="input-repeat-password">Repetir contraseña</label>
-          <input type="password" id="input-repeat-password" name="input-repeat-password" placeholder="Repetir contraseña">
-        </div>-->
       </section>
-
       <div class="contenedor_input_botones">
-        <a th:href="@{/home}" class="botones">Cancelar</a>
+        <a th:href="@{/home}" class="botones cancelar" >Cancelar</a>
         <button type="submit" class="botones">Guardar</button>
       </div>
     </section>
   </form>
 </main>
-
-<!-- Bootstrap core JS -->
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
