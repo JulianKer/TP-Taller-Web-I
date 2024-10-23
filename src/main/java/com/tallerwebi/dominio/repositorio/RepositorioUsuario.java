@@ -22,5 +22,6 @@ public interface RepositorioUsuario /*extends JpaRepository<Usuario, Long>  me d
     ArrayList<Usuario> obtenerUnaListaDeTodosLosUsuariosClientes();
 
     Usuario buscarUsuarioPorId(Long idUsuario);
+
 }
 

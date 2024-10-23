@@ -3,6 +3,7 @@ package com.tallerwebi.dominio.servicio;
 import com.tallerwebi.dominio.entidades.Usuario;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ServicioUsuario {
     Usuario buscarUsuarioPorEmail(String email);
@@ -21,4 +22,6 @@ public interface ServicioUsuario {
     String bloquearUsuario(Long idUsuario);
 
     String desbloquearUsuario(Long idUsuario);
+
+    List<Usuario> filtrarUsuarioPorBusqueda(List<Usuario> misUsuarios, String busquedaUsuario);
 }
