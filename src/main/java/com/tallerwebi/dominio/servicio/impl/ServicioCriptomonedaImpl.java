@@ -205,7 +205,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
             for (Usuario usuario : usuarios) {
                 cantidadDeCriptosPorUsuario = servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(usuario, idCriptomoneda);
                 if (cantidadDeCriptosPorUsuario > 0.0){
-                    servicioTransacciones.crearTransaccion(criptoAInhabilitar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.VENTA, usuario);
+                    servicioTransacciones.crearTransaccion(criptoAInhabilitar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.DEVOLUCION, usuario);
                 }
             }
         }

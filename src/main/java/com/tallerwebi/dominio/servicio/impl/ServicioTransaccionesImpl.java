@@ -37,12 +37,65 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
     @Override
     public String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario) {
-        Double precioTotalDeTransaccion = precioDeCripto*cantidadDeCripto;
+        Double precioTotalDeTransaccion = precioDeCripto * cantidadDeCripto;
 
-        if (cantidadDeCripto <= 0.0){
+        if (cantidadDeCripto <= 0.0) {
             return "La cantidad debe ser mayor que 0.";
         }
 
+        switch (tipoDeTransaccion) {
+            case COMPRA:
+                if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())) {
+                    //aca creo la transaccion.
+                    Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
+                    //le RESTO el saldo al usuario
+                    //System.out.println("saldo antes: " + usuario.getSaldo());
+                    //usuario.setSaldo(usuario.getSaldo() - precioTotalDeTransaccion);
+                    servicioUsuario.restarSaldo(usuario.getId(), precioTotalDeTransaccion);
+                    //System.out.println("saldo despues: " + usuario.getSaldo());
+
+                    //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
+                    repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+
+                    //Envio el mail con el resumen de la transaccion al user.
+                    String destinatario = usuario.getEmail();
+                    String asunto = "Resumen de transacción";
+                    String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
+
+                    servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
+
+                    //y retorno el msj exitoso
+                    return "Transaccion exitosa.";
+                } else {
+                    throw new SaldoInsuficienteException("No tienes sufieciente saldo.");
+                }
+            case VENTA:
+            case DEVOLUCION:
+                if (verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(criptomoneda.getNombre(), cantidadDeCripto, usuario.getId())) {
+                    //ceo la trnasaccion
+                    Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
+                    //le SUMO al saldo del usuario
+                    servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
+                    //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
+                    repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+
+                    //Envio el mail con el resumen de la transaccion al user.
+                    String destinatario = usuario.getEmail();
+                    String asunto = "Resumen de transacción";
+                    String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
+
+                    servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
+
+                    //y retorno el msj exitoso
+                    return "Transaccion exitosa.";
+                } else {
+                    throw new CriptomonedasInsuficientesException("No tienes la cantidad suficientes de criptomonedas que quieres vender.");
+                }
+            default:
+                return null;
+        }
+    }
+        /*
         if (tipoDeTransaccion.equals(TipoTransaccion.COMPRA)){
 
             if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())){
@@ -91,8 +144,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
             }else {
                 throw new CriptomonedasInsuficientesException("No tienes la cantidad suficientes de criptomonedas que quieres vender.");
             }
-        }
-    }
+        }*/
 
     @Override
     public Boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(String nombreDeCripto, Double cantidadDeCripto, Long idDeUsuario) {
