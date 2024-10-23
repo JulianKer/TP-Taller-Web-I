@@ -56,7 +56,7 @@ public class ControladorPerfil {
         model.put("apellidoUsuario", userEncontrado.getApellido());
         model.put("telefonoUsuario", userEncontrado.getTelefono());
         model.put("fechaNacimientoUsuario", userEncontrado.getFechaNacimiento());
-        model.put("premiumActivo", userEncontrado.getActivo());
+        model.put("premiumActivo", userEncontrado.getActivo()==null ? null : userEncontrado.getActivo());
         model.put("usuario", userEncontrado);
         return new ModelAndView("perfil", model);
     }

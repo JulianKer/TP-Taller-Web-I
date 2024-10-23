@@ -1,8 +1,10 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,11 +22,13 @@ public class ControladorCriptomonedas {
 
     private ServicioCriptomoneda servicioCriptomoneda;
     private ServicioSubirImagen servicioSubirImagen;
+    private ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorCriptomonedas(ServicioCriptomoneda servicioCriptomoneda, ServicioSubirImagen servicioSubirImagen) {
+    public ControladorCriptomonedas(ServicioCriptomoneda servicioCriptomoneda, ServicioSubirImagen servicioSubirImagen, ServicioUsuario servicioUsuario) {
         this.servicioCriptomoneda = servicioCriptomoneda;
         this.servicioSubirImagen = servicioSubirImagen;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @RequestMapping(path = "/criptomonedas", method = RequestMethod.GET)
@@ -33,10 +37,15 @@ public class ControladorCriptomonedas {
         if (request.getSession().getAttribute("emailUsuario") == null) {
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
+        Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
+        if (!userEncontrado.getRol().equals("ADMIN")){
+            return new ModelAndView("redirect:/home");
+        }
         ModelMap model = new ModelMap();
 
         model.addAttribute("criptosBdd", servicioCriptomoneda.obtenerNombreDeTodasLasCriptos());
-        model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
+        model.addAttribute("usuario", userEncontrado);
         return new ModelAndView("criptomonedas", model);
     }
 

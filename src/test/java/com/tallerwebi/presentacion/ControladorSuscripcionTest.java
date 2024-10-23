@@ -1,9 +1,9 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioSuscripcionImpl;
-import com.tallerwebi.dominio.servicio.impl.ServicioUsuarioImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,8 +17,8 @@ public class ControladorSuscripcionTest {
 
     HttpServletRequest request = new MockHttpServletRequest();
     ServicioSuscripcion servicioSuscripcion = mock(ServicioSuscripcionImpl.class);
-
-    ControladorSuscripcion controladorSuscripcion= new ControladorSuscripcion(servicioSuscripcion);
+    private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
+    ControladorSuscripcion controladorSuscripcion= new ControladorSuscripcion(servicioSuscripcion, servicioUsuario);
 
     @Test
     public void queNoPuedanAccederSiNoEstanLogueados() {
@@ -32,7 +32,7 @@ public class ControladorSuscripcionTest {
 
     @Test
     public void queNoSeProceseLaSuscripcionPorqueHayCamposVacios() {
-        request.getSession().setAttribute("emailUsuario", "test@user.com");
+        crearUsuarioYagregarloALaSesion();
 
         // a este la paso cosas vacias, es por si alguien lo accede por url ya q necesito determinados parametros q me da mp
         ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(
@@ -43,7 +43,7 @@ public class ControladorSuscripcionTest {
 
     @Test
     public void queNoSeProceseLaSuscripcionPorqueHuboUnFallo() {
-        request.getSession().setAttribute("emailUsuario", "test@user.com");
+        crearUsuarioYagregarloALaSesion();
 
         when(servicioSuscripcion.verificarEstadoDelPago(request, "failure", "123456", "debit_card"))
                 .thenReturn("?mensaje=Estamos esperando que se realize el pago.");
@@ -56,7 +56,7 @@ public class ControladorSuscripcionTest {
 
     @Test
     public void queLaVerificacionDePagoQuedePendiente() {
-        request.getSession().setAttribute("emailUsuario", "test@user.com");
+        crearUsuarioYagregarloALaSesion();
 
         when(servicioSuscripcion.verificarEstadoDelPago(request, "pending", "123456", "debit_card"))
                 .thenReturn("?mensaje=Hubo un error al intentar procesar el pago. Vuelava a intentarlo.");
@@ -69,7 +69,7 @@ public class ControladorSuscripcionTest {
 
     @Test
     public void queLaVerificacionDePagoQuedeConEstadoDesconocido() {
-        request.getSession().setAttribute("emailUsuario", "test@user.com");
+        crearUsuarioYagregarloALaSesion();
 
         when(servicioSuscripcion.verificarEstadoDelPago(request, "rejected", "123456", "bank_transfer"))
                 .thenReturn("?mensaje=Estado de pago desconocido. Vuelava a intentarlo.");
@@ -82,7 +82,7 @@ public class ControladorSuscripcionTest {
 
     @Test
     public void queSeProceseLaSuscripcionConExitoPagandoConCuentaDeMP() {
-        request.getSession().setAttribute("emailUsuario", "test@user.com");
+        crearUsuarioYagregarloALaSesion();
 
         when(servicioSuscripcion.verificarEstadoDelPago(request, "approved", "123456", "account_money"))
                 .thenReturn("?mensaje=Suscripcion exitosa.");
@@ -95,7 +95,7 @@ public class ControladorSuscripcionTest {
 
     @Test
     public void queSeProceseLaSuscripcionConExitoPagandoConTarjetaDeDebito() {
-        request.getSession().setAttribute("emailUsuario", "test@user.com");
+        crearUsuarioYagregarloALaSesion();
 
         when(servicioSuscripcion.verificarEstadoDelPago(request, "approved", "123456", "debit_card"))
                 .thenReturn("?mensaje=Suscripcion exitosa.");
@@ -108,7 +108,7 @@ public class ControladorSuscripcionTest {
 
     @Test
     public void queSeProceseLaSuscripcionConExitoPagandoConTarjetaDeCredito() {
-        request.getSession().setAttribute("emailUsuario", "test@user.com");
+        crearUsuarioYagregarloALaSesion();
 
         when(servicioSuscripcion.verificarEstadoDelPago(request, "approved", "123456", "credit_card"))
                 .thenReturn("?mensaje=Suscripcion exitosa.");
@@ -119,92 +119,12 @@ public class ControladorSuscripcionTest {
         verify(servicioSuscripcion).verificarEstadoDelPago(request, "approved", "123456", "credit_card");
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    @Test
-    public void queSePuedaSuscribirUnUsuario() {
-
-        Usuario usuario = new Usuario();
-        usuario.setEmail("test@unlam.edu.ar");
-        usuario.setActivo(false);
-        usuario.setSaldo(40.0);
-
-        request.getSession().setAttribute("emailUsuario", "test@unlam.edu.ar");
-
-        when(servicioUsuario.buscarUsuarioPorEmail("test@unlam.edu.ar")).thenReturn(usuario);
-
-        ModelAndView mav= controladorSuscripcion.validarSuscripcion(request);
-
-        assertEquals(mav.getViewName(), "redirect:/suscripcion?mensaje=SE HA SUSCRIPTO CON EXITO");
+    public void crearUsuarioYagregarloALaSesion() {
+        Usuario user = new Usuario();
+        user.setEmail("test@user.com");
+        user.setRol("CLIENTE");
+        request.getSession().setAttribute("usuario", user);
+        request.getSession().setAttribute("emailUsuario", user.getEmail());
+        when(servicioUsuario.buscarUsuarioPorEmail(user.getEmail())).thenReturn(user);
     }
-
-    @Test
-    public void queNoSePuedaSuscribirUnUsuarioPorqueYaEstaSuscripto() {
-
-        Usuario usuario = new Usuario();
-        usuario.setEmail("test@unlam.edu.ar");
-        usuario.setActivo(true);
-        usuario.setSaldo(40.0);
-
-        request.getSession().setAttribute("emailUsuario", "test@unlam.edu.ar");
-
-        when(servicioUsuario.buscarUsuarioPorEmail("test@unlam.edu.ar")).thenReturn(usuario);
-
-        ModelAndView mav= controladorSuscripcion.validarSuscripcion(request);
-
-        assertEquals(mav.getViewName(), "redirect:/suscripcion?mensaje=Ya esta suscripto");
-    }
-
-    @Test
-    public void queNoSePuedaSuscribirPorqueNoLeAlcanzaElSaldo() {
-
-        Usuario usuario = new Usuario();
-        usuario.setEmail("test@unlam.edu.ar");
-        usuario.setActivo(false);
-        usuario.setSaldo(10.0);
-
-        request.getSession().setAttribute("emailUsuario", "test@unlam.edu.ar");
-
-        when(servicioUsuario.buscarUsuarioPorEmail("test@unlam.edu.ar")).thenReturn(usuario);
-        when(servicioUsuario.verificarQueTengaSaldoSuficienteParaComprar(20.0, usuario.getSaldo())).thenThrow(new SaldoInsuficienteException("NO TIENE SUFICIENTE SALDO!"));
-
-        ModelAndView mav= controladorSuscripcion.validarSuscripcion(request);
-
-        assertEquals(mav.getViewName(), "redirect:/suscripcion?mensaje=NO TIENE SUFICIENTE SALDO!");
-    }
-
-     */
 }

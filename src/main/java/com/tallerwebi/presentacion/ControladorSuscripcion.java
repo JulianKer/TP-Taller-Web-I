@@ -18,10 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 public class ControladorSuscripcion {
 
     private ServicioSuscripcion servicioSuscripcion;
+    private ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorSuscripcion(ServicioSuscripcion servicioSuscripcion) {
+    public ControladorSuscripcion(ServicioSuscripcion servicioSuscripcion,ServicioUsuario servicioUsuario) {
         this.servicioSuscripcion = servicioSuscripcion;
+        this.servicioUsuario = servicioUsuario;
     }
 
 
@@ -31,6 +33,11 @@ public class ControladorSuscripcion {
     public ModelAndView suscripcion(HttpServletRequest request){
         if (request.getSession().getAttribute("emailUsuario") == null) {
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
+        }
+        Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
+        if (userEncontrado.getRol().equals("ADMIN")){
+            return new ModelAndView("redirect:/home");
         }
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
@@ -78,6 +85,11 @@ public class ControladorSuscripcion {
 
         if (request.getSession().getAttribute("emailUsuario") == null) {
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
+        }
+        Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
+        if (userEncontrado.getRol().equals("ADMIN")){
+            return new ModelAndView("redirect:/home");
         }
 
         // este lo hago para que no puedan acceder desde url a este endpoint, osea, si pone justo estos

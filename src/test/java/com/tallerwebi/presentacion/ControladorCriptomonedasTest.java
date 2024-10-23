@@ -3,11 +3,14 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.transaction.TransactionScoped;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -18,7 +21,21 @@ public class ControladorCriptomonedasTest {
 
     private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomoneda.class);
     private ServicioSubirImagen servicioSubirImagen = mock(ServicioSubirImagen.class);
-    private ControladorCriptomonedas controladorCriptomonedas = new ControladorCriptomonedas(servicioCriptomoneda, servicioSubirImagen);
+    private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
+    private ControladorCriptomonedas controladorCriptomonedas = new ControladorCriptomonedas(servicioCriptomoneda, servicioSubirImagen, servicioUsuario);
+
+    @Test
+    public void queAlIngresarUnUserClienteLoRedirijaAlHome(){
+        Usuario usuario = new Usuario();
+        usuario.setRol("CLIENTE");
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+        when(servicioUsuario.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(usuario);
+
+        String obtenido = controladorCriptomonedas.cargarPrecioDeCryptos(request).getViewName();
+        String esperado = "redirect:/home";
+        assertEquals(esperado, obtenido);
+    }
 
     @Test
     public void queAlIntentarAgregarUnaCriptoConElNombreVacioFalle() {
