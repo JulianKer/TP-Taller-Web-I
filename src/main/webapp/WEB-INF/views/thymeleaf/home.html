@@ -69,7 +69,7 @@
 
     <div class="contUserLogout">
 
-      <p class="saldo" th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}"  th:text="'$' + ${usuario.getSaldo()}"></p>
+      <p class="saldo" th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}"  th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
       <a th:href="@{/perfil}" class="contUser">
         <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
       </a>
