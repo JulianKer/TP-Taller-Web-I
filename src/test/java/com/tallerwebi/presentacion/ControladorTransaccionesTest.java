@@ -27,6 +27,19 @@ public class ControladorTransaccionesTest {
 
 
     @Test
+    public void queAlIngresarUnUserClienteLoRedirijaAlHome(){
+        Usuario usuario = new Usuario();
+        usuario.setRol("ADMIN");
+        request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+        when(servicioUsuario.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(usuario);
+
+        String obtenido = controladorTransacciones.transacciones("", request).getViewName();
+        String esperado = "redirect:/home";
+        assertEquals(esperado, obtenido);
+    }
+
+    @Test
     public void queCuandoIntenteBarraTransaccionesPorUrlSinLogearseTeRedirijaAlLoginConMensajeDeError() {
         String tipoTransaccion = "todos";
         ModelAndView recibido = controladorTransacciones.transacciones( tipoTransaccion, request);

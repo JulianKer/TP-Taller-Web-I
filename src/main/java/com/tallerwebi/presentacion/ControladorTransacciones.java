@@ -45,6 +45,11 @@ public class ControladorTransacciones {
         if (request.getSession().getAttribute("emailUsuario") == null){
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
         }
+        Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
+        if (userEncontrado.getRol().equals("ADMIN")){
+            return new ModelAndView("redirect:/home");
+        }
 
         String emailUsuario = (String) request.getSession().getAttribute("emailUsuario");
 
@@ -52,8 +57,7 @@ public class ControladorTransacciones {
         model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
         //model.put("criptos", servicioCriptomoneda.obtenerNombreDeTodasLasCriptos());
         List<Transaccion> historialTransacciones;
-        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario);
-        Long idUsuario = usuarioEncontrado.getId();
+        Long idUsuario = userEncontrado.getId();
 
         try {
             TipoTransaccion tipoTransaccionEncontrada = TipoTransaccion.valueOf(tipoTransaccion);
@@ -64,14 +68,13 @@ public class ControladorTransacciones {
 
 
         model.put("criptos", servicioCriptomoneda.obtenerCriptosHabilitadas());
-        model.put("emailUsuario", usuarioEncontrado.getEmail());
+        model.put("emailUsuario", userEncontrado.getEmail());
 
 
         model.put("historialTransacciones", historialTransacciones);
         model.put("filtro", tipoTransaccion);
 
-        ModelAndView mav = new ModelAndView("transacciones", model);
-        return mav;
+        return new ModelAndView("transacciones", model);
     }
 
     @RequestMapping(path = "/realizarTransaccion",method = RequestMethod.POST)

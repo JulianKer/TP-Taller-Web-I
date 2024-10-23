@@ -102,7 +102,7 @@
           <input type="number" id="input-tel" name="input-tel" placeholder="Ingresar teléfono" th:value="${telefonoUsuario}">
         </div>
 
-        <div class="contenedor_input_botones">
+        <div th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="contenedor_input_botones">
           <div>
             <p>Suscripción: </p>
             <p th:if="${premiumActivo==true}" th:text="PREMIUM">PREMIUM</p>
