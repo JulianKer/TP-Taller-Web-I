@@ -38,14 +38,16 @@ public class ControladorUsuarios {
         ModelMap model = new ModelMap();
         List<Usuario> misUsuarios= servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins();
         if(!busquedaUsuario.isEmpty()){
-            misUsuarios= servicioUsuario.filtrarUsuarioPorBusqueda(misUsuarios, busquedaUsuario);
-           if(misUsuarios.isEmpty()){
+            List<Usuario> usuariosFiltrados= servicioUsuario.filtrarUsuarioPorBusqueda(misUsuarios, busquedaUsuario);
+           if(usuariosFiltrados.isEmpty()){
                model.addAttribute("error", "No hay coincidencias para: " + busquedaUsuario);
-               model.addAttribute("misUsuarios", servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins());
+               model.addAttribute("misUsuarios", misUsuarios);
+           }else{
+               model.addAttribute("misUsuarios", usuariosFiltrados);
            }
+        }else{
             model.addAttribute("misUsuarios", misUsuarios);
         }
-        model.addAttribute("misUsuarios", misUsuarios);
         model.addAttribute("usuario", userEncontrado);
         return new ModelAndView("usuarios", model);
     }

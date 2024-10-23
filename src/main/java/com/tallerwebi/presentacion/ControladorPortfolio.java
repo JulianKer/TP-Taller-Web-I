@@ -34,7 +34,7 @@ public class ControladorPortfolio {
         }
 
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
+        model.addAttribute("usuario",userEncontrado);
         return new ModelAndView("portfolio", model);
     }
 }

@@ -40,43 +40,10 @@ public class ControladorSuscripcion {
             return new ModelAndView("redirect:/home");
         }
         ModelMap model = new ModelMap();
-        model.addAttribute("usuario", request.getSession().getAttribute("usuario"));
+        model.addAttribute("usuario", userEncontrado);
         return new ModelAndView("suscripcion", model);
     }
-/*
 
-        FALTARIA HACER LO DE QUE SI YA ESTA SUSCRIPTO QUE TE DIGA QUE NO TE PODES SUSCRIBIT Y NO TE
-        MANDE A MERCADO PAGO, ADEMAS FALTARIAN LOS TEST SOBRE EL SERVICIO DE SUSCRIPCIONES
-
-
-    @GetMapping("/validarSuscripcion")
-    public ModelAndView validarSuscripcion(HttpServletRequest request) {
-
-        if (request.getSession().getAttribute("emailUsuario") == null) {
-            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
-        }
-
-        String emailABuscar = request.getSession().getAttribute("emailUsuario").toString();
-
-        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailABuscar);
-
-        if (userEncontrado.getActivo() == true) {
-            return new ModelAndView("redirect:/suscripcion?mensaje=Ya esta suscripto");
-        }
-
-        try{
-            servicioUsuario.verificarQueTengaSaldoSuficienteParaComprar(20.0, userEncontrado.getSaldo());
-
-        }catch(SaldoInsuficienteException e){
-            return new ModelAndView("redirect:/suscripcion?mensaje=" + e.getMessage());
-
-        }
-
-        servicioUsuario.restarSaldo(userEncontrado.getId(), 20.0);
-        servicioUsuario.cambiarEstado(userEncontrado.getId(), true);
-        return new ModelAndView("redirect:/suscripcion?mensaje=SE HA SUSCRIPTO CON EXITO");
-    }
-*/
     @GetMapping("/procesarRespuestaDeSuscripcion")
     public ModelAndView procesarRespuestaDeSuscripcion(HttpServletRequest request,
                                                        @RequestParam("status") String status,
