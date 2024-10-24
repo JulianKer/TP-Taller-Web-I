@@ -121,4 +121,5 @@ public class ServicioTransaccionesTest {
 
         assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
     }
+/*    HACER TEST SOBRE EL INTERCAMBIO PERO SOBRE ESTE SERVICIO Y AHI OTRO COMMIT*/
 }
