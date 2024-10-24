@@ -48,12 +48,9 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         switch (tipoDeTransaccion) {
             case COMPRA:
                 if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())) {
-                    //aca creo la transaccion.
                     Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
-                    //le RESTO el saldo al usuario
-                    servicioUsuario.restarSaldo(usuario.getId(), precioTotalDeTransaccion);
+                    repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
 
-                    //si tiene billetera con esa cripto, le aumento la cant, sino, primero la creo, la guardo y le aumento
                     BilleteraUsuarioCriptomoneda billetera = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario);
                     if(billetera == null) {
                         billetera = new BilleteraUsuarioCriptomoneda();
@@ -62,68 +59,43 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
                         billetera.setCantidadDeCripto(0.0);
                         servicioBilleteraUsuarioCriptomoneda.guardarBilletera(billetera);
                     }
+
                     billetera.incrementarCantidadDeCripto(cantidadDeCripto);
                     servicioBilleteraUsuarioCriptomoneda.actualizarBilletera(billetera);
+                    servicioUsuario.restarSaldo(usuario.getId(), precioTotalDeTransaccion);
 
-                    //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
-                    repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
-
-                    //Envio el mail con el resumen de la transaccion al user.
                     String destinatario = usuario.getEmail();
                     String asunto = "Resumen de transacción";
                     String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
-
                     servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
-
-                    //y retorno el msj exitoso
                     return "Transaccion exitosa.";
                 } else {
                     throw new SaldoInsuficienteException("No tienes sufieciente saldo.");
                 }
             case VENTA:
             case DEVOLUCION:
-                if (verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(criptomoneda.getNombre(), cantidadDeCripto, usuario.getId())) {
-                    //ceo la trnasaccion
+
+                BilleteraUsuarioCriptomoneda billetera = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario);
+
+                if (servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)){
                     Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
-                    //le SUMO al saldo del usuario
-                    servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
-                    //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
                     repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
 
-                    //Envio el mail con el resumen de la transaccion al user.
+                    servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
+                    billetera.decrementarCantidadDeCripto(cantidadDeCripto);
+
                     String destinatario = usuario.getEmail();
                     String asunto = "Resumen de transacción";
                     String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
-
                     servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
-
-                    //y retorno el msj exitoso
                     return "Transaccion exitosa.";
                 } else {
                     throw new CriptomonedasInsuficientesException("No tienes la cantidad suficientes de criptomonedas que quieres vender.");
                 }
+
             default:
                 return null;
         }
-    }
-
-    @Override
-    public Boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(String nombreDeCripto, Double cantidadDeCripto, Long idDeUsuario) {
-        /*aca tengo que, de TODAS las transacciones que tengo en la bdd, filtrar las que son:
-            - de TipoTransaccion.COMPRA    &&    del idDeUsuario = transaccion.getUsuario().getId()    &&    de nombreDeCripto = nombreDeCripto
-          y de las transacciones filtradas, sumar la cantidadDeCripto de cada una.
-           Ahora, filtrar de nuevo todas las transacciones que son:
-            - de TipoTransaccion.VENTA    &&    del idDeUsuario = transaccion.getUsuario().getId()    &&    de nombreDeCripto = nombreDeCripto
-          y de las transacciones filtradas, sumar la cantidadDeCriptos de cada una.
-          AHORA: cantidadDeCriptosTotales = cantidaddeCiptosCompradas - cantidadDeCriptosVentidas;
-           A mi me interesa el resultado de esa resta para comparar con la cantidadDeCripto que quiere vender el usuario.
-          */
-        Double cantidadCompradaDeUnaCripto = repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario) == null ? 0.0 : repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario);
-        Double cantidadVendidaDeUnaCripto = repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario) == null ? 0.0 : repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, idDeUsuario);
-
-        Double cantidadTotalDeUnaCriptoDelUsuario = cantidadCompradaDeUnaCripto - cantidadVendidaDeUnaCripto;
-
-        return cantidadTotalDeUnaCriptoDelUsuario >= cantidadDeCripto;
     }
 
     @Override
@@ -149,21 +121,6 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 //        System.out.println("Saldo del usuario: " + saldoDelUsuario);
 //        System.out.println("Precio total de la transacción: " + precioTotalDeTransaccion);
         return saldoDelUsuario >= precioTotalDeTransaccion;
-    }
-
-    @Override
-    public Double dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(Usuario usuario, String idCriptomoneda) {
-        Double cantComprada = repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId());
-        Double cantVendida = repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(idCriptomoneda, usuario.getId());
-
-        if (cantComprada == null || cantComprada <= 0.0) {
-            return 0.0;
-        }
-
-        if (cantVendida == null) {
-            cantVendida = 0.0;
-        }
-        return cantComprada-cantVendida;
     }
 
     @Override

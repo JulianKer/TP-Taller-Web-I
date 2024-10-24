@@ -10,4 +10,6 @@ public interface ServicioBilleteraUsuarioCriptomoneda {
     void guardarBilletera(BilleteraUsuarioCriptomoneda billeteraNueva);
 
     void actualizarBilletera(BilleteraUsuarioCriptomoneda billetera);
+
+    boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(BilleteraUsuarioCriptomoneda billetera, Double cantidadDeCripto);
 }

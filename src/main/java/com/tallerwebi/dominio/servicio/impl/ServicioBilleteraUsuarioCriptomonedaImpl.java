@@ -35,4 +35,9 @@ public class ServicioBilleteraUsuarioCriptomonedaImpl implements ServicioBillete
     public void actualizarBilletera(BilleteraUsuarioCriptomoneda billetera) {
         repositorioBilleteraUsuarioCriptomoneda.actualizarBilletera(billetera);
     }
+
+    @Override
+    public boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(BilleteraUsuarioCriptomoneda billetera, Double cantidadDeCripto) {
+        return billetera.getCantidadDeCripto() >= cantidadDeCripto;
+    }
 }

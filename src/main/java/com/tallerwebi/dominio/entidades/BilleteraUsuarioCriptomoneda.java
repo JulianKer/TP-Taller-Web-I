@@ -49,4 +49,9 @@ public class BilleteraUsuarioCriptomoneda {
         Double cantASetear = getCantidadDeCripto() + cantidadDeCripto;
         setCantidadDeCripto(cantASetear);
     }
+
+    public void decrementarCantidadDeCripto(Double cantidadDeCripto) {
+        Double cantASetear = getCantidadDeCripto() - cantidadDeCripto;
+        setCantidadDeCripto(cantASetear);
+    }
 }

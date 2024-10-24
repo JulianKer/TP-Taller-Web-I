@@ -4,17 +4,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.tallerwebi.dominio.entidades.BilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.PrecioCripto;
-import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
-import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,15 +28,17 @@ import java.util.*;
 public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
 
+    private final ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda;
     private ServicioUsuario servicioUsuario;
     private ServicioTransacciones servicioTransacciones;
     private RepositorioCriptomoneda repositorioCriptomoneda;
 
     @Autowired
-    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda, ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones) {
+    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda, ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda) {
         this.repositorioCriptomoneda = repositorioCriptomoneda;
         this.servicioUsuario = servicioUsuario;
         this.servicioTransacciones = servicioTransacciones;
+        this.servicioBilleteraUsuarioCriptomoneda = servicioBilleteraUsuarioCriptomoneda;
     }
 
     @Override
@@ -203,9 +205,12 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
         if (usuarios != null) {
             for (Usuario usuario : usuarios) {
-                cantidadDeCriptosPorUsuario = servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(usuario, idCriptomoneda);
-                if (cantidadDeCriptosPorUsuario > 0.0){
-                    servicioTransacciones.crearTransaccion(criptoAInhabilitar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.DEVOLUCION, usuario);
+                BilleteraUsuarioCriptomoneda billeteraEncontrada = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptoAInhabilitar,usuario);
+                if (billeteraEncontrada != null){
+                    if (billeteraEncontrada.getCantidadDeCripto() > 0){
+                        cantidadDeCriptosPorUsuario = billeteraEncontrada.getCantidadDeCripto();
+                        servicioTransacciones.crearTransaccion(criptoAInhabilitar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.DEVOLUCION, usuario);
+                    }
                 }
             }
         }

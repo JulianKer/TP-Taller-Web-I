@@ -10,10 +10,6 @@ public interface RepositorioTransacciones {
 
     void guardarTransaccion(Transaccion transaccion);
 
-    Double buscarCantidadCompradadeUnaCriptoDeUnUsuario(String nombreDeCripto, Long idDeUsuario);
-
-    Double buscarCantidadVendidadeUnaCriptoDeUnUsuario(String nombreDeCripto, Long idDeUsuario);
-
     List<Transaccion> obtenerHistorialUsuario(Long idDeUsuario);
 
     List<Transaccion> obtenerTransaccionesDeEstaCripto(String idCriptomoneda);

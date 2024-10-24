@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
@@ -23,7 +24,8 @@ public class ServicioCriptomonedaTest {
     private RepositorioCriptomoneda repositorioCriptomoneda = mock(RepositorioCriptomoneda.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     private ServicioTransacciones servicioTransacciones = mock(ServicioTransacciones.class);
-    private ServicioCriptomoneda servicioCriptomoneda = new ServicioCriptomonedaImpl(repositorioCriptomoneda,servicioUsuario, servicioTransacciones);
+    private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda = mock(ServicioBilleteraUsuarioCriptomoneda.class);
+    private ServicioCriptomoneda servicioCriptomoneda = new ServicioCriptomonedaImpl(repositorioCriptomoneda,servicioUsuario, servicioTransacciones, servicioBilleteraUsuarioCriptomoneda);
 
     @Test
     public void queAlBuscarCriptomonedaPorNombreLaEncuentre() {
@@ -106,8 +108,6 @@ public class ServicioCriptomonedaTest {
         usuarios.add(user2);
 
         when(servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins()).thenReturn(usuarios);
-        when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user1, nombreDeCripto)).thenReturn(2.0);
-        when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user2, nombreDeCripto)).thenReturn(0.0);
         when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
         when(repositorioCriptomoneda.inhabilitarCriptomoneda(criptomoneda)).thenReturn(false);
 
@@ -135,8 +135,6 @@ public class ServicioCriptomonedaTest {
         usuarios.add(user2);
 
         when(servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins()).thenReturn(usuarios);
-        when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user1, nombreDeCripto)).thenReturn(2.0);
-        when(servicioTransacciones.dameLaCantidadQueEsteUsuarioTieneDeEstaCripto(user2, nombreDeCripto)).thenReturn(0.0);
         when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
         when(repositorioCriptomoneda.inhabilitarCriptomoneda(criptomoneda)).thenReturn(true);
 
