@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
+import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
@@ -14,6 +15,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -48,7 +50,7 @@ public class ControladorTransaccionesTest {
     }
 
     @Test
-    public void queCuandoSeRealiceUnaTransaccionExitosaTeDevuelvaATransaccionesConUnMensjaeDeExito(){
+    public void queCuandoSeRealiceUnaTransaccionCompraTeDevuelvaATransaccionesConUnMensjaeDeExito(){
         String nombreDeCripto = "bitcoin";
         Double precioDeCripto = 100.0;
         Double cantidadDeCripto = 1.0;
@@ -63,10 +65,10 @@ public class ControladorTransaccionesTest {
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("Transaccion exitosa.");
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("Transaccion exitosa.");
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
-        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
         assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.",mav.getViewName());
@@ -80,7 +82,7 @@ public class ControladorTransaccionesTest {
         TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
         String emailUsuario = "german@gmail.com";
 
-        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
         assertEquals("redirect:/transacciones?mensaje=Debe especificar la cantidad.",mav.getViewName());
@@ -102,12 +104,102 @@ public class ControladorTransaccionesTest {
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("La cantidad debe ser mayor que 0.");
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("La cantidad debe ser mayor que 0.");
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
-        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
         assertEquals("redirect:/transacciones?mensaje=La cantidad debe ser mayor que 0.",mav.getViewName());
+    }
+
+    @Test
+    public void queCuandoSeRealiceUnaTransaccionVentaTeDevuelvaATransaccionesConUnMensjaeDeExito(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("Transaccion exitosa.");
+        when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
+
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
+
+        //assertEquals(mav.getViewName(), "transacciones");
+        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.",mav.getViewName());
+    }
+
+    @Test
+    public void queCuandoSeRealiceUnaTransaccionIntercambioTeDevuelvaATransaccionesConUnMensjaeDeExito(){
+        String nombreDeCriptoADar = "bitcoin";
+        String nombreDeCriptoAObtener = "ethereum";
+
+        Double precioDeCriptoADar = 100.0;
+        Double precioDeCriptoAObtener = 10.0;
+
+        Double cantidadDeCriptoADar = 1.0;
+
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.INTERCAMBIO;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+
+        Criptomoneda criptomonedaADar = new Criptomoneda();
+        criptomonedaADar.setNombre(nombreDeCriptoADar);
+
+        Criptomoneda criptomonedaAObtener = new Criptomoneda();
+        criptomonedaAObtener.setNombre(nombreDeCriptoAObtener);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoADar)).thenReturn(criptomonedaADar);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener)).thenReturn(criptomonedaAObtener);
+        when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoADar)).thenReturn(precioDeCriptoADar);
+        when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoAObtener)).thenReturn(precioDeCriptoAObtener);
+        when(servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener)).thenReturn("Transaccion exitosa.");
+
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,emailUsuario, nombreDeCriptoAObtener);
+
+        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.",mav.getViewName());
+    }
+
+    @Test
+    public void queCuandoSeRealiceUnaTransaccionIntercambioConUnaCriptoInexistenteFalle(){
+        String nombreDeCriptoADar = "bitcoin";
+        String nombreDeCriptoAObtener = "kercoin"; //esta cripto no existe
+
+        Double precioDeCriptoADar = 100.0;
+        Double precioDeCriptoAObtener = 10.0;
+
+        Double cantidadDeCriptoADar = 1.0;
+
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.INTERCAMBIO;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+
+        Criptomoneda criptomonedaADar = new Criptomoneda();
+        criptomonedaADar.setNombre(nombreDeCriptoADar);
+
+        Criptomoneda criptomonedaAObtener = new Criptomoneda();
+        criptomonedaAObtener.setNombre(nombreDeCriptoAObtener);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoADar)).thenReturn(criptomonedaADar);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener)).thenThrow(NoSeEncontroLaCriptomonedaException.class);
+
+        controladorTransacciones.realizarTransaccion(nombreDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,emailUsuario, nombreDeCriptoAObtener);
+
+        assertThrows(NoSeEncontroLaCriptomonedaException.class, ()-> servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener));
     }
 }

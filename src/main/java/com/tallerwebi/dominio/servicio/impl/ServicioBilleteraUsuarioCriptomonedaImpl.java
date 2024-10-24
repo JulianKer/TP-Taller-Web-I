@@ -40,4 +40,9 @@ public class ServicioBilleteraUsuarioCriptomonedaImpl implements ServicioBillete
     public boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(BilleteraUsuarioCriptomoneda billetera, Double cantidadDeCripto) {
         return billetera.getCantidadDeCripto() >= cantidadDeCripto;
     }
+
+    @Override
+    public boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(BilleteraUsuarioCriptomoneda billeteraCriptoADar, Double cantidadDeCriptoADar) {
+        return billeteraCriptoADar.getCantidadDeCripto() >= cantidadDeCriptoADar;
+    }
 }
