@@ -30,30 +30,6 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
     }
 
     @Override
-    public Double buscarCantidadCompradadeUnaCriptoDeUnUsuario(String nombreDeCripto, Long idDeUsuario) {
-        return (Double) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
-                .createAlias("usuario", "u")
-                .createAlias("criptomoneda", "c")
-                .add(Restrictions.eq("u.id", idDeUsuario))
-                .add(Restrictions.eq("c.nombre", nombreDeCripto))
-                .add(Restrictions.eq("tipo", TipoTransaccion.COMPRA))
-                .setProjection(Projections.sum("cantidadDeCripto"))
-                .uniqueResult();
-    }
-
-    @Override
-    public Double buscarCantidadVendidadeUnaCriptoDeUnUsuario(String nombreDeCripto, Long idDeUsuario) {
-        return (Double) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
-                .createAlias("usuario", "u")
-                .createAlias("criptomoneda", "c")
-                .add(Restrictions.eq("u.id", idDeUsuario))
-                .add(Restrictions.eq("c.nombre", nombreDeCripto))
-                .add(Restrictions.eq("tipo", TipoTransaccion.VENTA))
-                .setProjection(Projections.sum("cantidadDeCripto"))
-                .uniqueResult();
-    }
-
-    @Override
     public List<Transaccion> obtenerHistorialUsuario(Long idDeUsuario) {
         return (List<Transaccion>) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
                 .createAlias("usuario", "u")

@@ -1,11 +1,13 @@
 package com.tallerwebi.dominio;
 
+import com.tallerwebi.dominio.entidades.BilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
+import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioTransaccionesImpl;
@@ -22,7 +24,8 @@ public class ServicioTransaccionesTest {
     private RepositorioTransacciones repositorioTransacciones = mock(RepositorioTransacciones.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     private ServicioEmail servicioEmail = mock(ServicioEmail.class);
-    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones, servicioUsuario, servicioEmail);
+    private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda = mock(ServicioBilleteraUsuarioCriptomoneda.class);
+    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones, servicioUsuario, servicioEmail, servicioBilleteraUsuarioCriptomoneda);
 
 
     @Test
@@ -87,9 +90,6 @@ public class ServicioTransaccionesTest {
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
 
-        when(repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, usuario.getId())).thenReturn(1.0);
-        when(repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, usuario.getId())).thenReturn(1.0);
-
         assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario));
     }
 
@@ -111,8 +111,13 @@ public class ServicioTransaccionesTest {
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
 
-        when(repositorioTransacciones.buscarCantidadCompradadeUnaCriptoDeUnUsuario(nombreDeCripto, usuario.getId())).thenReturn(3.0);
-        when(repositorioTransacciones.buscarCantidadVendidadeUnaCriptoDeUnUsuario(nombreDeCripto, usuario.getId())).thenReturn(0.0);
+        BilleteraUsuarioCriptomoneda billetera = new BilleteraUsuarioCriptomoneda();
+        billetera.setUsuario(usuario);
+        billetera.setCriptomoneda(criptomoneda);
+        billetera.setCantidadDeCripto(0.0);
+
+        when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario)).thenReturn(billetera);
+        when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)).thenReturn(true);
 
         assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario));
     }
