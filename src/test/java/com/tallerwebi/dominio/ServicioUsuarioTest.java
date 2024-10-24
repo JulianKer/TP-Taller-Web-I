@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.MenorDeEdadException;
 import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
 import com.tallerwebi.dominio.excepcion.TelefonoConLongitudIncorrectaException;
+import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.dominio.repositorio.RepositorioUsuario;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioUsuarioImpl;
@@ -55,9 +56,7 @@ public class ServicioUsuarioTest {
         givenExisteUsuario("german@gmail.com","12345","Julian","perez",12345678L,"2004-10-13");
 
         when(repositorioUsuario.buscar("german@gmail.com")).thenReturn(new Usuario());
-        Usuario usuarioCreado = whenRegistroUsuario("german@gmail.com","12345","Julian","perez",12345678L,"2004-10-13");
-
-        thenElRegistroFalla(usuarioCreado);
+        assertThrows(UsuarioExistente.class, ()->whenRegistroUsuario("german@gmail.com","12345","Julian","perez",12345678L,"2004-10-13"));
     }
 
     private void givenExisteUsuario(String mail, String password, String nombre, String apellido, Long telefono, String fechaNacimiento) {

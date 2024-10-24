@@ -1,10 +1,7 @@
 package com.tallerwebi.dominio.servicio.impl;
 
 import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.dominio.excepcion.MenorDeEdadException;
-import com.tallerwebi.dominio.excepcion.PasswordLongitudIncorrecta;
-import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
-import com.tallerwebi.dominio.excepcion.TelefonoConLongitudIncorrectaException;
+import com.tallerwebi.dominio.excepcion.*;
 import com.tallerwebi.dominio.repositorio.RepositorioUsuario;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +27,7 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     @Override
     public Usuario registrar(String mail, String pass, String nombre, String apellido, Long telefono, String fechaNacimiento) {
         if(pass.length()<5){
-            throw new PasswordLongitudIncorrecta("");
+            throw new PasswordLongitudIncorrecta("La contraseña debe tener al menos 5 digitos.");
         }
 
         if (String.valueOf(telefono).length() < 8){
@@ -38,12 +35,12 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         }
 
         if (!validarQueSeaMayorDe18(fechaNacimiento)){
-            throw  new MenorDeEdadException("");
+            throw  new MenorDeEdadException("Debe ser mayor de 18 años para registrarse.");
         }
 
         Usuario usuarioEncontrado = repositorioUsuario.buscar(mail);
         if (usuarioEncontrado != null) {
-            return null;
+            throw new UsuarioExistente("EI usuario ya existe");
         }
 
         Usuario usuarioCreado = new Usuario();
@@ -53,6 +50,8 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         usuarioCreado.setApellido(apellido);
         usuarioCreado.setFechaNacimiento(fechaNacimiento);
         usuarioCreado.setTelefono(telefono);
+        usuarioCreado.setRol("CLIENTE");
+        usuarioCreado.setSaldo(0.0);
         // aca deberiamos agregar los atributos completos para la clase usuario como idÂ´s, saldo base, y demas
         // cosas que pidamos en el register
 

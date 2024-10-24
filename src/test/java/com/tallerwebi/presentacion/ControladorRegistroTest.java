@@ -4,16 +4,19 @@ import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioUsuarioImpl;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.junit.jupiter.api.Test;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class ControladorRegistroTest {
 
-    ServicioUsuario servicioUsuario = mock(ServicioUsuarioImpl.class);
+    ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     ControladorRegistro controladorRegistro = new ControladorRegistro(servicioUsuario);
 
     @Test
@@ -121,26 +124,26 @@ public class ControladorRegistroTest {
         thenElRegistroFalla(mav, msjError);
     }
 
-
     @Test
-    public void siExisteUsuarioConMailDelRegistroElRegistroFalla() {
-
-        // la excepcion UsuarioExistente le cambie su extencion a runTime pq si estaba en Exception, esta linea
-        // me decia que debia controlarla con trycatch o relanzar la excepcion, pero al ponerle
-        // runtime, no es necesario controlarla pero si que la podemos esperar
-        when(servicioUsuario.registrar("julian@gmail.com","11", "julian", "schmuker", 12345678L, "2004-10-13")).thenThrow(UsuarioExistente.class);
-        //ejecucion --> when
+    public void siExisteUnUserConElMismoMailElRegistroFalla() {
         String pass1 = "11";
-        String pass2 = "11";
-        String email = "julian@gmail.com";
-        String nombre = "julian";
+        String pass2Repetida = "11";
+        String email = "juli@gmail.com";
+        String nombre = "juli";
         String apellido = "schmuker";
         String fechaNacimiento = "2004-10-13";
         Long telefono = 12345678L;
 
+        String msjError = "El usuario ya existe";
+        ModelMap modelo = new ModelMap();
+        modelo.put("error", msjError);
+        ModelAndView mavEsperado = new ModelAndView("register", modelo);
 
-        ModelAndView mav = whenRegistroUsuario(email, pass1, pass2, nombre, apellido, telefono, fechaNacimiento);
-        thenElRegistroFalla(mav, "EI usuario ya existe");
+        when(servicioUsuario.registrar(email, pass1, nombre, apellido,telefono,fechaNacimiento)).thenThrow(UsuarioExistente.class);
+        ModelAndView mav = controladorRegistro.registrar(email, pass1, pass2Repetida, nombre, apellido,telefono,fechaNacimiento);
+
+        String msjRecibido = mav.getModel().get("error").toString();
+        assertEquals(msjError, msjRecibido);
     }
 
     @Test
