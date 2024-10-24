@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio.servicio.impl;
 
+import com.tallerwebi.dominio.entidades.BilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
@@ -7,6 +8,7 @@ import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
+import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
@@ -15,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,14 +26,15 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     RepositorioTransacciones repositorioTransacciones;
     ServicioUsuario servicioUsuario;
     private ServicioEmail servicioEmail;
+    private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda;
 
 
     @Autowired
-    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones, ServicioUsuario servicioUsuario, ServicioEmail servicioEmail) {
+    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones, ServicioUsuario servicioUsuario, ServicioEmail servicioEmail, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda) {
         this.repositorioTransacciones = repositorioTransacciones;
         this.servicioUsuario = servicioUsuario;
         this.servicioEmail = servicioEmail;
-
+        this.servicioBilleteraUsuarioCriptomoneda = servicioBilleteraUsuarioCriptomoneda;
     }
 
     @Override
@@ -49,10 +51,19 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
                     //aca creo la transaccion.
                     Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
                     //le RESTO el saldo al usuario
-                    //System.out.println("saldo antes: " + usuario.getSaldo());
-                    //usuario.setSaldo(usuario.getSaldo() - precioTotalDeTransaccion);
                     servicioUsuario.restarSaldo(usuario.getId(), precioTotalDeTransaccion);
-                    //System.out.println("saldo despues: " + usuario.getSaldo());
+
+                    //si tiene billetera con esa cripto, le aumento la cant, sino, primero la creo, la guardo y le aumento
+                    BilleteraUsuarioCriptomoneda billetera = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario);
+                    if(billetera == null) {
+                        billetera = new BilleteraUsuarioCriptomoneda();
+                        billetera.setCriptomoneda(criptomoneda);
+                        billetera.setUsuario(usuario);
+                        billetera.setCantidadDeCripto(0.0);
+                        servicioBilleteraUsuarioCriptomoneda.guardarBilletera(billetera);
+                    }
+                    billetera.incrementarCantidadDeCripto(cantidadDeCripto);
+                    servicioBilleteraUsuarioCriptomoneda.actualizarBilletera(billetera);
 
                     //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
                     repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
@@ -95,56 +106,6 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
                 return null;
         }
     }
-        /*
-        if (tipoDeTransaccion.equals(TipoTransaccion.COMPRA)){
-
-            if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())){
-                //aca creo la transaccion.
-                Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda,cantidadDeCripto);
-                //le RESTO el saldo al usuario
-                //System.out.println("saldo antes: " + usuario.getSaldo());
-                //usuario.setSaldo(usuario.getSaldo() - precioTotalDeTransaccion);
-                servicioUsuario.restarSaldo(usuario.getId(), precioTotalDeTransaccion);
-                //System.out.println("saldo despues: " + usuario.getSaldo());
-
-                //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
-                repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
-
-                //Envio el mail con el resumen de la transaccion al user.
-                String destinatario = usuario.getEmail();
-                String asunto = "Resumen de transacción";
-                String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
-
-                servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
-
-                //y retorno el msj exitoso
-                return "Transaccion exitosa.";
-            }else {
-                throw new SaldoInsuficienteException("No tienes sufieciente saldo.");
-            }
-        }else{
-
-            if (verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(criptomoneda.getNombre(),cantidadDeCripto,usuario.getId())){
-                //ceo la trnasaccion
-                Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto);
-                //le SUMO al saldo del usuario
-                servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
-                //Ahora guardo la transaccion en la bdd (osea se mezclarian muchas transacciones de ditintos user)
-                repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
-
-                //Envio el mail con el resumen de la transaccion al user.
-                String destinatario = usuario.getEmail();
-                String asunto = "Resumen de transacción";
-                String cuerpo = servicioEmail.formarMensaje(usuario, nuevaTransaccion);
-
-                servicioEmail.enviarEmail(destinatario, asunto, cuerpo);
-
-                //y retorno el msj exitoso
-                return "Transaccion exitosa.";
-            }else {
-                throw new CriptomonedasInsuficientesException("No tienes la cantidad suficientes de criptomonedas que quieres vender.");
-            }
-        }*/
 
     @Override
     public Boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(String nombreDeCripto, Double cantidadDeCripto, Long idDeUsuario) {
