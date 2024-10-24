@@ -21,12 +21,16 @@ public class Transaccion {
 
     @ManyToOne
     private Criptomoneda criptomoneda;
+    @ManyToOne
+    private Criptomoneda criptomoneda2;
 
     private Double montoTotal;
     private Double precioalQueSehizo;
+    private Double precioalQueSehizo2;
     private LocalDate fechaDeTransaccion;
     private TipoTransaccion tipo;
     private Double cantidadDeCripto;
+    private Double cantidadDeCripto2;
 
     //metodos (agregue algunos)
     public Criptomoneda getCriptomoneda() {
@@ -79,4 +83,29 @@ public class Transaccion {
 
     public void setCantidadDeCripto(Double cantidadDeCripto) {this.cantidadDeCripto = cantidadDeCripto; }
     public Double getCantidadDeCripto() {return this.cantidadDeCripto;}
+
+
+    public Criptomoneda getCriptomoneda2() {
+        return criptomoneda2;
+    }
+
+    public void setCriptomoneda2(Criptomoneda criptomoneda2) {
+        this.criptomoneda2 = criptomoneda2;
+    }
+
+    public Double getPrecioAlQueSehizo2() {
+        return precioalQueSehizo2;
+    }
+
+    public void setPrecioAlQueSehizo2(Double precioalQueSehizo2) {
+        this.precioalQueSehizo2 = precioalQueSehizo2;
+    }
+
+    public Double getCantidadDeCripto2() {
+        return cantidadDeCripto2;
+    }
+
+    public void setCantidadDeCripto2(Double cantidadDeCripto2) {
+        this.cantidadDeCripto2 = cantidadDeCripto2;
+    }
 }

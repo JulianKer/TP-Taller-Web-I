@@ -47,7 +47,7 @@ public class ServicioTransaccionesTest {
         cripto.setNombre(nombreDeCripto);
         cripto.setPrecioActual(precioDeCripto);
 
-        assertThrows(SaldoInsuficienteException.class,()->servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario));
+        assertThrows(SaldoInsuficienteException.class,()->servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ServicioTransaccionesTest {
         cripto.setNombre(nombreDeCripto);
         cripto.setPrecioActual(precioDeCripto);
 
-        assertEquals("Transaccion exitosa.", servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario));
+        assertEquals("Transaccion exitosa.", servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ServicioTransaccionesTest {
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
 
-        assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario));
+        assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
     }
 
     @Test
@@ -119,6 +119,6 @@ public class ServicioTransaccionesTest {
         when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario)).thenReturn(billetera);
         when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)).thenReturn(true);
 
-        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario));
+        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
     }
 }

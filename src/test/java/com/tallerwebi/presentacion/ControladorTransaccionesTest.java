@@ -63,10 +63,10 @@ public class ControladorTransaccionesTest {
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("Transaccion exitosa.");
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("Transaccion exitosa.");
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
-        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
         assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.",mav.getViewName());
@@ -80,7 +80,7 @@ public class ControladorTransaccionesTest {
         TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
         String emailUsuario = "german@gmail.com";
 
-        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
         assertEquals("redirect:/transacciones?mensaje=Debe especificar la cantidad.",mav.getViewName());
@@ -102,10 +102,10 @@ public class ControladorTransaccionesTest {
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario)).thenReturn("La cantidad debe ser mayor que 0.");
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("La cantidad debe ser mayor que 0.");
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
-        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario);
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
         assertEquals("redirect:/transacciones?mensaje=La cantidad debe ser mayor que 0.",mav.getViewName());

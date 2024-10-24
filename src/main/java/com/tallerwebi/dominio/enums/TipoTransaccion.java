@@ -1,5 +1,5 @@
 package com.tallerwebi.dominio.enums;
 
 public enum TipoTransaccion {
-    COMPRA,VENTA,DEVOLUCION;
+    COMPRA,VENTA,DEVOLUCION,INTERCAMBIO;
 }

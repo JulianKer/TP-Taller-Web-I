@@ -78,26 +78,71 @@ public class ControladorTransacciones {
     }
 
     @RequestMapping(path = "/realizarTransaccion",method = RequestMethod.POST)
-    public ModelAndView realizarTransaccion(String nombreDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, String emailUsuario) {
+    public ModelAndView realizarTransaccion(String nombreDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, String emailUsuario,
+                                            @RequestParam(value = "nombreDeCripto2", required = false, defaultValue = "") String nombreDeCripto2) {
         ModelMap model = new ModelMap();
+
         Criptomoneda criptomonedaEncontrada;
+        Double precioDeCripto = 0.0;
+
+        Criptomoneda criptoADar;
+        Double precioDeCriptoADar = 0.0;
+        Criptomoneda criptoAObtener;
+        Double precioDeCriptoAObtener = 0.0;
 
         if (cantidadDeCripto == null){
             return new ModelAndView("redirect:/transacciones?mensaje=Debe especificar la cantidad.");
         }
+        if (tipoDeTransaccion == TipoTransaccion.INTERCAMBIO && nombreDeCripto2 == null){
+            return new ModelAndView("redirect:/transacciones?mensaje=Debe especificar la criptomoneda a recibir.");
+        }
 
+        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario);
+        if (tipoDeTransaccion == TipoTransaccion.INTERCAMBIO){
+            return intentarHacerUnIntercambio(nombreDeCripto, cantidadDeCripto, tipoDeTransaccion, nombreDeCripto2, usuarioEncontrado);
+
+        }else{
+            return intentarHacerUnaVentaCompraODevolucion(nombreDeCripto, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado);
+        }
+    }
+
+    private ModelAndView intentarHacerUnaVentaCompraODevolucion(String nombreDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuarioEncontrado) {
+        Criptomoneda criptomonedaEncontrada;
+        Double precioDeCripto;
         try {
             criptomonedaEncontrada = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto);
         }catch (NoSeEncontroLaCriptomonedaException e){
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage());
         }
 
-        Double precioDeCripto = servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto);
-        Usuario usuarioEncontrado = servicioUsuario.buscarUsuarioPorEmail(emailUsuario); //no pregundo si es != null porque se que esxiste ya que se logeo.
+        precioDeCripto = servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto);
+        String mensaje = "";
+        try{
+            mensaje = servicioTransacciones.crearTransaccion(criptomonedaEncontrada,precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado, null, null);
+            return new ModelAndView("redirect:/transacciones?mensaje=" + mensaje);
+        }catch (SaldoInsuficienteException | CriptomonedasInsuficientesException e){
+            return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage());
+        }
+    }
+
+    private ModelAndView intentarHacerUnIntercambio(String nombreDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, String nombreDeCripto2, Usuario usuarioEncontrado) {
+        Criptomoneda criptoAObtener;
+        Double precioDeCriptoADar;
+        Criptomoneda criptoADar;
+        Double precioDeCriptoAObtener;
+        try {
+            criptoADar = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto);
+            criptoAObtener = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto2);
+        }catch (NoSeEncontroLaCriptomonedaException e){
+            return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage());
+        }
+
+        precioDeCriptoADar = servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto);
+        precioDeCriptoAObtener = servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto2);
 
         String mensaje = "";
         try{
-            mensaje = servicioTransacciones.crearTransaccion(criptomonedaEncontrada,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuarioEncontrado);
+            mensaje = servicioTransacciones.crearTransaccion(criptoADar,precioDeCriptoADar, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado, criptoAObtener, precioDeCriptoAObtener);
             return new ModelAndView("redirect:/transacciones?mensaje=" + mensaje);
         }catch (SaldoInsuficienteException | CriptomonedasInsuficientesException e){
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage());
