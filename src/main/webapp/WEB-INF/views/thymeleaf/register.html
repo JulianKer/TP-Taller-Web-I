@@ -1,38 +1,45 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Registro | Crypto</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" th:href="@{/css/register.css}"/>
-  <link rel="stylesheet" th:href="@{/css/login.css}">
   <link rel="icon" th:href="@{/img/logoCripto.png}">
   <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/></head>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+</head>
 <body>
 <div class="container">
-  <div id="loginbox">
-    <img class="logoCripto" th:src="@{/img/logoCripto.png}">
+  <div id="registerbox">
+    <img class="logoCripto" th:src="@{/img/logoCripto.png}" alt="Logo Cripto">
     <h2 class="form-titulo">CREA UNA CUENTA</h2>
-    <form  method="post" th:action="@{/validarRegistro}">
+    <form method="post" th:action="@{/validarRegistro}">
       <div class="contenedor-inputs">
-
-        <input type="text" id="nombre" name="nombre" placeholder="Nombre" class="input-48">
-        <input type="text" id="apellido" name="apellido" placeholder="Apellido" class="input-48">
-        <input type="email" id="correo" name="correo" placeholder="Correo" class="input-100">
-        <input type="text" id="usuario" name="usuario" placeholder="Usuario" class="input-48">
-        <input type="password" id="clave" name="clave" placeholder="Contraseña" class="input-48">
-        <input type="password" id="repitClave" name="repitClave" placeholder="Repetir contraseña" class="input-48">
-        <input type="text" id="telefono" name="telefono" placeholder="Teléfono" class="input-100">
-        <input type="date" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de nacimiento" class="input-100">
-        <input type="submit" value="Registrar" class="btn-enviar">
+        <div class="input-group">
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+          <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+        </div>
+        <div class="input-group">
+          <input type="email" id="correo" name="correo" placeholder="Correo" required>
+          <input type="text" id="usuario" name="usuario" placeholder="Usuario" required>
+        </div>
+        <div class="input-group">
+          <input type="password" id="clave" name="clave" placeholder="Contraseña" required>
+          <input type="password" id="repitClave" name="repitClave" placeholder="Repetir contraseña" required>
+        </div>
+        <div class="input-group">
+          <input type="tel" id="telefono" name="telefono" placeholder="Teléfono" required>
+          <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+        </div>
+        <button type="submit" class="btn-enviar">Registrar</button>
         <p th:if="${error}" th:text="${error}" class="alert alert-danger"></p>
-        <p class="form-link">Ya tienes una cuenta?<a th:href="@{/login}">Ingresa aquí</a></p>
+        <p class="form-link">¿Ya tienes una cuenta? <a th:href="@{/login}">Ingresa aquí</a></p>
       </div>
     </form>
   </div>
 </div>
 <!-- Bootstrap core JS -->
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>
