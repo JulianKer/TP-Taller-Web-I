@@ -121,5 +121,143 @@ public class ServicioTransaccionesTest {
 
         assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
     }
-/*    HACER TEST SOBRE EL INTERCAMBIO PERO SOBRE ESTE SERVICIO Y AHI OTRO COMMIT*/
+
+    @Test
+    public void queSiIntentaDevolverConCantidadDeCriptosInsuficientesLaTransaccionFallaYLanzaUnaExcepcion() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 10.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.DEVOLUCION;
+        String emailUsuario = "gern@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(50.0);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+
+        assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+    }
+
+    @Test
+    public void queSiIntentaDevolverConCantidadDeCriptosSuficientesLaTransaccionSeaExitosa(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 2.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.DEVOLUCION;
+        String emailUsuario = "gern@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(1000.0);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+
+        BilleteraUsuarioCriptomoneda billetera = new BilleteraUsuarioCriptomoneda();
+        billetera.setUsuario(usuario);
+        billetera.setCriptomoneda(criptomoneda);
+        billetera.setCantidadDeCripto(0.0);
+
+        when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario)).thenReturn(billetera);
+        when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)).thenReturn(true);
+
+        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+    }
+
+    @Test
+    public void queSiIntentaIntercambiarConCriptosQueNoTengoLaTransaccionFalle(){
+        String nombreDeCriptoADar = "bitcoin";
+        String nombreDeCriptoAObtener = "ethereum";
+
+        Double precioDeCriptoADar = 100.0;
+        Double precioDeCriptoAObtener = 10.0;
+
+        Double cantidadDeCriptoADar = 1.0;
+
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.INTERCAMBIO;
+        String emailUsuario = "german@gmail.com";
+
+        Criptomoneda criptomonedaADar = new Criptomoneda();
+        criptomonedaADar.setNombre(nombreDeCriptoADar);
+
+        Criptomoneda criptomonedaAObtener = new Criptomoneda();
+        criptomonedaAObtener.setNombre(nombreDeCriptoAObtener);
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(1000.0);
+
+
+        BilleteraUsuarioCriptomoneda billetera = new BilleteraUsuarioCriptomoneda();
+        billetera.setUsuario(usuario);
+        billetera.setCriptomoneda(criptomonedaADar);
+        billetera.setCantidadDeCripto(0.0); // a esta le pongo que NO tenga criptos por ende no puede intercambiar
+
+        BilleteraUsuarioCriptomoneda billeteraDos = new BilleteraUsuarioCriptomoneda();
+        billeteraDos.setUsuario(usuario);
+        billeteraDos.setCriptomoneda(criptomonedaAObtener);
+        billeteraDos.setCantidadDeCripto(0.0);
+
+        when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomonedaADar, usuario)).thenReturn(billetera);
+        when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomonedaAObtener, usuario)).thenReturn(billeteraDos);
+
+        assertThrows(CriptomonedasInsuficientesException.class,()-> servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener));
+    }
+
+    @Test
+    public void queSiIntentaIntercambiarCriptomonedasLaTransaccionSeaExitosa(){
+        String nombreDeCriptoADar = "bitcoin";
+        String nombreDeCriptoAObtener = "ethereum";
+
+        Double precioDeCriptoADar = 100.0;
+        Double precioDeCriptoAObtener = 10.0;
+
+        Double cantidadDeCriptoADar = 1.0;
+
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.INTERCAMBIO;
+        String emailUsuario = "german@gmail.com";
+
+        Criptomoneda criptomonedaADar = new Criptomoneda();
+        criptomonedaADar.setNombre(nombreDeCriptoADar);
+
+        Criptomoneda criptomonedaAObtener = new Criptomoneda();
+        criptomonedaAObtener.setNombre(nombreDeCriptoAObtener);
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(1000.0);
+
+
+        BilleteraUsuarioCriptomoneda billetera = new BilleteraUsuarioCriptomoneda();
+        billetera.setUsuario(usuario);
+        billetera.setCriptomoneda(criptomonedaADar);
+        billetera.setCantidadDeCripto(8.0);
+
+        BilleteraUsuarioCriptomoneda billeteraDos = new BilleteraUsuarioCriptomoneda();
+        billeteraDos.setUsuario(usuario);
+        billeteraDos.setCriptomoneda(criptomonedaAObtener);
+        billeteraDos.setCantidadDeCripto(0.0);
+
+        when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomonedaADar, usuario)).thenReturn(billetera);
+        when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomonedaAObtener, usuario)).thenReturn(billeteraDos);
+
+        when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(billetera, cantidadDeCriptoADar)).thenReturn(true);
+
+        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener));
+    }
+
 }

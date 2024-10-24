@@ -38,7 +38,6 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     }
 
     //----- METODO PRINCIPAL ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
     @Override
     public String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener) {
         Double precioTotalDeTransaccion = precioDeCripto * cantidadDeCripto;
@@ -50,19 +49,15 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         switch (tipoDeTransaccion) {
             case COMPRA:
                 return intentarHacerUnaCompra(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion);
-
             case VENTA:
             case DEVOLUCION:
                 return intentarHacerUnaVentaODevolucion(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion);
-
             case INTERCAMBIO:
                 return intentarHacerUnIntercambio(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, criptoAObtener, precioDeCriptoAObtener);
-
             default:
                 return "La transaccion no se pudo realizar. Tipo de transaccion desconocida";
         }
     }
-
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     private String intentarHacerUnaVentaODevolucion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion) {
