@@ -156,9 +156,20 @@
         <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
         <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCantidadDeCripto()}"></td>
 
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') ' + ' ' + ${registroTransacion.getCriptomoneda2().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda2().getSimbolo()} + ') '"></td>
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getPrecioAlQueSehizo()} + ' ' + ${registroTransacion.getPrecioAlQueSehizo2()} "></td>
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCantidadDeCripto()} + ' ' + ${registroTransacion.getCantidadDeCripto2()}"></td>
+        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
+          <span th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></span>
+          <span th:text="${registroTransacion.getCriptomoneda2().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda2().getSimbolo()} + ') '"></span>
+        </td>
+
+        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
+          <span th:text="${registroTransacion.getPrecioAlQueSehizo()}"></span>
+          <span th:text="${registroTransacion.getPrecioAlQueSehizo2()}"></span>
+        </td>
+
+        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
+          <span th:text="'-' + ${registroTransacion.getCantidadDeCripto()}" class="dada"></span>
+          <span th:text="'+' + ${registroTransacion.getCantidadDeCripto2()}" class="obtenida"></span>
+        </td>
 
         <td th:text="${registroTransacion.getMontoTotal()}"></td>
       </tr>

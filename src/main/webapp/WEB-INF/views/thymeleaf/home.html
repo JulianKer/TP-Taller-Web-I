@@ -21,6 +21,7 @@
   <!-- Bootstrap y FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
   <script th:src="@{/js/headerNuevo.js}" defer></script>
   <script th:src="@{/js/home.js}" defer></script>
@@ -85,8 +86,8 @@
   <form id="formulario" class="cabezaCripto">
     <input type="text" id="criterioDeBusqueda" placeholder="Buscar criptomoneda" name="criterioDeBusqueda"
            th:value="${criterioDeBusqueda != null and !#strings.isEmpty(criterioDeBusqueda) ? criterioDeBusqueda : ''}" />
-    <button type="submit">Buscar</button>
-    <a th:href="@{/home}" class="color-b">Actualizar precio</a>
+    <button type="submit" class="centrar"> <i class='bx bx-search' id="search" style='color:#f6f5f5' ></i>Buscar</button>
+    <a th:href="@{/home}" class="color-b centrar"> <i class='bx bx-refresh' id="refresh" style='color:#fff' ></i>Actualizar precio</a>
 
     <label for="selectDivisa">Selecciones la divisa a mostrar:</label>
     <select id="selectDivisa" name="moneda">
