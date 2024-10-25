@@ -11,6 +11,7 @@
   <link rel="stylesheet" th:href="@{/css/transacciones.css}">
   <link rel="icon" th:href="@{/img/logoCripto.png}">
   <script th:src="@{/js/filtroTransaccion.js}" defer></script>
+  <script th:src="@{/js/selectorDeTransaccion.js}" defer></script>
 </head>
 <body>
 <header id="arriba">
@@ -78,20 +79,35 @@
     <div>
       <label for="tipoDeTransaccion">Seleccione el tipo de transacción:</label>
       <select id="tipoDeTransaccion" name="tipoDeTransaccion" class="inputs">
-        <option value="COMPRA">Compra</option>
-        <option value="VENTA">Venta</option>
+        <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
+        <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
+        <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>
       </select>
     </div>
-    <div>
+
+
+    <div class="divCriptoADar">
       <label for="nombreDeCripto">Seleccione la criptomoneda:</label>
       <select id="nombreDeCripto" name="nombreDeCripto" class="inputs">
-        <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombre()}"></option>
+        <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoADarSeleccionada)}"></option>
       </select>
     </div>
-    <div>
+
+
+    <div class="divCantidadDeCriptoADar">
       <label for="cantidadDeCripto">Seleccione la cantidad:</label>
       <input type="number" name="cantidadDeCripto" id="cantidadDeCripto" step="0.00001" class="inputs">
     </div>
+
+
+    <div class="divCriptoAObtener">
+      <label for="nombreDeCripto2">Seleccione la criptomoneda que desea obtener:</label>
+      <select id="nombreDeCripto2" name="nombreDeCripto2" class="inputs">
+        <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoAObtenerSeleccionada)}"></option>
+      </select>
+    </div>
+
+
     <input type="hidden" name="emailUsuario" th:value="${emailUsuario}">
     <input type="submit" value="Realizar transacción" id="btnRealizarTransaccion">
   </form>
@@ -113,31 +129,17 @@
       <tr>
         <th>Tipo de Transacción</th>
         <th>Fecha de Transacción</th>
+
         <th>Criptomoneda</th>
         <th>Precio Unitario</th>
         <th>Cantidad</th>
+
         <th>Total</th>
       </tr>
       </thead>
       <tbody>
-      <!--<tr th:if="${#lists.isEmpty(historialTransacciones)}"  th:each="registroTransacion : ${historialTransacciones}">
-        <td th:text="${registroTransacion.getUsuario().getNombre()}"></td>
-        <td th:text="${registroTransacion.getUsuario().getApellido()}"></td>
-        <td th:text="${registroTransacion.getCriptomoneda().getNombre()}"></td>
-        <td th:text="${registroTransacion.getMontoTotal()}"></td>
-        <td th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
-        <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
-        <td th:text="${registroTransacion.getTipo()}"></td>
-        <td th:text="${registroTransacion.getCantidadDeCripto()}"></td>
-      </tr>
-      <tr th:unless="${#lists.isEmpty(historialTransacciones)}">
-        <h4 class="alert alert-danger">
-          Todavia no hay Transacciones
-        </h4>
 
-      </tr>-->
 
-      <!-- Si la lista de historialTransacciones está vacía, muestra el mensaje de alerta -->
       <tr th:if="${#lists.isEmpty(historialTransacciones)}">
         <td colspan="8">
           <h6 class="alert alert-danger">
@@ -146,13 +148,18 @@
         </td>
       </tr>
 
-      <!-- Si la lista NO está vacía, itera sobre cada registro de transacción -->
       <tr th:each="registroTransacion : ${historialTransacciones}" th:unless="${#lists.isEmpty(historialTransacciones)}">
         <td th:text="${registroTransacion.getTipo()}"></td>
         <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
-        <td th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></td>
-        <td th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
-        <td th:text="${registroTransacion.getCantidadDeCripto()}"></td>
+
+        <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></td>
+        <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
+        <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCantidadDeCripto()}"></td>
+
+        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') ' + ' ' + ${registroTransacion.getCriptomoneda2().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda2().getSimbolo()} + ') '"></td>
+        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getPrecioAlQueSehizo()} + ' ' + ${registroTransacion.getPrecioAlQueSehizo2()} "></td>
+        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCantidadDeCripto()} + ' ' + ${registroTransacion.getCantidadDeCripto2()}"></td>
+
         <td th:text="${registroTransacion.getMontoTotal()}"></td>
       </tr>
 
