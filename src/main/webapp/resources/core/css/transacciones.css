@@ -169,6 +169,10 @@ td span{
     display: block;
 }
 
+td p{
+    margin: 0;
+}
+
 td span:nth-of-type(1){
     border-bottom: #cdcdcd 1px solid;
     padding-bottom: 6px;
@@ -179,10 +183,12 @@ td span:nth-of-type(2){
 
 .dada{
     color: #cc0000;
+    font-weight: bold;
 }
 
 .obtenida{
     color: #00bf00;
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
