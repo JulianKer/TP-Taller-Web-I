@@ -63,7 +63,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     private String intentarHacerUnaVentaODevolucion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion) {
         BilleteraUsuarioCriptomoneda billetera = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario);
 
-        if (servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)){
+        if (billetera != null && servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)){
             Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto, null, null, null);
             repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
 
@@ -109,7 +109,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         BilleteraUsuarioCriptomoneda billeteraCriptoAObtener = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptoAObtener, usuario);
 
         if (billeteraCriptoADar == null || !servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(billeteraCriptoADar, cantidadDeCriptoADar)){
-            throw new CriptomonedasInsuficientesException("No tienes la cantidad suficientes de criptomonedas que quieres vender.");
+            throw new CriptomonedasInsuficientesException("No tienes la cantidad suficientes de criptomonedas que quieres intercambiar.");
         }
 
         if (billeteraCriptoAObtener == null){

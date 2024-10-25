@@ -36,7 +36,7 @@ public class ControladorTransaccionesTest {
         request.getSession().setAttribute("usuario", usuario);
         when(servicioUsuario.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(usuario);
 
-        String obtenido = controladorTransacciones.transacciones("", request).getViewName();
+        String obtenido = controladorTransacciones.transacciones("", "", "", "", request).getViewName();
         String esperado = "redirect:/home";
         assertEquals(esperado, obtenido);
     }
@@ -44,7 +44,7 @@ public class ControladorTransaccionesTest {
     @Test
     public void queCuandoIntenteBarraTransaccionesPorUrlSinLogearseTeRedirijaAlLoginConMensajeDeError() {
         String tipoTransaccion = "todos";
-        ModelAndView recibido = controladorTransacciones.transacciones( tipoTransaccion, request);
+        ModelAndView recibido = controladorTransacciones.transacciones( tipoTransaccion, "", "", "", request);
 
         assertEquals(recibido.getViewName(), "redirect:/login?error=Debe ingresar primero");
     }
@@ -71,7 +71,7 @@ public class ControladorTransaccionesTest {
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
-        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.",mav.getViewName());
+        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.&nombreDeCriptoADarSeleccionada=bitcoin&tipoTransaccionSeleccionada=COMPRA",mav.getViewName());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class ControladorTransaccionesTest {
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
-        assertEquals("redirect:/transacciones?mensaje=Debe especificar la cantidad.",mav.getViewName());
+        assertEquals("redirect:/transacciones?mensaje=Debe especificar la cantidad.&nombreDeCriptoADarSeleccionada=bitcoin&nombreDeCriptoAObtenerSeleccionada=null&tipoTransaccionSeleccionada=COMPRA",mav.getViewName());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class ControladorTransaccionesTest {
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
-        assertEquals("redirect:/transacciones?mensaje=La cantidad debe ser mayor que 0.",mav.getViewName());
+        assertEquals("redirect:/transacciones?mensaje=La cantidad debe ser mayor que 0.&nombreDeCriptoADarSeleccionada=bitcoin&tipoTransaccionSeleccionada=COMPRA",mav.getViewName());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ControladorTransaccionesTest {
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
         //assertEquals(mav.getViewName(), "transacciones");
-        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.",mav.getViewName());
+        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.&nombreDeCriptoADarSeleccionada=bitcoin&tipoTransaccionSeleccionada=VENTA",mav.getViewName());
     }
 
     @Test
@@ -156,9 +156,11 @@ public class ControladorTransaccionesTest {
 
         Criptomoneda criptomonedaADar = new Criptomoneda();
         criptomonedaADar.setNombre(nombreDeCriptoADar);
+        criptomonedaADar.setId(1L);
 
         Criptomoneda criptomonedaAObtener = new Criptomoneda();
         criptomonedaAObtener.setNombre(nombreDeCriptoAObtener);
+        criptomonedaAObtener.setId(2L);
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoADar)).thenReturn(criptomonedaADar);
@@ -169,7 +171,39 @@ public class ControladorTransaccionesTest {
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,emailUsuario, nombreDeCriptoAObtener);
 
-        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.",mav.getViewName());
+        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.&nombreDeCriptoADarSeleccionada=bitcoin&nombreDeCriptoAObtenerSeleccionada=ethereum&tipoTransaccionSeleccionada=INTERCAMBIO",mav.getViewName());
+    }
+
+    @Test
+    public void queCuandoSeRealiceUnaTransaccionIntercambioConLaMismaCriptomonedaFalle(){
+        String nombreDeCriptoADar = "bitcoin";
+        String nombreDeCriptoAObtener = "bitcoin";
+
+        Double precioDeCriptoADar = 10.0;
+        Double precioDeCriptoAObtener = 10.0;
+
+        Double cantidadDeCriptoADar = 1.0;
+
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.INTERCAMBIO;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+
+        Criptomoneda criptomonedaADar = new Criptomoneda();
+        criptomonedaADar.setNombre(nombreDeCriptoADar);
+        criptomonedaADar.setId(1L);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoADar)).thenReturn(criptomonedaADar);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener)).thenReturn(criptomonedaADar);
+        when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoADar)).thenReturn(precioDeCriptoADar);
+        when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoAObtener)).thenReturn(precioDeCriptoAObtener);
+        when(servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaADar, precioDeCriptoAObtener)).thenReturn("Transaccion exitosa.");
+
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,emailUsuario, nombreDeCriptoAObtener);
+
+        assertEquals("redirect:/transacciones?mensaje=No puedes intercambiar criptomonedas iguales. Elije dos distintas.&nombreDeCriptoADarSeleccionada=bitcoin&nombreDeCriptoAObtenerSeleccionada=bitcoin&tipoTransaccionSeleccionada=INTERCAMBIO",mav.getViewName());
     }
 
     @Test
