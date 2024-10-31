@@ -58,7 +58,7 @@
 </header>
 
 <main class="mainTransacciones">
-  <h1>Transacciones</h1>
+  <h2>Transacciones</h2>
 
 <!--<div th:if="${param.mensaje}">
   <div th:if='${!param.mensaje.equals("Transaccion exitosa.") }'>
@@ -88,7 +88,7 @@
 
     <div class="divCriptoADar">
       <label for="nombreDeCripto">Seleccione la criptomoneda:</label>
-      <select id="nombreDeCripto" name="nombreDeCripto" class="inputs">
+      <select id="nombreDeCripto" name  ="nombreDeCripto" class="inputs">
         <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoADarSeleccionada)}"></option>
       </select>
     </div>
@@ -111,6 +111,79 @@
     <input type="hidden" name="emailUsuario" th:value="${emailUsuario}">
     <input type="submit" value="Realizar transacción" id="btnRealizarTransaccion">
   </form>
+
+
+
+
+
+  <div class="cont-titulo-programar">
+    <h2 class="titulo">Programar transacción</h2>
+    <img th:if="${usuario.getActivo()}" th:src="@{/img/icons/icon_info.svg}" alt="iconInfo" title="Función nueva por haber obtenido la suscripción">
+  </div>
+  <div th:if="${usuario.getActivo()}" class="contenedor">
+    <form class="formulario" th:action="@{/programarTransaccion}" method="post">
+      <div class="grupo">
+        <label class="etiqueta" for="selector-transaccion-programada">Seleccione el tipo de transacción:</label>
+        <select class="selector" id="selector-transaccion-programada" name="selectorTransaccionProgramada">
+          <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
+          <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
+          <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>
+        </select>
+      </div>
+
+      <div class="grupo">
+        <label class="etiqueta" for="selector-cripto-programada">Seleccione la criptomoneda:</label>
+        <select class="selector" id="selector-cripto-programada" name="selectorCriptoProgramada">
+          <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoADarSeleccionada)}"></option>
+        </select>
+      </div>
+
+      <div class="grupo">
+        <label class="etiqueta" for="cantidadDeCripto-programada">Seleccione la cantidad:</label>
+        <input type="number" class="selector" step="0.00001" min="0" id="cantidadDeCripto-programada" name="cantidadDeCriptoProgramada">
+      </div>
+
+      <div class="grupo divCriptoAObtenerProgramada">
+        <label for="nombreDeCriptoAObtenerProgramada">Seleccione la criptomoneda que desea obtener:</label>
+        <select id="nombreDeCriptoAObtenerProgramada" name="nombreDeCriptoAObtenerProgramada" class="selector">
+          <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoAObtenerSeleccionada)}"></option>
+        </select>
+      </div>
+
+      <div class="grupo-condicion">
+        <label class="etiqueta labelCuando" for="selector-condicion-programada">Cuando:</label>
+        <div>
+          <select class="selector-condicion" id="selector-condicion-programada">
+            <option value="suba">mayor a</option>
+            <option value="baje">menor a</option>
+          </select>
+          <label>
+            <input type="number" class="entrada-numero" step="0.00001" min="0" name="selectorCondicionProgramada">
+            U$D
+          </label>
+        </div>
+      </div>
+
+      <button class="boton">Realizar transacción</button>
+    </form>
+  </div>
+
+
+  <div th:if="${!usuario.getActivo()}" class="cont-msj-no-cuenta-con-suscripcion alert alert-dark">
+    <img class="icon-blocked" th:src="@{/img/icons/icon_blocked.svg}" alt="FuncionBloqueda" title="Función bloqueada">
+    <p class="text-blocked">Función bloqueada: para poder usarla debes suscribirte</p>
+    <a th:href="@{/suscripcion}" class="subscribe-btn">Obtener suscripción</a>
+  </div>
+
+
+
+
+
+
+
+
+
+
 
   <section class="historial">
     <form th:action="@{/transacciones}" method="get" class="filter-container" id="form_filtro">

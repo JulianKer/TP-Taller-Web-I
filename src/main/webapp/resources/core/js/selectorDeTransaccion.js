@@ -1,15 +1,5 @@
 let tipoTransaccion = document.getElementById("tipoDeTransaccion");
-
-let divCriptoADar = document.querySelector(".divCriptoADar");
-let divCantidadDeCriptoADar = document.querySelector(".divCantidadDeCriptoADar")
 let divCriptoAObtener = document.querySelector(".divCriptoAObtener")
-
-let selectorCriptoADar = document.getElementById("nombreDeCripto");
-let opcionesSelectorCriptoADar = selectorCriptoADar.options;
-
-let selectorCriptoAObtener = document.getElementById("nombreDeCripto2");
-let opcionesSelectorCriptoAObtener = selectorCriptoAObtener.options;
-
 
 document.addEventListener("DOMContentLoaded",()=>{verTipo(tipoTransaccion.value);})
 
@@ -21,3 +11,27 @@ function verTipo(tipoTransaccionSeleccionada) {
         default:divCriptoAObtener.style.display = "none";break;
     }
 }
+
+let tipoTransaccionProgramada = document.getElementById("selector-transaccion-programada");
+let divCriptoAObtenerPorgramada = document.querySelector(".divCriptoAObtenerProgramada");
+let selectorCriptoProgramada = document.getElementById("selector-cripto-programada");
+let labelCuando = document.querySelector(".labelCuando");
+
+selectorCriptoProgramada.addEventListener("change", ()=>{
+    labelCuando.textContent = `Cuando ${selectorCriptoProgramada.value.toUpperCase()} sea`
+})
+
+document.addEventListener("DOMContentLoaded",()=>{
+    labelCuando.textContent = `Cuando ${selectorCriptoProgramada.value.toUpperCase()} sea`
+});
+
+
+tipoTransaccionProgramada.addEventListener("change", ()=>{
+    if (tipoTransaccionProgramada.value === "INTERCAMBIO"){
+        divCriptoAObtenerPorgramada.style.display = "block";
+        console.log("LO MUESTRO")
+    }else{
+        divCriptoAObtenerPorgramada.style.display = "none";
+        console.log("LO SACOO")
+    }
+})
