@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -228,5 +227,10 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     @Override
     public List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario) {
         return repositorioTransacciones.obtenerHistorialUsuario(idDeUsuario);
+    }
+
+    @Override
+    public Transaccion buscarTransaccionPorId(Long idTransaccion) {
+        return repositorioTransacciones.buscarTransaccionPorId(idTransaccion);
     }
 }

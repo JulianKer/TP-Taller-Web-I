@@ -14,10 +14,7 @@ import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -158,13 +155,6 @@ public class ControladorTransacciones {
         }
     }
 
-
-
-
-
-
-
-
     // -------------------- PROGRAMADA alguna transaccion ---------------------------------------------------------------
     @RequestMapping(path = "/programarTransaccion", method = RequestMethod.POST)
     public ModelAndView programarTransaccion(@RequestParam(value = "selectorTransaccionProgramada") TipoTransaccion tipoTransaccionProgramada,
@@ -227,5 +217,30 @@ public class ControladorTransacciones {
         }catch (SaldoInsuficienteException | CriptomonedasInsuficientesException e){
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage()  + "&nombreDeCriptoADarSeleccionada=" + nombreCriptoProgramada + "&tipoTransaccionSeleccionada=" + tipoTransaccionProgramada);
         }
+    }
+
+    @RequestMapping(path = "/eliminarTransaccionProgramada/{idTransaccion}")
+    public ModelAndView eliminarTransaccionProgramada(@PathVariable Long idTransaccion , HttpServletRequest request){
+        if (request.getSession().getAttribute("emailUsuario") == null){
+            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
+        }
+        Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
+        if (userEncontrado.getRol().equals("ADMIN")){
+            return new ModelAndView("redirect:/home");
+        }
+
+        if (idTransaccion == null){
+            return new ModelAndView("redirect:/home");
+        }
+
+        Transaccion transaccionAEliminar = servicioTransacciones.buscarTransaccionPorId(idTransaccion);
+
+        if (transaccionAEliminar == null){
+            return new ModelAndView("redirect:/home");
+        }
+
+        servicioTransacciones.eliminarTransaccion(transaccionAEliminar);
+        return new ModelAndView("redirect:/transacciones?mensaje=Transaccion eliminada con exito.");
     }
 }

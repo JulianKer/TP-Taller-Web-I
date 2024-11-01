@@ -61,11 +61,13 @@
 
   <div th:if="${param.mensaje}">
     <div th:if="${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}
-              and ${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Programacion exitosa.')} ">
+              and ${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Programacion exitosa.')}
+              and ${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion eliminada con exito.')}">
       <p th:text="${param.mensaje[0]}" class="alert alert-danger"></p>
     </div>
     <div th:if="${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}
-              or ${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Programacion exitosa.')}">
+              or ${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Programacion exitosa.')}
+              or ${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion eliminada con exito.')}">
       <p th:text="${param.mensaje[0]}" class="alert alert-success"></p>
     </div>
   </div>

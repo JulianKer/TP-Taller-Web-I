@@ -21,4 +21,6 @@ public interface RepositorioTransacciones {
     List<TransaccionProgramada> filtrarTransaccionesProgramadas(TipoTransaccion tipoTransaccionEncontrada, Long idUsuario);
 
     List<TransaccionProgramada> obtenerHistorialTransaccionesDeUsuarioProgramadas(Long idUsuario);
+
+    Transaccion buscarTransaccionPorId(Long idTransaccion);
 }

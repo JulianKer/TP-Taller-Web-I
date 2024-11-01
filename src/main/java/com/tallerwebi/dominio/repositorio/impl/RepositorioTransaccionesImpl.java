@@ -88,4 +88,11 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
                 .setFetchMode("criptomoneda", FetchMode.JOIN)
                 .list();
     }
+
+    @Override
+    public Transaccion buscarTransaccionPorId(Long idTransaccion) {
+        return (Transaccion) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
+                .add(Restrictions.eq("id", idTransaccion))
+                .uniqueResult();
+    }
 }
