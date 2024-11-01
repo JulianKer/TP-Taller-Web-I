@@ -1,9 +1,9 @@
 package com.tallerwebi.dominio.repositorio;
 
 import com.tallerwebi.dominio.entidades.Transaccion;
+import com.tallerwebi.dominio.entidades.TransaccionProgramada;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface RepositorioTransacciones {
@@ -17,4 +17,8 @@ public interface RepositorioTransacciones {
     void eliminarTransaccion(Transaccion transaccion);
 
     List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario);
+
+    List<TransaccionProgramada> filtrarTransaccionesProgramadas(TipoTransaccion tipoTransaccionEncontrada, Long idUsuario);
+
+    List<TransaccionProgramada> obtenerHistorialTransaccionesDeUsuarioProgramadas(Long idUsuario);
 }
