@@ -301,6 +301,7 @@
           <th>Cantidad</th>
           <th>Condición</th>
           <th>Precio a cumplir (U$D)</th>
+          <th>Acción</th>
         </tr>
         </thead>
         <tbody>
@@ -344,8 +345,10 @@
           <!-- ---------------------------------------------------------------------------------------------------->
 
 
-          <td th:text="${transaccionProgramada.getCondicionParaHacerla().toUpperCase()} + 'A'"></td>
+          <td th:text="${transaccionProgramada.getCondicionParaHacerla().toUpperCase()}"></td>
           <td th:text="${transaccionProgramada.getPrecioACumplir()}"></td>
+
+          <td><a th:href="@{'/eliminarTransaccionProgramada/' + ${transaccionProgramada.getId()}}" class="btnCancelar">Cancelar</a></td>
         </tr>
 
         </tbody>
