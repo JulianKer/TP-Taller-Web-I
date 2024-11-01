@@ -58,213 +58,145 @@
 </header>
 
 <main class="mainTransacciones">
-  <h2>Transacciones</h2>
 
-<!--<div th:if="${param.mensaje}">
-  <div th:if='${!param.mensaje.equals("Transaccion exitosa.") }'>
-    <p th:text="${param.mensaje}" class="alert alert-warning"></p>
-  </div>
-</div>-->
   <div th:if="${param.mensaje}">
-    <div th:if="${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}">
+    <div th:if="${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}
+              and ${!#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Programacion exitosa.')} ">
       <p th:text="${param.mensaje[0]}" class="alert alert-danger"></p>
     </div>
-    <div th:if="${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}">
+    <div th:if="${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Transaccion exitosa.')}
+              or ${#strings.equalsIgnoreCase(param.mensaje[0].trim(), 'Programacion exitosa.')}">
       <p th:text="${param.mensaje[0]}" class="alert alert-success"></p>
     </div>
   </div>
 
 
-  <form class="form-nueva-transaccion" th:action="@{/realizarTransaccion}" method="post">
-    <div>
-      <label for="tipoDeTransaccion">Seleccione el tipo de transacción:</label>
-      <select id="tipoDeTransaccion" name="tipoDeTransaccion" class="inputs">
-        <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
-        <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
-        <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>
-      </select>
-    </div>
 
 
-    <div class="divCriptoADar">
-      <label for="nombreDeCripto">Seleccione la criptomoneda:</label>
-      <select id="nombreDeCripto" name  ="nombreDeCripto" class="inputs">
-        <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoADarSeleccionada)}"></option>
-      </select>
-    </div>
-
-
-    <div class="divCantidadDeCriptoADar">
-      <label for="cantidadDeCripto">Seleccione la cantidad:</label>
-      <input type="number" name="cantidadDeCripto" id="cantidadDeCripto" step="0.00001" class="inputs">
-    </div>
-
-
-    <div class="divCriptoAObtener">
-      <label for="nombreDeCripto2">Seleccione la criptomoneda que desea obtener:</label>
-      <select id="nombreDeCripto2" name="nombreDeCripto2" class="inputs">
-        <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoAObtenerSeleccionada)}"></option>
-      </select>
-    </div>
-
-
-    <input type="hidden" name="emailUsuario" th:value="${emailUsuario}">
-    <input type="submit" value="Realizar transacción" id="btnRealizarTransaccion">
-  </form>
-
-
-
-
-
-  <div class="cont-titulo-programar">
-    <h2 class="titulo">Programar transacción</h2>
-    <img th:if="${usuario.getActivo()}" th:src="@{/img/icons/icon_info.svg}" alt="iconInfo" title="Función nueva por haber obtenido la suscripción">
+  <div class="doble-titulo">
+    <h2 id="titulo-transaccion">Transacciones</h2>
   </div>
-  <div th:if="${usuario.getActivo()}" class="contenedor">
-    <form class="formulario" th:action="@{/programarTransaccion}" method="post">
-      <div class="grupo">
-        <label class="etiqueta" for="selector-transaccion-programada">Seleccione el tipo de transacción:</label>
-        <select class="selector" id="selector-transaccion-programada" name="selectorTransaccionProgramada">
+
+
+
+  <section id="seccionTransacciones">
+    <form class="form-nueva-transaccion" th:action="@{/realizarTransaccion}" method="post">
+      <div>
+        <label for="tipoDeTransaccion">Seleccione el tipo de transacción:</label>
+        <select id="tipoDeTransaccion" name="tipoDeTransaccion" class="inputs">
           <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
           <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
           <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>
         </select>
       </div>
 
-      <div class="grupo">
-        <label class="etiqueta" for="selector-cripto-programada">Seleccione la criptomoneda:</label>
-        <select class="selector" id="selector-cripto-programada" name="selectorCriptoProgramada">
+
+      <div class="divCriptoADar">
+        <label for="nombreDeCripto">Seleccione la criptomoneda:</label>
+        <select id="nombreDeCripto" name  ="nombreDeCripto" class="inputs">
           <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoADarSeleccionada)}"></option>
         </select>
       </div>
 
-      <div class="grupo">
-        <label class="etiqueta" for="cantidadDeCripto-programada">Seleccione la cantidad:</label>
-        <input type="number" class="selector" step="0.00001" min="0" id="cantidadDeCripto-programada" name="cantidadDeCriptoProgramada">
+
+      <div class="divCantidadDeCriptoADar">
+        <label for="cantidadDeCripto">Seleccione la cantidad:</label>
+        <input type="number" name="cantidadDeCripto" id="cantidadDeCripto" step="0.00001" class="inputs">
       </div>
 
-      <div class="grupo divCriptoAObtenerProgramada">
-        <label for="nombreDeCriptoAObtenerProgramada">Seleccione la criptomoneda que desea obtener:</label>
-        <select id="nombreDeCriptoAObtenerProgramada" name="nombreDeCriptoAObtenerProgramada" class="selector">
+
+      <div class="divCriptoAObtener">
+        <label for="nombreDeCripto2">Seleccione la criptomoneda que desea obtener:</label>
+        <select id="nombreDeCripto2" name="nombreDeCripto2" class="inputs">
           <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoAObtenerSeleccionada)}"></option>
         </select>
       </div>
 
-      <div class="grupo-condicion">
-        <label class="etiqueta labelCuando" for="selector-condicion-programada">Cuando:</label>
-        <div>
-          <select class="selector-condicion" id="selector-condicion-programada" name="selectorCondicionProgramada">
-            <option value="mayor">MAYOR</option>
-            <option value="menor">MENOR</option>
+
+      <input type="hidden" name="emailUsuario" th:value="${emailUsuario}">
+      <input type="submit" value="Realizar transacción" id="btnRealizarTransaccion">
+    </form>
+
+    <section class="historial">
+      <form th:action="@{/transacciones}" method="get" class="filter-container" id="form_filtro">
+        <h2>Historial de Transacciones</h2>
+        <div class="container_select_label">
+          <label for="transaction-filter">Filtrar:</label>
+          <select name = "tipoTransaccion" id="transaction-filter">
+            <option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
+            <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(filtro, 'COMPRA')}">Compras</option>
+            <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(filtro, 'VENTA')}">Ventas</option>
+            <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(filtro, 'INTERCAMBIO')}">Intercambio</option>
+            <option value="DEVOLUCION" th:selected="${#strings.equalsIgnoreCase(filtro, 'DEVOLUCION')}">Devolucion</option>
           </select>
-          <label>
-            a:
-            <input type="number" class="entrada-numero" step="0.00001" min="0" name="precioACumplir">
-            U$D
-          </label>
         </div>
-      </div>
+      </form>
+      <table>
+        <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Fecha</th>
 
-      <button class="boton">Realizar transacción</button>
-    </form>
-  </div>
+          <th>Criptomoneda</th>
+          <th>Precio Unitario (U$D)</th>
+          <th>Cantidad</th>
 
-
-  <div th:if="${!usuario.getActivo()}" class="cont-msj-no-cuenta-con-suscripcion alert alert-dark">
-    <img class="icon-blocked" th:src="@{/img/icons/icon_blocked.svg}" alt="FuncionBloqueda" title="Función bloqueada">
-    <p class="text-blocked">Función bloqueada: para poder usarla debes suscribirte</p>
-    <a th:href="@{/suscripcion}" class="subscribe-btn">Obtener suscripción</a>
-  </div>
-
-
-
-
-
+          <th>Total (U$D)</th>
+        </tr>
+        </thead>
+        <tbody>
 
 
+        <tr th:if="${#lists.isEmpty(historialTransacciones)}">
+          <td colspan="8">
+            <h6 class="alert alert-danger">
+              Aún no hay transacciones.
+            </h6>
+          </td>
+        </tr>
+
+        <tr th:each="registroTransacion : ${historialTransacciones}" th:unless="${#lists.isEmpty(historialTransacciones)}">
+          <td th:text="${registroTransacion.getTipo()}"></td>
+          <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
+
+          <!-- --------------------------------  VENTA COMPRA o DEVOLUCION -------------------------------------------------------------->
+          <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></td>
+          <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
+
+          <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'VENTA') or #strings.equalsIgnoreCase(registroTransacion.getTipo(), 'DEVOLUCION')}">
+            <p th:text="'-' + ${registroTransacion.getCantidadDeCripto()}" class="dada"></p>
+          </td>
+
+          <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'COMPRA')}">
+            <p th:text="'+' + ${registroTransacion.getCantidadDeCripto()}" class="obtenida"></p>
+          </td>
+          <!-- ---------------------------------------------------------------------------------------------------->
 
 
+          <!-- -------------------- INTERCAMBIO--------------------------------------------------------->
+          <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
+            <span th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></span>
+            <span th:text="${registroTransacion.getCriptomoneda2().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda2().getSimbolo()} + ') '"></span>
+          </td>
+
+          <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
+            <span th:text="${registroTransacion.getPrecioAlQueSehizo()}"></span>
+            <span th:text="${registroTransacion.getPrecioAlQueSehizo2()}"></span>
+          </td>
+
+          <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
+            <span th:text="'-' + ${registroTransacion.getCantidadDeCripto()}" class="dada"></span>
+            <span th:text="'+' + ${registroTransacion.getCantidadDeCripto2()}" class="obtenida"></span>
+          </td>
+          <!-- ---------------------------------------------------------------------------------------------------->
 
 
-  <section class="historial">
-    <form th:action="@{/transacciones}" method="get" class="filter-container" id="form_filtro">
-      <h2>Historial de Transacciones</h2>
-      <div class="container_select_label">
-        <label for="transaction-filter">Filtrar:</label>
-        <select name = "tipoTransaccion" id="transaction-filter">
-          <option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
-          <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(filtro, 'COMPRA')}">Compras</option>
-          <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(filtro, 'VENTA')}">Ventas</option>
-          <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(filtro, 'INTERCAMBIO')}">Intercambio</option>
-          <option value="DEVOLUCION" th:selected="${#strings.equalsIgnoreCase(filtro, 'DEVOLUCION')}">Devolucion</option>
-        </select>
-      </div>
-    </form>
-    <table>
-      <thead>
-      <tr>
-        <th>Tipo</th>
-        <th>Fecha</th>
+          <td th:text="${registroTransacion.getMontoTotal()}"></td>
+        </tr>
 
-        <th>Criptomoneda</th>
-        <th>Precio Unitario (U$D)</th>
-        <th>Cantidad</th>
-
-        <th>Total (U$D)</th>
-      </tr>
-      </thead>
-      <tbody>
-
-
-      <tr th:if="${#lists.isEmpty(historialTransacciones)}">
-        <td colspan="8">
-          <h6 class="alert alert-danger">
-            Aún no hay transacciones.
-          </h6>
-        </td>
-      </tr>
-
-      <tr th:each="registroTransacion : ${historialTransacciones}" th:unless="${#lists.isEmpty(historialTransacciones)}">
-        <td th:text="${registroTransacion.getTipo()}"></td>
-        <td th:text="${registroTransacion.getFechaDeTransaccion()}"></td>
-
-        <!-- --------------------------------  VENTA COMPRA o DEVOLUCION -------------------------------------------------------------->
-        <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></td>
-        <td th:if="${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" th:text="${registroTransacion.getPrecioAlQueSehizo()}"></td>
-
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'VENTA') or #strings.equalsIgnoreCase(registroTransacion.getTipo(), 'DEVOLUCION')}">
-          <p th:text="'-' + ${registroTransacion.getCantidadDeCripto()}" class="dada"></p>
-        </td>
-
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'COMPRA')}">
-          <p th:text="'+' + ${registroTransacion.getCantidadDeCripto()}" class="obtenida"></p>
-        </td>
-        <!-- ---------------------------------------------------------------------------------------------------->
-
-
-        <!-- -------------------- INTERCAMBIO--------------------------------------------------------->
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
-          <span th:text="${registroTransacion.getCriptomoneda().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda().getSimbolo()} + ') '"></span>
-          <span th:text="${registroTransacion.getCriptomoneda2().getNombreConMayus()} + ' (' + ${registroTransacion.getCriptomoneda2().getSimbolo()} + ') '"></span>
-        </td>
-
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
-          <span th:text="${registroTransacion.getPrecioAlQueSehizo()}"></span>
-          <span th:text="${registroTransacion.getPrecioAlQueSehizo2()}"></span>
-        </td>
-
-        <td th:if="${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}">
-          <span th:text="'-' + ${registroTransacion.getCantidadDeCripto()}" class="dada"></span>
-          <span th:text="'+' + ${registroTransacion.getCantidadDeCripto2()}" class="obtenida"></span>
-        </td>
-        <!-- ---------------------------------------------------------------------------------------------------->
-
-
-        <td th:text="${registroTransacion.getMontoTotal()}"></td>
-      </tr>
-
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </section>
     <a class="boton-descargar" th:href="@{/descargar-pdf}" download="tabla.pdf">
       <button type="button">
         Descargar Resumen
@@ -281,78 +213,144 @@
 
 
 
-  <!-- este es es la tabla de programdas ---------------->
-  <section class="historial">
-    <form th:action="@{/transacciones}" method="get" class="filter-container" id="form_filtro-programadas">
-      <h2>Transacciones programadas</h2>
-      <div class="container_select_label">
-        <label for="transaction-filter">Filtrar:</label>
-        <select name = "tipoTransaccion" id="transaction-filter-programadas">
-          <option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
-          <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(filtro, 'COMPRA')}">Compras</option>
-          <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(filtro, 'VENTA')}">Ventas</option>
-          <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(filtro, 'INTERCAMBIO')}">Intercambio</option>
-        </select>
+
+
+  <div class="doble-titulo">
+    <h2 id="titulo-programadas">Transacciones programadas</h2>
+  </div>
+  <section id="seccionProgramadas">
+    <div th:if="${usuario.getActivo()}" class="contenedor">
+      <form class="formulario" th:action="@{/programarTransaccion}" method="post">
+        <div class="grupo">
+          <label class="etiqueta" for="selector-transaccion-programada">Seleccione el tipo de transacción:</label>
+          <select class="selector" id="selector-transaccion-programada" name="selectorTransaccionProgramada">
+            <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
+            <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
+            <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>
+          </select>
+        </div>
+
+        <div class="grupo">
+          <label class="etiqueta" for="selector-cripto-programada">Seleccione la criptomoneda:</label>
+          <select class="selector" id="selector-cripto-programada" name="selectorCriptoProgramada">
+            <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoADarSeleccionada)}"></option>
+          </select>
+        </div>
+
+        <div class="grupo">
+          <label class="etiqueta" for="cantidadDeCripto-programada">Seleccione la cantidad:</label>
+          <input type="number" class="selector" step="0.00001" min="0" id="cantidadDeCripto-programada" name="cantidadDeCriptoProgramada">
+        </div>
+
+        <div class="grupo divCriptoAObtenerProgramada">
+          <label for="nombreDeCriptoAObtenerProgramada">Seleccione la criptomoneda que desea obtener:</label>
+          <select id="nombreDeCriptoAObtenerProgramada" name="nombreDeCriptoAObtenerProgramada" class="selector">
+            <option th:each="cadaCripto : ${criptos}" th:value="${cadaCripto.getNombre()}" th:text="${cadaCripto.getNombreConMayus()}" th:selected="${#strings.equalsIgnoreCase(cadaCripto.getNombre(), nombreDeCriptoAObtenerSeleccionada)}"></option>
+          </select>
+        </div>
+
+        <div class="grupo-condicion">
+          <label class="etiqueta labelCuando" for="selector-condicion-programada">Cuando:</label>
+          <div>
+            <select class="selector-condicion" id="selector-condicion-programada" name="selectorCondicionProgramada">
+              <option value="mayor">MAYOR a:</option>
+              <option value="menor">MENOR a:</option>
+            </select>
+            <label>
+              <input type="number" class="entrada-numero" step="0.00001" min="0" name="precioACumplir">
+              U$D
+            </label>
+          </div>
+        </div>
+
+        <button class="boton">Realizar transacción</button>
+      </form>
+    </div>
+
+
+    <div th:if="${!usuario.getActivo()}" style="background-color: #fff; padding: 1em; position: relative; z-index: 2;    box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+      <div class="cont-msj-no-cuenta-con-suscripcion alert alert-dark">
+        <img class="icon-blocked" th:src="@{/img/icons/icon_blocked.svg}" alt="FuncionBloqueda" title="Función bloqueada">
+        <p class="text-blocked">Función bloqueada: para poder usarla debes suscribirte</p>
+        <a th:href="@{/suscripcion}" class="subscribe-btn">Obtener suscripción</a>
       </div>
-    </form>
-    <table>
-      <thead>
-      <tr>
-        <th>Tipo</th>
-        <th>Fecha que se programó</th>
-        <th>Criptomoneda</th>
-        <th>Cantidad</th>
-        <th>Condición</th>
-        <th>Precio a cumplir (U$D)</th>
-      </tr>
-      </thead>
-      <tbody>
+    </div>
 
 
-      <tr th:if="${#lists.isEmpty(transaccionesProgramadas)}">
-        <td colspan="8">
-          <h6 class="alert alert-danger">
-            Aún no hay transacciones programadas.
-          </h6>
-        </td>
-      </tr>
 
-      <tr th:each="transaccionProgramada : ${transaccionesProgramadas}" th:unless="${#lists.isEmpty(transaccionesProgramadas)}">
-        <td th:text="${transaccionProgramada.getTipo()}"></td>
-        <td th:text="${transaccionProgramada.getFechaQueSeHizoLaProgramacion()}"></td>
-
-        <!-- --------------------------------  VENTA COMPRA o DEVOLUCION -------------------------------------------------------------->
-        <td th:if="${!#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'INTERCAMBIO')}" th:text="${transaccionProgramada.getCriptomoneda().getNombreConMayus()} + ' (' + ${transaccionProgramada.getCriptomoneda().getSimbolo()} + ') '"></td>
-
-        <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'VENTA') or #strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'DEVOLUCION')}">
-          <p th:text="${transaccionProgramada.getCantidadDeCripto()}"></p>
-        </td>
-
-        <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'COMPRA')}">
-          <p th:text="${transaccionProgramada.getCantidadDeCripto()}"></p>
-        </td>
-        <!-- ---------------------------------------------------------------------------------------------------->
-
-
-        <!-- -------------------- INTERCAMBIO--------------------------------------------------------->
-        <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'INTERCAMBIO')}">
-          <span th:text="${transaccionProgramada.getCriptomoneda().getNombreConMayus()} + ' (' + ${transaccionProgramada.getCriptomoneda().getSimbolo()} + ') '"></span>
-          <span th:text="${transaccionProgramada.getCriptomoneda2().getNombreConMayus()} + ' (' + ${transaccionProgramada.getCriptomoneda2().getSimbolo()} + ') '"></span>
-        </td>
-
-        <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'INTERCAMBIO')}">
-          <span th:text="${transaccionProgramada.getCantidadDeCripto()}"></span>
-          <span>-</span>
-        </td>
-        <!-- ---------------------------------------------------------------------------------------------------->
+    <!-- este es es la tabla de programdas ---------------->
+    <section th:if="${usuario.getActivo()}" class="historial">
+      <form th:action="@{/transacciones}" method="get" class="filter-container" id="form_filtro-programadas">
+        <h2>Transacciones programadas</h2>
+        <div class="container_select_label">
+          <label for="transaction-filter">Filtrar:</label>
+          <select name = "tipoTransaccion" id="transaction-filter-programadas">
+            <option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
+            <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(filtro, 'COMPRA')}">Compras</option>
+            <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(filtro, 'VENTA')}">Ventas</option>
+            <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(filtro, 'INTERCAMBIO')}">Intercambio</option>
+          </select>
+        </div>
+      </form>
+      <table>
+        <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Fecha que se programó</th>
+          <th>Criptomoneda</th>
+          <th>Cantidad</th>
+          <th>Condición</th>
+          <th>Precio a cumplir (U$D)</th>
+        </tr>
+        </thead>
+        <tbody>
 
 
-        <td th:text="${transaccionProgramada.getCondicionParaHacerla().toUpperCase()} + 'A'"></td>
-        <td th:text="${transaccionProgramada.getPrecioACumplir()}"></td>
-      </tr>
+        <tr th:if="${#lists.isEmpty(transaccionesProgramadas)}">
+          <td colspan="8">
+            <h6 class="alert alert-danger">
+              Aún no hay transacciones programadas.
+            </h6>
+          </td>
+        </tr>
 
-      </tbody>
-    </table>
+        <tr th:each="transaccionProgramada : ${transaccionesProgramadas}" th:unless="${#lists.isEmpty(transaccionesProgramadas)}">
+          <td th:text="${transaccionProgramada.getTipo()}"></td>
+          <td th:text="${transaccionProgramada.getFechaQueSeHizoLaProgramacion()}"></td>
+
+          <!-- --------------------------------  VENTA COMPRA o DEVOLUCION -------------------------------------------------------------->
+          <td th:if="${!#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'INTERCAMBIO')}" th:text="${transaccionProgramada.getCriptomoneda().getNombreConMayus()} + ' (' + ${transaccionProgramada.getCriptomoneda().getSimbolo()} + ') '"></td>
+
+          <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'VENTA') or #strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'DEVOLUCION')}">
+            <p th:text="${transaccionProgramada.getCantidadDeCripto()}"></p>
+          </td>
+
+          <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'COMPRA')}">
+            <p th:text="${transaccionProgramada.getCantidadDeCripto()}"></p>
+          </td>
+          <!-- ---------------------------------------------------------------------------------------------------->
+
+
+          <!-- -------------------- INTERCAMBIO--------------------------------------------------------->
+          <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'INTERCAMBIO')}">
+            <span th:text="${transaccionProgramada.getCriptomoneda().getNombreConMayus()} + ' (' + ${transaccionProgramada.getCriptomoneda().getSimbolo()} + ') '"></span>
+            <span th:text="${transaccionProgramada.getCriptomoneda2().getNombreConMayus()} + ' (' + ${transaccionProgramada.getCriptomoneda2().getSimbolo()} + ') '"></span>
+          </td>
+
+          <td th:if="${#strings.equalsIgnoreCase(transaccionProgramada.getTipo(), 'INTERCAMBIO')}">
+            <span th:text="${transaccionProgramada.getCantidadDeCripto()}"></span>
+            <span>-</span>
+          </td>
+          <!-- ---------------------------------------------------------------------------------------------------->
+
+
+          <td th:text="${transaccionProgramada.getCondicionParaHacerla().toUpperCase()} + 'A'"></td>
+          <td th:text="${transaccionProgramada.getPrecioACumplir()}"></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </section>
   </section>
 </main>
 

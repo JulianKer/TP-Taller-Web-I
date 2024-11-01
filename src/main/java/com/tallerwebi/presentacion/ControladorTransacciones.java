@@ -165,7 +165,7 @@ public class ControladorTransacciones {
 
 
 
-
+    // -------------------- PROGRAMADA alguna transaccion ---------------------------------------------------------------
     @RequestMapping(path = "/programarTransaccion", method = RequestMethod.POST)
     public ModelAndView programarTransaccion(@RequestParam(value = "selectorTransaccionProgramada") TipoTransaccion tipoTransaccionProgramada,
                                              @RequestParam(value = "selectorCriptoProgramada") String nombreCriptoProgramada,
@@ -202,7 +202,6 @@ public class ControladorTransacciones {
         return intentarProgramarUnaTransaccion(nombreCriptoProgramada, nombreDeCriptoAObtenerProgramada, cantidadDeCriptoProgramada, tipoTransaccionProgramada, selectorCondicionProgramada, precioACumplir, userEncontrado);
     }
 
-    // -------------------- VENTA O COMPRAS PROGRAMADAS ------------------
     public ModelAndView intentarProgramarUnaTransaccion(String nombreCriptoProgramada, String nombreDeCriptoAObtenerProgramada, Double cantidadDeCriptoProgramada, TipoTransaccion tipoTransaccionProgramada, String condicionProgramada, Double precioACumplir, Usuario userEncontrado){
 
         Criptomoneda criptomonedaEncontrada;
