@@ -1,15 +1,12 @@
 package com.tallerwebi.dominio.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Transaccion {
 
     @Id
@@ -31,6 +28,10 @@ public class Transaccion {
     private TipoTransaccion tipo;
     private Double cantidadDeCripto;
     private Double cantidadDeCripto2;
+    private Boolean fueProgramada = false;
+
+    public Transaccion() {
+    }
 
     //metodos (agregue algunos)
     public Criptomoneda getCriptomoneda() {
@@ -107,5 +108,13 @@ public class Transaccion {
 
     public void setCantidadDeCripto2(Double cantidadDeCripto2) {
         this.cantidadDeCripto2 = cantidadDeCripto2;
+    }
+
+    public Boolean getFueProgramada() {
+        return fueProgramada;
+    }
+
+    public void setFueProgramada(Boolean fueProgramada) {
+        this.fueProgramada = fueProgramada;
     }
 }
