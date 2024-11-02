@@ -175,6 +175,16 @@
         </dependency>
 
 
+        <!-- ............... esto es para el JOIN en la tabla transaccion para
+        q se creen 2 tablas distintas pero joineadas por fk......... osea, es una dependencia
+        de JPA pq la necesito para hacerlo aunq no use el JPA para hacer las consultas........... -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- ......................................... -->
+
     </dependencies>
 
 

@@ -1,11 +1,11 @@
 package com.tallerwebi.dominio.repositorio.impl;
 
 import com.tallerwebi.dominio.entidades.Transaccion;
+import com.tallerwebi.dominio.entidades.TransaccionProgramada;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,6 +35,7 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
                 .createAlias("usuario", "u")
                 .createAlias("criptomoneda", "c")
                 .add(Restrictions.eq("u.id", idDeUsuario))
+                .add(Restrictions.eq("class", Transaccion.class))
                 .setFetchMode("criptomoneda", FetchMode.JOIN)
                 .list();
     }
@@ -60,9 +61,38 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
                 .createAlias("criptomoneda", "c")
                 .add(Restrictions.eq("tipo", tipoTransaccion))
                 .add(Restrictions.eq("u.id", idUsuario))
+                .add(Restrictions.eq("class", Transaccion.class))
                 .setFetchMode("criptomoneda", FetchMode.JOIN)
                 .list();
+    }
 
+    @Override
+    public List<TransaccionProgramada> filtrarTransaccionesProgramadas(TipoTransaccion tipoTransaccion, Long idUsuario) {
+        return (ArrayList<TransaccionProgramada>) sessionFactory.getCurrentSession().createCriteria(TransaccionProgramada.class)
+                .createAlias("usuario", "u")
+                .createAlias("criptomoneda", "c")
+                .add(Restrictions.eq("tipo", tipoTransaccion))
+                .add(Restrictions.eq("u.id", idUsuario))
+                .add(Restrictions.eq("class", Transaccion.class))
+                .setFetchMode("criptomoneda", FetchMode.JOIN)
+                .list();
+    }
 
+    @Override
+    public List<TransaccionProgramada> obtenerHistorialTransaccionesDeUsuarioProgramadas(Long idUsuario) {
+        return (List<TransaccionProgramada>) sessionFactory.getCurrentSession().createCriteria(TransaccionProgramada.class)
+                .createAlias("usuario", "u")
+                .createAlias("criptomoneda", "c")
+                .add(Restrictions.eq("u.id", idUsuario))
+                .add(Restrictions.eq("class", TransaccionProgramada.class))
+                .setFetchMode("criptomoneda", FetchMode.JOIN)
+                .list();
+    }
+
+    @Override
+    public Transaccion buscarTransaccionPorId(Long idTransaccion) {
+        return (Transaccion) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
+                .add(Restrictions.eq("id", idTransaccion))
+                .uniqueResult();
     }
 }
