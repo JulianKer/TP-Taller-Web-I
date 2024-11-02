@@ -103,7 +103,11 @@
 
       <div class="divCantidadDeCriptoADar">
         <label for="cantidadDeCripto">Seleccione la cantidad:</label>
-        <input type="number" name="cantidadDeCripto" id="cantidadDeCripto" step="0.00001" class="inputs">
+        <div class="contInputsConversion">
+          <input type="number" name="cantidadDeCripto" min="0" step="any" id="cantidadDeCripto" class="inputs">
+          <img th:src="@{/img/icons/icon_conversionArrows.svg}" alt="converison" title="Conversión">
+          <input type="number" id="cantEnUsdTransaccionComun" min="0" step="any" class="inputs">U$D
+        </div>
       </div>
 
 
@@ -241,7 +245,11 @@
 
         <div class="grupo">
           <label class="etiqueta" for="cantidadDeCripto-programada">Seleccione la cantidad:</label>
-          <input type="number" class="selector" step="0.00001" min="0" id="cantidadDeCripto-programada" name="cantidadDeCriptoProgramada">
+          <div class="contInputsConversion">
+            <input type="number" class="selector" min="0" step="any" id="cantidadDeCripto-programada" name="cantidadDeCriptoProgramada">
+            <img th:src="@{/img/icons/icon_conversionArrows.svg}" alt="converison" title="Conversión">
+            <input type="number" id="cantEnUsdTransaccionProgramada" class="inputs" min="0" step="any">U$D
+          </div>
         </div>
 
         <div class="grupo divCriptoAObtenerProgramada">
@@ -359,6 +367,10 @@
   </section>
 </main>
 
+<script th:inline="javascript">
+  const criptomonedas = /*[[${criptos}]]*/ [];
+</script>
+<script th:src="@{/js/conversorUsdTransacciones.js}" defer></script>
 <script th:src="@{/js/headerNuevo.js}" defer></script>
 <!-- Bootstrap core JS -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>

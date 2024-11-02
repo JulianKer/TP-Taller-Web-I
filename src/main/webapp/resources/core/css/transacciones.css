@@ -361,7 +361,24 @@ td span:nth-of-type(2){
 
 
 
+.contInputsConversion{
+    display: flex;
+    align-items: center;
+    gap: 1em;
 
+    & >input{
+        width: 300px;
+    }
+
+    #cantidadDeCripto-programada{
+        margin: 0;
+        padding: .5rem;
+    }
+
+    img{
+        width: 1.5em;
+    }
+}
 
 
 @media (max-width: 768px) {
@@ -376,7 +393,23 @@ td span:nth-of-type(2){
     }
 }
 
-@media (max-width: 550px) {
+@media screen and (max-width: 660px){
+    .contInputsConversion{
+        flex-direction: column;
+        justify-content: center;
+        gap: 1em;
+
+        & >input{
+            width: 100%;
+        }
+
+        img{
+            transform: rotate(-90deg);
+        }
+    }
+}
+
+@media screen and (max-width: 550px) {
     .grupo-condicion{
         flex-direction: column;
         align-items: start;
