@@ -159,5 +159,12 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         return esMayor;
     }
 
-
+    @Override
+    public void ingresarSaldo(Long id, Double monto) {
+        Usuario usuario = repositorioUsuario.buscarUsuarioPorId(id);
+        if (usuario != null) {
+            usuario.setSaldo(usuario.getSaldo() + monto);
+            repositorioUsuario.guardar(usuario);
+        }
+    }
 }

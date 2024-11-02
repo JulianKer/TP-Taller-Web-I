@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* Fondo gris claro */
+}
+
+/* Estilos para el contenedor rojo */
+.popup {
+    display: none; /* Oculto por defecto */
+    background-color: #875656; /* Color de fondo rojo */
+    color: white; /* Color del texto */
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+/* Estilo del botón */
+.cargarSaldo {
+    margin-top: 3%;
+    padding: 10px 20px;
+    background-color: #28a745; /* Color verde */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ingresarSaldo{
+    margin-top: 3%;
+    padding: 10px 20px;
+    background-color: #28a745; /* Color verde */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.ingresarSaldoInput{
+    margin-top: 3%;
+    padding: 5px 10px;
+    background-color: #000000; /* Color verde */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.close-cargarSaldo {
+    padding: 10px 20px;
+    background-color: #dc3545; /* Color rojo */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
