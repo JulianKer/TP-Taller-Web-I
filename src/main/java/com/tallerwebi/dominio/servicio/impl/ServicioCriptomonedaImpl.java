@@ -209,7 +209,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                 if (billeteraEncontrada != null){
                     if (billeteraEncontrada.getCantidadDeCripto() > 0){
                         cantidadDeCriptosPorUsuario = billeteraEncontrada.getCantidadDeCripto();
-                        servicioTransacciones.crearTransaccion(criptoAInhabilitar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.DEVOLUCION, usuario, null, null);
+                        servicioTransacciones.crearTransaccion(criptoAInhabilitar, precioDeEsaCripto, cantidadDeCriptosPorUsuario, TipoTransaccion.DEVOLUCION, usuario, null, null,false);
                     }
                 }
             }

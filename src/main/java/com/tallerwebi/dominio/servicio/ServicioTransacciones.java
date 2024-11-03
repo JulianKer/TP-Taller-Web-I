@@ -11,9 +11,10 @@ import java.util.List;
 
 public interface ServicioTransacciones {
 
-    String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener);
-
     List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario);
+
+    //----- METODO PRINCIPAL PARA GENERAR LA TRANSACCION -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener, Boolean esProgramada);
 
     Transaccion generarTransaccion(Double precioDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion, Criptomoneda criptoEncontrada, Double cantidadDeCripto, Criptomoneda criptoAObtener, Double cantidadDeCriptoAObtener, Double precioDeCriptoAObtener);
 
@@ -34,4 +35,10 @@ public interface ServicioTransacciones {
     List<TransaccionProgramada> obtenerHistorialTransaccionesDeUsuarioProgramadas(Long idUsuario);
 
     Transaccion buscarTransaccionPorId(Long idTransaccion);
+
+    void verSiHayTransaccionesProgramadasAEjecutarse();
+
+    void ejecutarTransaccionesProgramadasDelUsuario(List<TransaccionProgramada> transaccionesProgramadasDeUnUsuario);
+
+    boolean verificarQueCumplaLaCondicion(TransaccionProgramada transaccionProgramada);
 }

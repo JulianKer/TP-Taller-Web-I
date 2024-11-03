@@ -36,7 +36,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
     //----- METODO PRINCIPAL PARA GENERAR LA TRANSACCION -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     @Override
-    public String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener) {
+    public String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener, Boolean esProgramada) {
         Double precioTotalDeTransaccion = precioDeCripto * cantidadDeCripto;
 
         if (cantidadDeCripto <= 0.0) {
@@ -45,19 +45,19 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
         switch (tipoDeTransaccion) {
             case COMPRA:
-                return intentarHacerUnaCompra(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion);
+                return intentarHacerUnaCompra(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, esProgramada);
             case VENTA:
             case DEVOLUCION:
-                return intentarHacerUnaVentaODevolucion(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion);
+                return intentarHacerUnaVentaODevolucion(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, esProgramada);
             case INTERCAMBIO:
-                return intentarHacerUnIntercambio(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, criptoAObtener, precioDeCriptoAObtener);
+                return intentarHacerUnIntercambio(criptomoneda, precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuario, criptoAObtener, precioDeCriptoAObtener, esProgramada);
             default:
                 return "La transaccion no se pudo realizar. Tipo de transaccion desconocida";
         }
     }
     //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    private String intentarHacerUnaVentaODevolucion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion) {
+    private String intentarHacerUnaVentaODevolucion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion, Boolean esProgramada) {
         BilleteraUsuarioCriptomoneda billetera = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario);
 
         if (billetera != null && servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)){
@@ -74,7 +74,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         }
     }
 
-    private String intentarHacerUnaCompra(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion) {
+    private String intentarHacerUnaCompra(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion, Boolean esProgramada) {
         if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())) {
             Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto, null, null, null);
             repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
@@ -99,7 +99,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         }
     }
 
-    private String intentarHacerUnIntercambio(Criptomoneda criptoADar, Double precioDeCriptoADar, Double cantidadDeCriptoADar, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener) {
+    private String intentarHacerUnIntercambio(Criptomoneda criptoADar, Double precioDeCriptoADar, Double cantidadDeCriptoADar, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener, Boolean esProgramada) {
         Double precioTotalDeTransaccion = precioDeCriptoADar * cantidadDeCriptoADar;
 
         BilleteraUsuarioCriptomoneda billeteraCriptoADar = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptoADar, usuario);
@@ -232,5 +232,46 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     @Override
     public Transaccion buscarTransaccionPorId(Long idTransaccion) {
         return repositorioTransacciones.buscarTransaccionPorId(idTransaccion);
+    }
+
+    @Override
+    public void verSiHayTransaccionesProgramadasAEjecutarse() {
+        List<Usuario> usuarios = servicioUsuario.obtenerUnaListaDeTodosLosUsuariosNoAdmins();
+
+        for (Usuario usuario : usuarios) {
+            List<TransaccionProgramada> transaccionesProgramadasDeUnUsuario = repositorioTransacciones.obtenerHistorialTransaccionesDeUsuarioProgramadas(usuario.getId());
+
+            if (!transaccionesProgramadasDeUnUsuario.isEmpty()) {
+                this.ejecutarTransaccionesProgramadasDelUsuario(transaccionesProgramadasDeUnUsuario);
+            }
+        }
+
+
+
+
+    }
+
+    @Override
+    public void ejecutarTransaccionesProgramadasDelUsuario(List<TransaccionProgramada> transaccionesProgramadasDeUnUsuario) {
+        for (TransaccionProgramada transaccionProgramada : transaccionesProgramadasDeUnUsuario) {
+            if (this.verificarQueCumplaLaCondicion(transaccionProgramada)){
+                this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),transaccionProgramada.getCriptomoneda2(),transaccionProgramada.getCriptomoneda2().getPrecioActual(),true);
+            }
+        }
+    }
+
+    @Override
+    public boolean verificarQueCumplaLaCondicion(TransaccionProgramada transaccionProgramada) {
+        String condicion = transaccionProgramada.getCondicionParaHacerla();
+        Double precioACumplir = transaccionProgramada.getPrecioACumplir();
+        Double precioCripto = transaccionProgramada.getCriptomoneda().getPrecioActual();
+
+        switch (condicion){
+            case "mayor":
+                return precioACumplir > precioCripto;
+            case "menor":
+                return precioACumplir < precioCripto;
+        }
+        return false;
     }
 }
