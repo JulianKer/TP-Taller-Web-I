@@ -85,6 +85,7 @@ public class ControladorTransacciones {
         model.put("nombreDeCriptoAObtenerSeleccionada", nombreDeCriptoAObtenerSeleccionada);
         model.put("tipoTransaccionSeleccionada", tipoTransaccionSeleccionada);
 
+        servicioTransacciones.verSiHayTransaccionesProgramadasAEjecutarse(); //ver como hacer para q en cualquier parte de la pagina se ejecute este metodo. y porque cuando termino de hacer una transaccion y te redirige aca, no se ejecuta el metodo, sino que tengo que volver a cargar la pagina.
         return new ModelAndView("transacciones", model);
     }
 

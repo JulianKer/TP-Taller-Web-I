@@ -198,7 +198,11 @@
 
 
           <td th:text="${registroTransacion.getMontoTotal()}"></td>
-          <td th:if="${registroTransacion.getFueProgramada() == true}" class="cont-reloj">
+
+          <td th:if="${registroTransacion.getFueProgramada()} and ${!#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" class="cont-reloj">
+            <img th:src="@{/img/icons/icon_clock.svg}" alt="icono reloj" title="Esta transacción fue programada">
+          </td>
+          <td th:if="${registroTransacion.getFueProgramada()} and ${#strings.equalsIgnoreCase(registroTransacion.getTipo(), 'INTERCAMBIO')}" class="cont-reloj reloj-para-intercambio">
             <img th:src="@{/img/icons/icon_clock.svg}" alt="icono reloj" title="Esta transacción fue programada">
           </td>
         </tr>
@@ -276,7 +280,7 @@
           </div>
         </div>
 
-        <button class="boton">Programarg transacción</button>
+        <button class="boton">Programar transacción</button>
       </form>
     </div>
 

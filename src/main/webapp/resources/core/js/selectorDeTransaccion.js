@@ -23,13 +23,13 @@ let labelCuando = document.querySelector(".labelCuando");
 
 if (selectorCriptoProgramada){
     selectorCriptoProgramada.addEventListener("change", ()=>{
-        labelCuando.textContent = `Cuando ${selectorCriptoProgramada.value.toUpperCase()} sea`
+        labelCuando.textContent = `Cuando ${selectorCriptoProgramada.value.toUpperCase()} (x1) sea`
     })
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
     if (selectorCriptoProgramada){
-        labelCuando.textContent = `Cuando ${selectorCriptoProgramada.value.toUpperCase()} sea`
+        labelCuando.textContent = `Cuando ${selectorCriptoProgramada.value.toUpperCase()} (x1) sea`
     }
 });
 
