@@ -24,4 +24,6 @@ public interface ServicioUsuario {
     String desbloquearUsuario(Long idUsuario);
 
     List<Usuario> filtrarUsuarioPorBusqueda(List<Usuario> misUsuarios, String busquedaUsuario);
+
+    void ingresarSaldo(Long id, Double monto);
 }

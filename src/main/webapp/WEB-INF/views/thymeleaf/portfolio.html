@@ -10,9 +10,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+    <link rel="stylesheet" th:href="@{/css/portafolio.css}"/>
     <script th:src="@{/js/headerNuevo.js}" defer></script>
     <link rel="icon" th:href="@{/img/logoCripto.png}">
-
 </head>
 <body>
 <header id="arriba">
@@ -23,7 +23,7 @@
             <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
 
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
-            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav seleccionado"><a th:href="@{/portfolio}">Portfolio</a></li>
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav seleccionado"><a th:href="@{/portafolio}">Portafolio</a></li>
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
 
             <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
@@ -57,13 +57,25 @@
     </nav>
 </header>
 
+<button class="cargarSaldo" id="show-popup"  >Cargar saldo</button>
 
+<!--poput-->
+    <div class="popup" id="popup-container">
+        <label>Ingrese la cantidad de saldo en dolares a cargar desde Mercado Pago</label>
+        <input  class="ingresarSaldoInput" id="valorSaldoIngresado" placeholder="Ingrese saldo">
+        <button class="ingresarSaldo" onclick="ingresarSaldo()" >Ingresar Saldo</button>
+        <button class="close-cargarSaldo" id="close-popup">Cerrar</button>
+    </div>
 
-
-
+<!-- mensaje del usuario cuando ingresa saldo -->
+<div th:if="${mensajeExito}" class="alert alert-success" role="alert">
+    <p th:text="${mensajeExito}"></p>
+</div>
 <!--COMPLETAR CON LA VISTA-->
 
-
+<script th:src="@{/js/poputCargarSaldo.js}" ></script>
+<script th:src="@{/js/mercadoPago.js}" defer></script>
+<script src="https://sdk.mercadopago.com/js/v2"></script>
 
 </body>
 </html>

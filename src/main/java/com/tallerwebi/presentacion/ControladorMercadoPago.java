@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,8 @@ public class ControladorMercadoPago {
      Este es el usuario que seria el cliente y tiene saldo para poder comprar
      Nombre de usuario:TESTUSER130842149
      contraseña: eJie7vcjR0
+
+
      */
     @GetMapping("/comprar")
     public ResponseEntity<String> comprar(@RequestParam String suscripcion, @RequestParam String suscripcionValor) {
@@ -41,7 +44,7 @@ public class ControladorMercadoPago {
                 .id(suscripcion)
                 .title("Suscripcion diamante")
                 .quantity(1)
-                .currencyId("ARS")
+                .currencyId("USD")
                 .unitPrice(precioReal)
                 //.pictureUrl("http://192.168.1.54:8080/spring/img/suscripcionDiamante.webp") //este lo arregle pq yo habia configurado q para las imgs puedo acceder con el img/ directamente y como MP es externo, tiene q acceder por toda la url publica, nose, aunq ponga una imagen publica no la muestra jaj
                 .build();
@@ -73,6 +76,59 @@ public class ControladorMercadoPago {
             return ResponseEntity.ok(preference.getInitPoint());
         } catch (MPException | MPApiException e) {
             // son exepciones de un error en la comunicacion de mp o de la creacion de la preferencia
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("/error");
+        }
+    }
+
+    @GetMapping("/ingresarSaldo")
+    public ResponseEntity<String> ingresarSaldo(HttpServletRequest request, @RequestParam String ingresarSaldo, @RequestParam String valorSaldoIngresado) {
+        // Configura el token de acceso de Mercado Pago
+        MercadoPagoConfig.setAccessToken("APP_USR-5475377288084995-101015-d8c2349afb05691bdaaa53b80fd5c174-2031088844");
+
+        BigDecimal precioReal;
+        try {
+            precioReal = new BigDecimal(valorSaldoIngresado);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Formato de saldo ingresado inválido");
+        }
+
+        // Guarda el valor del saldo en la sesión
+        request.getSession().setAttribute("valorSaldoIngresado", precioReal);
+
+        // Crea el producto
+        PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
+                .id(ingresarSaldo)
+                .title("Cargar saldo")
+                .quantity(1)
+                .currencyId("USD")
+                .unitPrice(precioReal)
+                .build();
+
+        List<PreferenceItemRequest> items = new ArrayList<>();
+        items.add(itemRequest);
+
+        // Configura las URLs de retorno
+        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+                .success("http://localhost:8080/spring/procesarRespuestaDeIngresarSaldo")
+                .failure("http://localhost:8080/spring/procesarRespuestaDeIngresarSaldo")
+                .pending("http://localhost:8080/spring/procesarRespuestaDeIngresarSaldo")
+                .build();
+
+        // Crea la preferencia de pago
+        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+                .items(items)
+                .backUrls(backUrls)
+                .autoReturn("approved")
+                .externalReference(valorSaldoIngresado) // Guarda el saldo como referencia externa
+                .build();
+
+
+        PreferenceClient client = new PreferenceClient();
+
+        try {
+            Preference preference = client.create(preferenceRequest);
+            return ResponseEntity.ok(preference.getInitPoint());
+        } catch (MPException | MPApiException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("/error");
         }
     }

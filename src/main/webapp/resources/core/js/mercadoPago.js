@@ -21,3 +21,30 @@ function comprar(button) {
         .catch(error => console.error('Error:', error));
 }
 
+function ingresarSaldo() {
+    const valorSaldoIngresado = document.getElementById('valorSaldoIngresado').value;
+
+    // Verifica que se haya ingresado un saldo
+    if (!valorSaldoIngresado) {
+        alert("Por favor, ingrese un saldo válido.");
+        return;
+    }
+
+    fetch(`/spring/ingresarSaldo?ingresarSaldo=cargarSaldo&valorSaldoIngresado=${valorSaldoIngresado}`)
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(text);
+                });
+            }
+            return response.text();
+        })
+        .then(initPoint => {
+            // Redirige al usuario a Mercado Pago
+            window.location.href = initPoint;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Hubo un problema al ingresar el saldo: ' + error.message);
+        });
+}
