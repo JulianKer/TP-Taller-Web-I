@@ -65,7 +65,7 @@ public class ControladorTransaccionesTest {
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("Transaccion exitosa.");
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false)).thenReturn("Transaccion exitosa.");
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
@@ -104,7 +104,7 @@ public class ControladorTransaccionesTest {
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("La cantidad debe ser mayor que 0.");
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false)).thenReturn("La cantidad debe ser mayor que 0.");
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
@@ -129,7 +129,7 @@ public class ControladorTransaccionesTest {
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
-        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null)).thenReturn("Transaccion exitosa.");
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false)).thenReturn("Transaccion exitosa.");
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
@@ -167,7 +167,7 @@ public class ControladorTransaccionesTest {
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener)).thenReturn(criptomonedaAObtener);
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoADar)).thenReturn(precioDeCriptoADar);
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoAObtener)).thenReturn(precioDeCriptoAObtener);
-        when(servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener)).thenReturn("Transaccion exitosa.");
+        when(servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener,false)).thenReturn("Transaccion exitosa.");
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,emailUsuario, nombreDeCriptoAObtener);
 
@@ -199,7 +199,7 @@ public class ControladorTransaccionesTest {
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener)).thenReturn(criptomonedaADar);
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoADar)).thenReturn(precioDeCriptoADar);
         when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCriptoAObtener)).thenReturn(precioDeCriptoAObtener);
-        when(servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaADar, precioDeCriptoAObtener)).thenReturn("Transaccion exitosa.");
+        when(servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaADar, precioDeCriptoAObtener,false)).thenReturn("Transaccion exitosa.");
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,emailUsuario, nombreDeCriptoAObtener);
 

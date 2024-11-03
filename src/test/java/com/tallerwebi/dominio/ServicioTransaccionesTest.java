@@ -47,7 +47,7 @@ public class ServicioTransaccionesTest {
         cripto.setNombre(nombreDeCripto);
         cripto.setPrecioActual(precioDeCripto);
 
-        assertThrows(SaldoInsuficienteException.class,()->servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+        assertThrows(SaldoInsuficienteException.class,()->servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ServicioTransaccionesTest {
         cripto.setNombre(nombreDeCripto);
         cripto.setPrecioActual(precioDeCripto);
 
-        assertEquals("Transaccion exitosa.", servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+        assertEquals("Transaccion exitosa.", servicioTransacciones.crearTransaccion(cripto,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ServicioTransaccionesTest {
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
 
-        assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+        assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ServicioTransaccionesTest {
         when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario)).thenReturn(billetera);
         when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)).thenReturn(true);
 
-        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class ServicioTransaccionesTest {
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
 
-        assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+        assertThrows(CriptomonedasInsuficientesException.class,()->servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false));
     }
 
     @Test
@@ -169,7 +169,7 @@ public class ServicioTransaccionesTest {
         when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario)).thenReturn(billetera);
         when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)).thenReturn(true);
 
-        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null));
+        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false));
     }
 
     @Test
@@ -212,7 +212,7 @@ public class ServicioTransaccionesTest {
         when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomonedaADar, usuario)).thenReturn(billetera);
         when(servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomonedaAObtener, usuario)).thenReturn(billeteraDos);
 
-        assertThrows(CriptomonedasInsuficientesException.class,()-> servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener));
+        assertThrows(CriptomonedasInsuficientesException.class,()-> servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener,false));
     }
 
     @Test
@@ -257,7 +257,7 @@ public class ServicioTransaccionesTest {
 
         when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(billetera, cantidadDeCriptoADar)).thenReturn(true);
 
-        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener));
+        assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener,false));
     }
 
 }

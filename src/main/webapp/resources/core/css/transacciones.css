@@ -380,6 +380,30 @@ td span:nth-of-type(2){
     }
 }
 
+.historial table tr{
+    position: relative;
+}
+
+.cont-reloj{
+    width: 10px;
+    height: 15px;
+    background-color: blueviolet;
+
+    position: absolute;
+    left: -32px;
+    top: 15px;
+
+    border-top-left-radius: .7em;
+    border-bottom-left-radius: .7em;
+
+    & >img{
+        position: absolute;
+        top: 7px;
+        left: 8px;
+        width: 1.2em;
+    }
+}
+
 
 @media (max-width: 768px) {
     .historial{
@@ -390,6 +414,10 @@ td span:nth-of-type(2){
     .historial table {
         min-width: 600px;
         max-width: 100%;
+    }
+
+    .cont-reloj{
+        display: none;
     }
 }
 

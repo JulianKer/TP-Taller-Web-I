@@ -119,7 +119,7 @@ public class ControladorTransacciones {
         precioDeCripto = servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto);
         String mensaje = "";
         try{
-            mensaje = servicioTransacciones.crearTransaccion(criptomonedaEncontrada,precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado, null, null);
+            mensaje = servicioTransacciones.crearTransaccion(criptomonedaEncontrada,precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado, null, null,false);
             return new ModelAndView("redirect:/transacciones?mensaje=" + mensaje + "&nombreDeCriptoADarSeleccionada=" + nombreDeCripto + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion);
         }catch (SaldoInsuficienteException | CriptomonedasInsuficientesException e){
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage()  + "&nombreDeCriptoADarSeleccionada=" + nombreDeCripto + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion);
@@ -148,7 +148,7 @@ public class ControladorTransacciones {
 
         String mensaje = "";
         try{
-            mensaje = servicioTransacciones.crearTransaccion(criptoADar,precioDeCriptoADar, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado, criptoAObtener, precioDeCriptoAObtener);
+            mensaje = servicioTransacciones.crearTransaccion(criptoADar,precioDeCriptoADar, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado, criptoAObtener, precioDeCriptoAObtener,false);
             return new ModelAndView("redirect:/transacciones?mensaje=" + mensaje  + "&nombreDeCriptoADarSeleccionada=" + nombreDeCripto + "&nombreDeCriptoAObtenerSeleccionada=" + nombreDeCripto2 + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion);
         }catch (SaldoInsuficienteException | CriptomonedasInsuficientesException e){
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage()  + "&nombreDeCriptoADarSeleccionada=" + nombreDeCripto + "&nombreDeCriptoAObtenerSeleccionada=" + nombreDeCripto2 + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion);

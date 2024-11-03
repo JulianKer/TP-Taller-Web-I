@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -22,7 +23,8 @@ public class ControladorHomeTest {
     private MockHttpServletRequest request = new MockHttpServletRequest();
     private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomoneda.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
-    private ControladorHome controladorHome = new ControladorHome(servicioCriptomoneda, servicioUsuario);
+    private ServicioTransacciones servicioTransacciones = mock(ServicioTransacciones.class);
+    private ControladorHome controladorHome = new ControladorHome(servicioCriptomoneda, servicioUsuario, servicioTransacciones);
 
     // este lo deberia usar para "pasar una session" al home y qcy, mostrar el nombre del user en el nav segun el email logueado
     // private MockHttpServletRequest request = new MockHttpServletRequest();
