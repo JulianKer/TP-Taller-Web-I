@@ -143,42 +143,33 @@
     <div class="portfolio-header">
         <div>Criptomoneda</div>
         <div>Cantidad</div>
-        <div>Precio Unit.</div>
-        <div>Valor Total</div>
+        <div>Precio Unitario (USD)</div>
+        <div>Valor Total (USD)</div>
     </div>
 
-    <div class="crypto-row">
+    <div th:if="${!portfolio.isEmpty()}" class="crypto-row" th:each=" cadaBilletera :${portfolio}">
         <div class="crypto-name">
-            <img src="/placeholder.svg" alt="BNB" class="crypto-icon">
-            <span>BNB <span class="crypto-symbol">(BNB)</span></span>
+            <img th:src="@{'/img/logoCriptomonedas/' + ${cadaBilletera.getCriptomoneda().getImagen()}}" th:alt="${cadaBilletera.getCriptomoneda().getNombreConMayus()}" class="crypto-icon">
+            <span th:text="${cadaBilletera.getCriptomoneda().getNombreConMayus()}"> <span class="crypto-symbol" th:text="' (' + ${cadaBilletera.getCriptomoneda().getSimbolo()} + ')'"></span></span>
         </div>
-        <div class="amount">2.5 BNB</div>
-        <div>$558.75 USD</div>
-        <div class="total-value">$1,396.87 USD</div>
+        <div class="amount" th:text="${cadaBilletera.getCantidadDeCripto()}"></div>
+        <div th:text="${cadaBilletera.getCriptomoneda().getPrecioActual()}"></div>
+        <div class="total-value" th:text="${cadaBilletera.getCantidadDeCripto() * cadaBilletera.getCriptomoneda().getPrecioActual()}" ></div>
     </div>
-
-    <div class="crypto-row">
-        <div class="crypto-name">
-            <img src="/placeholder.svg" alt="Solana" class="crypto-icon">
-            <span>Solana <span class="crypto-symbol">(SOL)</span></span>
-        </div>
-        <div class="amount">15.8 SOL</div>
-        <div>$162.28 USD</div>
-        <div class="total-value">$2,564.02 USD</div>
+    <div th:if="${portfolio.isEmpty()}">
+    <h4 class="alert alert-danger ">
+        TODAVIA NO HA REALIZADO UNA TRANSACCION!
+    </h4>
     </div>
-
-    <div class="crypto-row">
-        <div class="crypto-name">
-            <img src="/placeholder.svg" alt="Tether" class="crypto-icon">
-            <span>Tether <span class="crypto-symbol">(USDT)</span></span>
-        </div>
-        <div class="amount">1,000 USDT</div>
-        <div>$1.00 USD</div>
-        <div class="total-value">$1,000.00 USD</div>
+    <div class="total-de-la-cuenta" >
+        <p>
+            Total de la cuenta:
+        </p>
+        <p th:text="${totalDeLaCuenta}"></p>
     </div>
+    <button class="cargarSaldo" id="show-popup"  >Cargar saldo</button>
 </div>
 
-<button class="cargarSaldo" id="show-popup"  >Cargar saldo</button>
 
 <!--poput-->
 <div class="popup" id="popup-container">

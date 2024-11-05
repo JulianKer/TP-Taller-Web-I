@@ -9,6 +9,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class RepositorioBilleteraUsuarioCriptomonedaImpl implements RepositorioBilleteraUsuarioCriptomoneda {
 
@@ -27,6 +29,16 @@ public class RepositorioBilleteraUsuarioCriptomonedaImpl implements RepositorioB
     @Override
     public void actualizarBilletera(BilleteraUsuarioCriptomoneda billetera) {
         sessionFactory.getCurrentSession().update(billetera);
+    }
+
+    @Override
+    public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id) {
+        return (List<BilleteraUsuarioCriptomoneda>) sessionFactory.getCurrentSession().createCriteria(BilleteraUsuarioCriptomoneda.class)
+                .createAlias("usuario", "u")
+                .createAlias("criptomoneda", "c")
+                .add(Restrictions.eq("u.id", id))
+                .list()
+                ;
     }
 
     @Override
