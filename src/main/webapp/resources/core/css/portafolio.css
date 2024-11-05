@@ -53,4 +53,99 @@ body {
     cursor: pointer;
     margin-top: 10px;
 }
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+ }
+
+
+.portfolio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.portfolio-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    color: #333;
+}
+
+.crypto-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr ;
+    padding: 20px 15px;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.crypto-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.crypto-name {
+    display: flex;
+    align-items: center;
+}
+
+.crypto-symbol {
+    color: #666;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.btn-buy {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-sell {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-exchange {
+    background-color: #2196F3;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.amount {
+    color: #1a73e8;
+    font-weight: 500;
+}
+
+.total-value {
+    color: #2e7d32;
+    font-weight: 500;
+}
+
 
