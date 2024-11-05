@@ -61,7 +61,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         BilleteraUsuarioCriptomoneda billetera = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario);
 
         if (billetera != null && servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(billetera, cantidadDeCripto)){
-            Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto, null, null, null);
+            Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto, null, null, null, esProgramada);
             repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
 
             servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
@@ -76,7 +76,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
     private String intentarHacerUnaCompra(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion, Boolean esProgramada) {
         if (verificarQueTengaSaldoSuficienteParaComprar(precioTotalDeTransaccion, usuario.getSaldo())) {
-            Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto, null, null, null);
+            Transaccion nuevaTransaccion = generarTransaccion(precioDeCripto, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptomoneda, cantidadDeCripto, null, null, null, esProgramada);
             repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
 
             BilleteraUsuarioCriptomoneda billetera = servicioBilleteraUsuarioCriptomoneda.buscarBilleteraCriptoUsuario(criptomoneda, usuario);
@@ -121,7 +121,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         billeteraCriptoADar.decrementarCantidadDeCripto(cantidadDeCriptoADar);
         billeteraCriptoAObtener.incrementarCantidadDeCripto(cantidadDeCriptoAObtener);
 
-        Transaccion nuevaTransaccion = generarTransaccion(precioDeCriptoADar, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptoADar, cantidadDeCriptoADar, criptoAObtener, cantidadDeCriptoAObtener, precioDeCriptoAObtener);
+        Transaccion nuevaTransaccion = generarTransaccion(precioDeCriptoADar, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptoADar, cantidadDeCriptoADar, criptoAObtener, cantidadDeCriptoAObtener, precioDeCriptoAObtener, esProgramada);
         repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
 
         generarYEnviarMail(usuario, nuevaTransaccion);
@@ -144,7 +144,7 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     // -----------------------------------------------------------------------------------------------
 
     @Override
-    public Transaccion generarTransaccion(Double precioDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion, Criptomoneda criptoEncontrada, Double cantidadDeCripto, Criptomoneda criptoAObtener, Double cantidadDeCriptoAObtener, Double precioDeCriptoAObtener) {
+    public Transaccion generarTransaccion(Double precioDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Double precioTotalDeTransaccion, Criptomoneda criptoEncontrada, Double cantidadDeCripto, Criptomoneda criptoAObtener, Double cantidadDeCriptoAObtener, Double precioDeCriptoAObtener, Boolean esProgramada) {
 
         Transaccion nuevaTransaccion = new Transaccion();
         nuevaTransaccion.setMontoTotal(precioTotalDeTransaccion);
@@ -159,6 +159,8 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         nuevaTransaccion.setCriptomoneda2(criptoAObtener);
         nuevaTransaccion.setCantidadDeCripto2(cantidadDeCriptoAObtener);
         nuevaTransaccion.setPrecioAlQueSehizo2(precioDeCriptoAObtener);
+
+        nuevaTransaccion.setFueProgramada(esProgramada);
 
         return nuevaTransaccion;
     }
@@ -255,7 +257,13 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     public void ejecutarTransaccionesProgramadasDelUsuario(List<TransaccionProgramada> transaccionesProgramadasDeUnUsuario) {
         for (TransaccionProgramada transaccionProgramada : transaccionesProgramadasDeUnUsuario) {
             if (this.verificarQueCumplaLaCondicion(transaccionProgramada)){
-                this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),transaccionProgramada.getCriptomoneda2(),transaccionProgramada.getCriptomoneda2().getPrecioActual(),true);
+                System.out.println("ENTRE AL MAYOR----------------------------------------------- cumple la condicion :   " + this.verificarQueCumplaLaCondicion(transaccionProgramada));
+                if (transaccionProgramada.getTipo().equals(TipoTransaccion.INTERCAMBIO)){
+                    this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),transaccionProgramada.getCriptomoneda2(),transaccionProgramada.getCriptomoneda2().getPrecioActual(),true);
+                }else{
+                    this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),null,null,true);
+                }
+                this.eliminarTransaccion(transaccionProgramada);
             }
         }
     }
@@ -268,10 +276,13 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
         switch (condicion){
             case "mayor":
-                return precioACumplir > precioCripto;
-            case "menor":
+                System.out.println("ENTRE AL MAYOR-----------------------------------------------" + " ------ la condicion era: " + transaccionProgramada.getCondicionParaHacerla() + " PRECIO A CUMPLIR: " + precioACumplir + " --- PRECIO CRIPTO : " + precioCripto);
                 return precioACumplir < precioCripto;
+            case "menor":
+                System.out.println("ENTRE AL MENOR-----------------------------------------------" + " ------ la condicion era: " + transaccionProgramada.getCondicionParaHacerla());
+
+                return precioACumplir > precioCripto;
         }
-        return false;
+        return true;
     }
 }
