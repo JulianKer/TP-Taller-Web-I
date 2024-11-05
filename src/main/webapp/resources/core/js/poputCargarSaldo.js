@@ -1,10 +1,10 @@
 // Función para mostrar el contenedor
 document.getElementById('show-popup').onclick = function() {
-    document.getElementById('popup-container').style.display = 'block';
+    document.querySelector('.fondo-pop-up').style.display = 'flex';
 };
 
 // Función para cerrar el contenedor
 document.getElementById('close-popup').onclick = function() {
-    document.getElementById('popup-container').style.display = 'none';
+    document.querySelector('.fondo-pop-up').style.display = 'none';
 };
 

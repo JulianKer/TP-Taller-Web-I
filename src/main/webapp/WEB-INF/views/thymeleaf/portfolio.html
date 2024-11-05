@@ -143,8 +143,8 @@
     <div class="portfolio-header">
         <div>Criptomoneda</div>
         <div>Cantidad</div>
-        <div>Precio Unitario (USD)</div>
-        <div>Valor Total (USD)</div>
+        <div>Precio Unitario (U$D)</div>
+        <div>Valor Total (U$D)</div>
     </div>
 
     <div th:if="${!portfolio.isEmpty()}" class="crypto-row" th:each=" cadaBilletera :${portfolio}">
@@ -157,33 +157,35 @@
         <div class="total-value" th:text="${cadaBilletera.getCantidadDeCripto() * cadaBilletera.getCriptomoneda().getPrecioActual()}" ></div>
     </div>
     <div th:if="${portfolio.isEmpty()}">
-    <h4 class="alert alert-danger ">
-        TODAVIA NO HA REALIZADO UNA TRANSACCION!
-    </h4>
+    <h4 class="alert alert-danger ">Todavía no ha realizado ninguna transacción.</h4>
+    </div>
+
+    <div class="saldo-del-usuario">
+        <p>Saldo:</p>
+        <span th:text="'U$D ' + ${usuario.getSaldo()}"></span>
     </div>
     <div class="total-de-la-cuenta" >
-        <p>
-            Total de la cuenta:
-        </p>
-        <p th:text="${totalDeLaCuenta}"></p>
+        <p>Total de la cuenta:</p>
+        <span th:text="'U$D ' + ${totalDeLaCuenta}"></span>
     </div>
-    <button class="cargarSaldo" id="show-popup"  >Cargar saldo</button>
+    <button class="cargarSaldo" id="show-popup">+ Ingresar saldo</button>
 </div>
 
 
-<!--poput-->
-<div class="popup" id="popup-container">
-    <label>Ingrese la cantidad de saldo en dolares a cargar desde Mercado Pago</label>
-    <input  class="ingresarSaldoInput" id="valorSaldoIngresado" placeholder="Ingrese saldo">
-    <button class="ingresarSaldo" onclick="ingresarSaldo()" >Ingresar Saldo</button>
-    <button class="close-cargarSaldo" id="close-popup">Cerrar</button>
-</div>
+<section class="fondo-pop-up">
+    <div class="popup" id="popup-container">
+        <label for="valorSaldoIngresado">Monto a ingresar (en U$D):</label>
+        <input  class="ingresarSaldoInput" id="valorSaldoIngresado" placeholder="Ej: 20">
+        <div class="con-btns-popup">
+            <button class="ingresarSaldo" onclick="ingresarSaldo()" >Ingresar Saldo</button>
+            <button class="close-cargarSaldo" id="close-popup">Cerrar</button>
+        </div>
+    </div>
+</section>
 
-<!-- mensaje del usuario cuando ingresa saldo -->
 <div th:if="${mensajeExito}" class="alert alert-success" role="alert">
     <p th:text="${mensajeExito}"></p>
 </div>
-<!--COMPLETAR CON LA VISTA-->
 
 <script th:src="@{/js/poputCargarSaldo.js}" ></script>
 <script th:src="@{/js/mercadoPago.js}" defer></script>

@@ -3,15 +3,43 @@ body {
     background-color: #f0f0f0;
 }
 
-.popup {
+.fondo-pop-up{
+    position: fixed;
+    top: 0;
+    z-index: 500;
+    background-color: rgb(0,0,0,0.5);
+    min-width: 100dvw;
+    min-height:  100dvh;
+
     display: none;
-    background-color: #875656;
-    color: white;
-    margin-left: 30%;
-    margin-right: 30%;
-    margin-top: 20px;
-    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
 }
+
+.popup {
+    width: 350px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    background-color: #fff;
+    color: #151515;
+    border-radius: 5px;
+
+    padding: 2em;
+
+    & label{
+        text-align: center;
+    }
+
+    .con-btns-popup{
+        margin-top: 3em;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 
 .cargarSaldo {
     margin:0 auto;
@@ -23,26 +51,35 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    animation: efectoBtnCargarSaldo 1.5s ease-in-out infinite;
+    transition: all .2s;
+}
+
+.cargarSaldo:hover{
+    background-color: #348e46;
 }
 
 .ingresarSaldo{
-    margin-top: 3%;
-    padding: 10px 20px;
+    padding: 1px 20px;
     background-color: #28a745;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    height: 45px;
+}
+
+.ingresarSaldo:hover{
+    background-color: #48b65f;
 }
 
 .ingresarSaldoInput{
     margin-top: 3%;
     padding: 5px 10px;
-    background-color: #000000;
-    color: white;
-    border: none;
+    background-color: #fff;
+    color: #000;
+    border: solid 2px #ececec;
     border-radius: 5px;
-    cursor: pointer;
 }
 .close-cargarSaldo {
     padding: 10px 20px;
@@ -53,6 +90,21 @@ body {
     cursor: pointer;
     margin-top: 10px;
 }
+.close-cargarSaldo:hover{
+    background-color: #da4f5d;
+}
+
+.alert-success{
+    position: fixed;
+    top: 5.5em;
+    left: 50%;
+    transform: translateX(-50%);
+
+    & p{
+        margin: 0;
+    }
+}
+
  * {
      margin: 0;
      padding: 0;
@@ -87,6 +139,13 @@ body {
     align-items: center;
     border-bottom: 1px solid #eee;
 }
+.crypto-row:hover{
+    background-color: #f1f1f1;
+
+    & .crypto-name{
+        transform: translateX(15px);
+    }
+}
 
 .crypto-icon {
     width: 32px;
@@ -98,6 +157,7 @@ body {
 .crypto-name {
     display: flex;
     align-items: center;
+    transition: all .2s;
 }
 
 .crypto-symbol {
@@ -152,4 +212,32 @@ h4{
     font-size: 1em;
 }
 
+.saldo-del-usuario,
+.total-de-la-cuenta{
+    display: flex;
+    justify-content: space-between;
+    padding: 1em;
+    padding-right: 6em;
 
+    & p{
+        font-weight: bold;
+    }
+}
+
+.saldo-del-usuario{
+    margin-top: 6em;
+}
+
+.total-de-la-cuenta{
+    border-top: 1px solid #eee;
+}
+
+
+@keyframes efectoBtnCargarSaldo {
+    50%{
+        transform: scale(1.1);
+    }
+    100%{
+        transform: scale(1.0);
+    }
+}
