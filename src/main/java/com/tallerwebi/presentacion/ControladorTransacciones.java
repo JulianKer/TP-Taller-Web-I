@@ -117,7 +117,8 @@ public class ControladorTransacciones {
             return new ModelAndView("redirect:/transacciones?mensaje=" + e.getMessage() + "&nombreDeCriptoADarSeleccionada=" + nombreDeCripto + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion);
         }
 
-        precioDeCripto = servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto);
+        //precioDeCripto = servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto);
+        precioDeCripto = criptomonedaEncontrada.getPrecioActual();
         String mensaje = "";
         try{
             mensaje = servicioTransacciones.crearTransaccion(criptomonedaEncontrada,precioDeCripto, cantidadDeCripto, tipoDeTransaccion, usuarioEncontrado, null, null,false);
