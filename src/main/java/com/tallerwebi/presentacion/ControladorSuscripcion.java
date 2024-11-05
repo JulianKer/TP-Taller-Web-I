@@ -48,7 +48,8 @@ public class ControladorSuscripcion {
     public ModelAndView procesarRespuestaDeSuscripcion(HttpServletRequest request,
                                                        @RequestParam("status") String status,
                                                        @RequestParam("payment_id") String payment_id,
-                                                       @RequestParam("payment_type") String payment_type) {
+                                                       @RequestParam("payment_type") String payment_type,
+                                                       @RequestParam("external_reference") Double valorSuscripcion) {
 
         if (request.getSession().getAttribute("emailUsuario") == null) {
             return new ModelAndView("redirect:/login?error=Debe ingresar primero");
@@ -66,6 +67,9 @@ public class ControladorSuscripcion {
                 payment_type == null || payment_type.isEmpty()) {
             return new ModelAndView("redirect:/home");
         }
+
+       // Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
+        servicioUsuario.restarSaldo(userDeLaSesion.getId(), valorSuscripcion);
 
         String viewNameCompleto = "redirect:/suscripcion" + servicioSuscripcion.verificarEstadoDelPago(request, status, payment_id, payment_type);
         return new ModelAndView(viewNameCompleto);

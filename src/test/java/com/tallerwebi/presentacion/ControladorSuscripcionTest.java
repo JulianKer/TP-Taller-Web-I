@@ -24,7 +24,7 @@ public class ControladorSuscripcionTest {
     public void queNoPuedanAccederSiNoEstanLogueados() {
 
         ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(
-                request, "approved", "123456", "credit_card");
+                request, "approved", "123456", "credit_card",20.0);
 
         // Verificación
         assertEquals("redirect:/login?error=Debe ingresar primero", modelAndView.getViewName());
@@ -36,7 +36,7 @@ public class ControladorSuscripcionTest {
 
         // a este la paso cosas vacias, es por si alguien lo accede por url ya q necesito determinados parametros q me da mp
         ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(
-                request, "", "123456", "");
+                request, "", "123456", "",20.0);
 
         assertEquals("redirect:/home", modelAndView.getViewName());
     }
@@ -49,7 +49,7 @@ public class ControladorSuscripcionTest {
                 .thenReturn("?mensaje=Estamos esperando que se realize el pago.");
 
         ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(
-                request, "failure", "123456", "debit_card");
+                request, "failure", "123456", "debit_card",20.0);
 
         assertEquals("redirect:/suscripcion?mensaje=Estamos esperando que se realize el pago.", modelAndView.getViewName());
     }
@@ -62,7 +62,7 @@ public class ControladorSuscripcionTest {
                 .thenReturn("?mensaje=Hubo un error al intentar procesar el pago. Vuelava a intentarlo.");
 
         ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(
-                request, "pending", "123456", "debit_card");
+                request, "pending", "123456", "debit_card",20.0);
 
         assertEquals("redirect:/suscripcion?mensaje=Hubo un error al intentar procesar el pago. Vuelava a intentarlo.", modelAndView.getViewName());
     }
@@ -75,7 +75,7 @@ public class ControladorSuscripcionTest {
                 .thenReturn("?mensaje=Estado de pago desconocido. Vuelava a intentarlo.");
 
         ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(
-                request, "rejected", "123456", "bank_transfer");
+                request, "rejected", "123456", "bank_transfer",20.0);
 
         assertEquals("redirect:/suscripcion?mensaje=Estado de pago desconocido. Vuelava a intentarlo.", modelAndView.getViewName());
     }
@@ -87,7 +87,7 @@ public class ControladorSuscripcionTest {
         when(servicioSuscripcion.verificarEstadoDelPago(request, "approved", "123456", "account_money"))
                 .thenReturn("?mensaje=Suscripcion exitosa.");
 
-        ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(request, "approved", "123456", "account_money");
+        ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(request, "approved", "123456", "account_money",20.0);
 
         assertEquals("redirect:/suscripcion?mensaje=Suscripcion exitosa.", modelAndView.getViewName());
         verify(servicioSuscripcion).verificarEstadoDelPago(request, "approved", "123456", "account_money");
@@ -100,7 +100,7 @@ public class ControladorSuscripcionTest {
         when(servicioSuscripcion.verificarEstadoDelPago(request, "approved", "123456", "debit_card"))
                 .thenReturn("?mensaje=Suscripcion exitosa.");
 
-        ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(request, "approved", "123456", "debit_card");
+        ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(request, "approved", "123456", "debit_card",20.0);
 
         assertEquals("redirect:/suscripcion?mensaje=Suscripcion exitosa.", modelAndView.getViewName());
         verify(servicioSuscripcion).verificarEstadoDelPago(request, "approved", "123456", "debit_card");
@@ -113,7 +113,7 @@ public class ControladorSuscripcionTest {
         when(servicioSuscripcion.verificarEstadoDelPago(request, "approved", "123456", "credit_card"))
                 .thenReturn("?mensaje=Suscripcion exitosa.");
 
-        ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(request, "approved", "123456", "credit_card");
+        ModelAndView modelAndView = controladorSuscripcion.procesarRespuestaDeSuscripcion(request, "approved", "123456", "credit_card",20.0);
 
         assertEquals("redirect:/suscripcion?mensaje=Suscripcion exitosa.", modelAndView.getViewName());
         verify(servicioSuscripcion).verificarEstadoDelPago(request, "approved", "123456", "credit_card");

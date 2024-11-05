@@ -64,6 +64,7 @@ public class ControladorMercadoPago {
                 .items(items)
                 .backUrls(backUrls)
                 .autoReturn("approved")  // con esto puedo hacer q si el pago se hizo okk, que te redirija automaticamente a la que defini mas arriba
+                .externalReference(suscripcionValor) // Guarda el valor de la suscripcion como referencia externa
                 .build();
 
         // Se crea un cliente de Mercado Pago que se utiliza que va a tener la solicitud de creación de la preferencia de pago.
