@@ -62,11 +62,12 @@ public class ControladorTransaccionesTest {
 
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
         when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false)).thenReturn("Transaccion exitosa.");
-        when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
+        //when(servicioCriptomoneda.obtenerPrecioDeCriptoPorNombre(nombreDeCripto)).thenReturn(precioDeCripto);
 
         ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
 
@@ -101,6 +102,7 @@ public class ControladorTransaccionesTest {
 
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
@@ -126,6 +128,7 @@ public class ControladorTransaccionesTest {
 
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
 
         when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
         when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
