@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -44,5 +45,10 @@ public class ServicioBilleteraUsuarioCriptomonedaImpl implements ServicioBillete
     @Override
     public boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(BilleteraUsuarioCriptomoneda billeteraCriptoADar, Double cantidadDeCriptoADar) {
         return billeteraCriptoADar.getCantidadDeCripto() >= cantidadDeCriptoADar;
+    }
+
+    @Override
+    public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id) {
+        return repositorioBilleteraUsuarioCriptomoneda.obtenerPortfolioDelUsuario(id);
     }
 }

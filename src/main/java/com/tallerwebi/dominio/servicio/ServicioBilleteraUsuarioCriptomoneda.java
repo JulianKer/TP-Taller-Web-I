@@ -4,6 +4,8 @@ import com.tallerwebi.dominio.entidades.BilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 
+import java.util.List;
+
 public interface ServicioBilleteraUsuarioCriptomoneda {
     BilleteraUsuarioCriptomoneda buscarBilleteraCriptoUsuario(Criptomoneda criptomoneda, Usuario usuario);
 
@@ -14,4 +16,6 @@ public interface ServicioBilleteraUsuarioCriptomoneda {
     boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaVender(BilleteraUsuarioCriptomoneda billetera, Double cantidadDeCripto);
 
     boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(BilleteraUsuarioCriptomoneda billeteraCriptoADar, Double cantidadDeCriptoADar);
+
+    List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id);
 }

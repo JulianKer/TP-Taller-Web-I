@@ -1,7 +1,9 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.servicio.ServicioPortfolio;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
+import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -15,7 +17,9 @@ public class ControladorPortfolioTest {
 
     HttpServletRequest request = new MockHttpServletRequest();
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
-    ControladorPortfolio controladorPortfolio= new ControladorPortfolio(servicioUsuario);
+    private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda = mock(ServicioBilleteraUsuarioCriptomoneda.class);
+    private ServicioPortfolio servicioPortfolio = mock(ServicioPortfolio.class);
+    ControladorPortfolio controladorPortfolio= new ControladorPortfolio(servicioUsuario, servicioBilleteraUsuarioCriptomoneda, servicioPortfolio);
 
     @Test
     public void queAlIngresarUnUserClienteLoRedirijaAlHome(){
