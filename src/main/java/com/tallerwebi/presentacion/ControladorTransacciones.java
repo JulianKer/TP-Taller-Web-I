@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -39,6 +40,8 @@ public class ControladorTransacciones {
                                       @RequestParam(value = "nombreDeCriptoADarSeleccionada",required = false, defaultValue = "todos") String nombreDeCriptoADarSeleccionada,
                                       @RequestParam(value = "nombreDeCriptoAObtenerSeleccionada",required = false, defaultValue = "todos") String nombreDeCriptoAObtenerSeleccionada,
                                       @RequestParam(value = "tipoTransaccionSeleccionada",required = false, defaultValue = "todos") String tipoTransaccionSeleccionada,
+                                      @RequestParam(value = "desde", required = false) String desde,
+                                      @RequestParam(value = "hasta", required = false) String hasta,
                                       HttpServletRequest request){
 
         if (request.getSession().getAttribute("emailUsuario") == null){
@@ -60,11 +63,13 @@ public class ControladorTransacciones {
         // este es SOLO para el historial de transacciones que ya se transaccionaron
         List<Transaccion> historialTransacciones;
         Long idUsuario = userEncontrado.getId();
+        LocalDate fechaDesde = (desde != null && !desde.isEmpty()) ? LocalDate.parse(desde) : null;
+        LocalDate fechaHasta = (hasta != null && !hasta.isEmpty()) ? LocalDate.parse(hasta) : null;
         try {
             TipoTransaccion tipoTransaccionEncontrada = TipoTransaccion.valueOf(tipoTransaccion);
-            historialTransacciones = servicioTransacciones.filtrarTransacciones(tipoTransaccionEncontrada, idUsuario);
+            historialTransacciones = servicioTransacciones.filtrarTransacciones(tipoTransaccionEncontrada, idUsuario, fechaDesde, fechaHasta);
         } catch (IllegalArgumentException e) {
-            historialTransacciones = servicioTransacciones.obtenerHistorialTransaccionesDeUsuario(idUsuario);
+            historialTransacciones = servicioTransacciones.obtenerHistorialTransaccionesDeUsuario(idUsuario, fechaDesde, fechaHasta);
         }
 
         // y este es SOLO para las transacciones programadas, osea, las programaron pero todavia no se transaccionó
