@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.repositorio.RepositorioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioSuscripcionImpl;
@@ -17,7 +18,8 @@ public class ServicioSuscripcionTest {
     private MockHttpServletRequest request = new MockHttpServletRequest();
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     private ServicioEmail servicioEmail = mock(ServicioEmail.class);
-    private ServicioSuscripcion servicioSuscripcion = new ServicioSuscripcionImpl(servicioUsuario, servicioEmail);
+    private RepositorioSuscripcion repositorioSuscripcion = mock(RepositorioSuscripcion.class);
+    private ServicioSuscripcion servicioSuscripcion = new ServicioSuscripcionImpl(servicioUsuario, servicioEmail, repositorioSuscripcion);
 
     @Test
     public void queSeObtengaElTipoDePagoDesconocido(){
