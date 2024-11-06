@@ -1,13 +1,18 @@
 package com.tallerwebi.dominio.servicio.impl;
 
+import com.tallerwebi.dominio.entidades.Suscripcion;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.repositorio.RepositorioSuscripcion;
+import com.tallerwebi.dominio.repositorio.RepositorioUsuario;
 import com.tallerwebi.dominio.servicio.ServicioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -15,10 +20,13 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
 
     private ServicioUsuario servicioUsuario;
     private ServicioEmail servicioEmail;
+    private RepositorioSuscripcion repositorioSuscripcion;
 
-    public ServicioSuscripcionImpl(ServicioUsuario servicioUsuario, ServicioEmail servicioEmail) {
+    @Autowired
+    public ServicioSuscripcionImpl(ServicioUsuario servicioUsuario, ServicioEmail servicioEmail, RepositorioSuscripcion repositorioSuscripcion) {
         this.servicioUsuario = servicioUsuario;
         this.servicioEmail = servicioEmail;
+        this.repositorioSuscripcion = repositorioSuscripcion;
     }
 
     @Override
@@ -60,5 +68,10 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
                         break;
         }
         return medioDePago;
+    }
+
+    @Override
+    public List<Suscripcion> obtenerSuscripciones() {
+        return repositorioSuscripcion.obtenerSuscripciones();
     }
 }

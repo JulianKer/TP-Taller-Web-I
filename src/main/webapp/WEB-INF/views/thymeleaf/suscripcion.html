@@ -60,16 +60,16 @@
     </nav>
 </header>
 
-<div id="wallet_container">
+<div id="wallet_container" th:each="suscripcion: ${suscripciones}">
     <h1>Plan de Suscripción</h1>
     <div class="plan">
         <div class="cont-img-plan">
-            <img th:src="@{img/suscripcionDiamante.webp}" alt="Imagen Plan">
+            <img th:src="@{'/img/imagenesSuscripciones/' + ${suscripcion.getImagenUrl()}}" alt="Imagen Plan">
         </div>
-        <div class="plan-description">
-            <h2>Plan Diamante</h2>
-            <div id="precio-diamante" class="price">$20/mes</div>
-            <div class="features">
+        <div class="plan-description"  >
+            <h2 th:text="${suscripcion.getTitulo()}"></h2>
+            <div th:text="'$' + ${ suscripcion.getPrecio()} + '/mes'" id="precio-diamante" class="price">$20/mes</div>
+            <div th:text="${suscripcion.getDescripcion()}" class="features">
                 <ul>
                     <li>Soporte premium 24/7</li>
                     <li>Acceso a todas las funciones</li>
