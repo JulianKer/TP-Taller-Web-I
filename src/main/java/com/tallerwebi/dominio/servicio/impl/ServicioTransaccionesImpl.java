@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -221,14 +222,28 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         return repositorioTransacciones.obtenerHistorialTransaccionesDeUsuarioProgramadas(idUsuario);
     }
 
-    @Override
+    /*@Override
     public List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario) {
         return repositorioTransacciones.filtrarTransacciones(tipoTransaccion, idUsuario);
+    }*/
+    @Override
+    public List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario, LocalDate desde, LocalDate hasta) {
+        //return repositorioTransacciones.filtrarTransacciones(tipoTransaccion, idUsuario);
+        List<Transaccion>  filtradaPorTransacciones = repositorioTransacciones.filtrarTransacciones(tipoTransaccion, idUsuario);
+        return filtradaPorTransacciones.stream()
+                .filter(t -> (desde == null || !t.getFechaDeTransaccion().isBefore(desde)) &&
+                        (hasta == null || !t.getFechaDeTransaccion().isAfter(hasta)))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario) {
-        return repositorioTransacciones.obtenerHistorialUsuario(idDeUsuario);
+    public List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario, LocalDate fechaDesde, LocalDate fechaHasta) {
+        //return repositorioTransacciones.obtenerHistorialUsuario(idDeUsuario);
+        List<Transaccion>  filtradaPorTransacciones = repositorioTransacciones.obtenerHistorialUsuario(idDeUsuario);
+        return filtradaPorTransacciones.stream()
+                .filter(t -> (fechaDesde == null || !t.getFechaDeTransaccion().isBefore(fechaDesde)) &&
+                        (fechaHasta == null || !t.getFechaDeTransaccion().isAfter(fechaHasta)))
+                .collect(Collectors.toList());
     }
 
     @Override

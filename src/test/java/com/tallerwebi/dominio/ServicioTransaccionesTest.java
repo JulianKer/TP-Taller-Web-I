@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.entidades.BilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
@@ -14,8 +15,14 @@ import com.tallerwebi.dominio.servicio.impl.ServicioTransaccionesImpl;
 import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -258,6 +265,166 @@ public class ServicioTransaccionesTest {
         when(servicioBilleteraUsuarioCriptomoneda.verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(billetera, cantidadDeCriptoADar)).thenReturn(true);
 
         assertEquals("Transaccion exitosa.",servicioTransacciones.crearTransaccion(criptomonedaADar,precioDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,usuario, criptomonedaAObtener, precioDeCriptoAObtener,false));
+    }
+
+    @Test
+    public void testFiltrarTransaccionesPorFecha() {
+        // Datos de prueba: transacciones con distintas fechas
+        Transaccion trans1 = new Transaccion();
+        trans1.setFechaDeTransaccion(LocalDate.of(2023, 1, 10));
+
+        Transaccion trans2 = new Transaccion();
+        trans2.setFechaDeTransaccion(LocalDate.of(2023, 2, 5));
+
+        Transaccion trans3 = new Transaccion();
+        trans3.setFechaDeTransaccion(LocalDate.of(2023, 3, 15));
+
+        List<Transaccion> transaccionesMock = Arrays.asList(trans1, trans2, trans3);
+
+        // Configuración del mock
+        when(repositorioTransacciones.filtrarTransacciones(any(TipoTransaccion.class), anyLong()))
+                .thenReturn(transaccionesMock);
+
+        // Rango de fechas
+        LocalDate desde = LocalDate.of(2023, 1, 15);
+        LocalDate hasta = LocalDate.of(2023, 3, 1);
+
+        // Ejecuta el método de servicio
+        List<Transaccion> resultado = servicioTransacciones.filtrarTransacciones(TipoTransaccion.COMPRA, 1L, desde, hasta);
+
+        // Verifica que solo se incluyan las transacciones dentro del rango
+        assertEquals(1, resultado.size());
+        assertEquals(LocalDate.of(2023, 2, 5), resultado.get(0).getFechaDeTransaccion());
+    }
+
+    @Test
+    public void testTransaccionExactamenteEnElLimite() {
+        // Datos de prueba
+        Transaccion trans1 = new Transaccion();
+        trans1.setFechaDeTransaccion(LocalDate.of(2023, 1, 15));
+
+        Transaccion trans2 = new Transaccion();
+        trans2.setFechaDeTransaccion(LocalDate.of(2023, 2, 15));
+
+        List<Transaccion> transaccionesMock = Arrays.asList(trans1, trans2);
+
+        when(repositorioTransacciones.filtrarTransacciones(any(TipoTransaccion.class), anyLong()))
+                .thenReturn(transaccionesMock);
+
+        // Rango de fechas exacto
+        LocalDate desde = LocalDate.of(2023, 1, 15);
+        LocalDate hasta = LocalDate.of(2023, 2, 15);
+
+        List<Transaccion> resultado = servicioTransacciones.filtrarTransacciones(TipoTransaccion.COMPRA, 1L, desde, hasta);
+
+        assertEquals(2, resultado.size());
+        assertEquals(LocalDate.of(2023, 1, 15), resultado.get(0).getFechaDeTransaccion());
+        assertEquals(LocalDate.of(2023, 2, 15), resultado.get(1).getFechaDeTransaccion());
+    }
+
+
+    @Test
+    public void testRangoSinLimite() {
+        // Datos de prueba
+        Transaccion trans1 = new Transaccion();
+        trans1.setFechaDeTransaccion(LocalDate.of(2023, 1, 10));
+
+        Transaccion trans2 = new Transaccion();
+        trans2.setFechaDeTransaccion(LocalDate.of(2023, 2, 5));
+
+        Transaccion trans3 = new Transaccion();
+        trans3.setFechaDeTransaccion(LocalDate.of(2023, 3, 15));
+
+        List<Transaccion> transaccionesMock = Arrays.asList(trans1, trans2, trans3);
+
+        when(repositorioTransacciones.filtrarTransacciones(any(TipoTransaccion.class), anyLong()))
+                .thenReturn(transaccionesMock);
+
+        // Rango de fechas vacío
+        List<Transaccion> resultado = servicioTransacciones.filtrarTransacciones(TipoTransaccion.COMPRA, 1L, null, null);
+
+        assertEquals(3, resultado.size());
+    }
+
+
+    @Test
+    public void testSinTransaccionesDentroDelRango() {
+        // Datos de prueba
+        Transaccion trans1 = new Transaccion();
+        trans1.setFechaDeTransaccion(LocalDate.of(2023, 1, 10));
+
+        Transaccion trans2 = new Transaccion();
+        trans2.setFechaDeTransaccion(LocalDate.of(2023, 2, 5));
+
+        Transaccion trans3 = new Transaccion();
+        trans3.setFechaDeTransaccion(LocalDate.of(2023, 3, 15));
+
+        List<Transaccion> transaccionesMock = Arrays.asList(trans1, trans2, trans3);
+
+        when(repositorioTransacciones.filtrarTransacciones(any(TipoTransaccion.class), anyLong()))
+                .thenReturn(transaccionesMock);
+
+        // Rango de fechas que no incluye ninguna transacción
+        LocalDate desde = LocalDate.of(2023, 4, 1);
+        LocalDate hasta = LocalDate.of(2023, 5, 1);
+
+        List<Transaccion> resultado = servicioTransacciones.filtrarTransacciones(TipoTransaccion.COMPRA, 1L, desde, hasta);
+
+        assertEquals(0, resultado.size());
+    }
+
+    @Test
+    public void testSoloFechaDeInicio() {
+        // Datos de prueba
+        Transaccion trans1 = new Transaccion();
+        trans1.setFechaDeTransaccion(LocalDate.of(2023, 1, 10));
+
+        Transaccion trans2 = new Transaccion();
+        trans2.setFechaDeTransaccion(LocalDate.of(2023, 2, 5));
+
+        Transaccion trans3 = new Transaccion();
+        trans3.setFechaDeTransaccion(LocalDate.of(2023, 3, 15));
+
+        List<Transaccion> transaccionesMock = Arrays.asList(trans1, trans2, trans3);
+
+        when(repositorioTransacciones.filtrarTransacciones(any(TipoTransaccion.class), anyLong()))
+                .thenReturn(transaccionesMock);
+
+        // Solo fecha de inicio
+        LocalDate desde = LocalDate.of(2023, 2, 1);
+
+        List<Transaccion> resultado = servicioTransacciones.filtrarTransacciones(TipoTransaccion.COMPRA, 1L, desde, null);
+
+        assertEquals(2, resultado.size());
+        assertEquals(LocalDate.of(2023, 2, 5), resultado.get(0).getFechaDeTransaccion());
+        assertEquals(LocalDate.of(2023, 3, 15), resultado.get(1).getFechaDeTransaccion());
+    }
+
+    @Test
+    public void testSoloFechaDeFin() {
+        // Datos de prueba
+        Transaccion trans1 = new Transaccion();
+        trans1.setFechaDeTransaccion(LocalDate.of(2023, 1, 10));
+
+        Transaccion trans2 = new Transaccion();
+        trans2.setFechaDeTransaccion(LocalDate.of(2023, 2, 5));
+
+        Transaccion trans3 = new Transaccion();
+        trans3.setFechaDeTransaccion(LocalDate.of(2023, 3, 15));
+
+        List<Transaccion> transaccionesMock = Arrays.asList(trans1, trans2, trans3);
+
+        when(repositorioTransacciones.filtrarTransacciones(any(TipoTransaccion.class), anyLong()))
+                .thenReturn(transaccionesMock);
+
+        // Solo fecha de fin
+        LocalDate hasta = LocalDate.of(2023, 2, 5);
+
+        List<Transaccion> resultado = servicioTransacciones.filtrarTransacciones(TipoTransaccion.COMPRA, 1L, null, hasta);
+
+        assertEquals(2, resultado.size());
+        assertEquals(LocalDate.of(2023, 1, 10), resultado.get(0).getFechaDeTransaccion());
+        assertEquals(LocalDate.of(2023, 2, 5), resultado.get(1).getFechaDeTransaccion());
     }
 
 }
