@@ -35,7 +35,7 @@ public class ControladorTransaccionesTest {
         request.getSession().setAttribute("usuario", usuario);
         when(servicioUsuario.buscarUsuarioPorEmail(usuario.getEmail())).thenReturn(usuario);
 
-        String obtenido = controladorTransacciones.transacciones("", "", "", "", request).getViewName();
+        String obtenido = controladorTransacciones.transacciones("", "", "", "", null, null, request).getViewName();
         String esperado = "redirect:/home";
         assertEquals(esperado, obtenido);
     }
@@ -43,8 +43,7 @@ public class ControladorTransaccionesTest {
     @Test
     public void queCuandoIntenteBarraTransaccionesPorUrlSinLogearseTeRedirijaAlLoginConMensajeDeError() {
         String tipoTransaccion = "todos";
-        ModelAndView recibido = controladorTransacciones.transacciones( tipoTransaccion, "", "", "", request);
-
+        ModelAndView recibido = controladorTransacciones.transacciones( tipoTransaccion, "", "", "", null, null, request);
         assertEquals(recibido.getViewName(), "redirect:/login?error=Debe ingresar primero");
     }
 

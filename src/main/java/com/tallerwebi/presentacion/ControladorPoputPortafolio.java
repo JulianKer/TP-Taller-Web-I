@@ -39,9 +39,16 @@ public class ControladorPoputPortafolio {
         }
 
         Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
-        servicioUsuario.sumarSaldo(userDeLaSesion.getId(), valorSaldoIngresado);
-        redirectAttributes.addFlashAttribute("mensajeExito", "¡Saldo acreditado exitosamente!");
+
+        if(status.equals("approved")) {
+            servicioUsuario.sumarSaldo(userDeLaSesion.getId(), valorSaldoIngresado);
+            redirectAttributes.addFlashAttribute("mensajeExito", "¡Saldo acreditado exitosamente!");
+        }
+        else {
+            redirectAttributes.addFlashAttribute("mensajeError", "¡Hubo un porblema con el pago o el mismo fue cancelado,intente nuevamente !");
+        }
         return new ModelAndView("redirect:/portfolio");
+
     }
 
 }

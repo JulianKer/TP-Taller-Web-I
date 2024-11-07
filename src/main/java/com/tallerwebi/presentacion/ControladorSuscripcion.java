@@ -41,6 +41,7 @@ public class ControladorSuscripcion {
         }
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", userEncontrado);
+        model.addAttribute("suscripciones", servicioSuscripcion.obtenerSuscripciones());
         return new ModelAndView("suscripcion", model);
     }
 

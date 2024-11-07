@@ -105,6 +105,26 @@ body {
     }
 }
 
+.alert-error {
+    position: fixed;
+    top: 5.5em;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f8d7da; /* Fondo rojo claro */
+    color: #721c24; /* Texto rojo oscuro */
+    border: 1px solid #f5c6cb; /* Borde rojo */
+    padding: 10px;
+    border-radius: 5px;
+    width: auto;
+    max-width: 90%;
+    text-align: center;
+}
+
+.alert-error p {
+    margin: 0;
+}
+
+
  * {
      margin: 0;
      padding: 0;

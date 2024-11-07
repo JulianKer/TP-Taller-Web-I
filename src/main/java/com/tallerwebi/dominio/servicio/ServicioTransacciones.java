@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.TransaccionProgramada;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
+import java.time.LocalDate;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public interface ServicioTransacciones {
 
-    List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario);
+    List<Transaccion> obtenerHistorialTransaccionesDeUsuario(Long idDeUsuario, LocalDate fechaDesde, LocalDate fechaHasta);
 
     //----- METODO PRINCIPAL PARA GENERAR LA TRANSACCION -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     String crearTransaccion(Criptomoneda criptomoneda, Double precioDeCripto, Double cantidadDeCripto, TipoTransaccion tipoDeTransaccion, Usuario usuario, Criptomoneda criptoAObtener, Double precioDeCriptoAObtener, Boolean esProgramada);
@@ -25,7 +26,8 @@ public interface ServicioTransacciones {
 
     void eliminarTransaccion(Transaccion transaccion);
 
-    List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario);
+    // List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario);
+    List<Transaccion> filtrarTransacciones(TipoTransaccion tipoTransaccion, Long idUsuario, LocalDate desde, LocalDate hasta);
 
     /*------------------- METODO PARA PROGRAMAR TRANSACCION COMPRA ----------------------------------*/
     String programarTransaccion(Criptomoneda criptomonedaEncontrada, Double cantidadDeCriptoProgramada, TipoTransaccion tipoTransaccionProgramada,

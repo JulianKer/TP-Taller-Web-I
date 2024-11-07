@@ -30,7 +30,7 @@ public class ServicioPDFImpl {
 
     public void generarPdf(String filePath, Usuario usuario) {
         Document document = new Document();
-        List<Transaccion> transaccionesDelUsuario= servicioTransacciones.obtenerHistorialTransaccionesDeUsuario(usuario.getId());
+        List<Transaccion> transaccionesDelUsuario= servicioTransacciones.obtenerHistorialTransaccionesDeUsuario(usuario.getId(), null, null);
 
         try {
             PdfWriter.getInstance(document, new FileOutputStream(filePath));

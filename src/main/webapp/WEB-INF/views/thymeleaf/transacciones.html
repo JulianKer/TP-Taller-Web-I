@@ -135,6 +135,13 @@
             <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(filtro, 'INTERCAMBIO')}">Intercambio</option>
             <option value="DEVOLUCION" th:selected="${#strings.equalsIgnoreCase(filtro, 'DEVOLUCION')}">Devolucion</option>
           </select>
+          <!-- Campo de fecha "Desde" -->
+          <label for="desde">Desde:</label>
+          <input type="date" id="desde" name="desde">
+
+          <!-- Campo de fecha "Hasta" -->
+          <label for="hasta">Hasta:</label>
+          <input type="date" id="hasta" name="hasta">
         </div>
       </form>
       <table>
