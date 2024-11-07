@@ -16,3 +16,96 @@ body{
 .plotly{
     background-color: red;
 }
+
+
+
+
+
+
+
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 80px;
+    background-color: #f0f0f0;
+    padding-top: 10px;
+}
+
+.slider {
+    display: flex;
+    animation: slide 25s linear infinite;
+}
+
+.card {
+    min-width: 8em;
+    height: 40px;
+
+    display: grid;
+    grid-template-columns: 30% 70%;
+    place-items: center;
+    place-content: center;
+
+    background-color: #ffffff;
+    border-radius: .5em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-right: 2em;
+
+    transition: all .2s;
+
+
+    & p{
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+    }
+}
+
+.card:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.cont-img-slider{
+    width: 2em;
+    height: auto;
+    overflow: hidden;
+    object-fit: cover;
+}
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(100%);
+    }
+    50%{
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slideResponsive {
+    0% {
+        transform: translateX(200%);
+    }
+    50%{
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-200px);
+    }
+}
+
+@media screen and (max-width: 750px){
+    .slider {
+        animation: slideResponsive 15s linear infinite;
+    }
+}
+

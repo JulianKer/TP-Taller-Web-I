@@ -165,8 +165,11 @@ public class ControladorCriptomonedas {
         Gson gson = new Gson();
         String historialDePreciosJson = gson.toJson(historialDePrecios);
         model.addAttribute("historialDePreciosJson", historialDePreciosJson);
-        model.addAttribute("usuario", userEncontrado);
 
+        List<Criptomoneda> criptos = servicioCriptomoneda.obtenerCriptosHabilitadas();
+        model.addAttribute("criptos", criptos);
+
+        model.addAttribute("usuario", userEncontrado);
         return new ModelAndView("detalleCriptomoneda", model);
     }
 }

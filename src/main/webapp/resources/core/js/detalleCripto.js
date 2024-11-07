@@ -1,3 +1,16 @@
+let cards = document.querySelectorAll(".card")
+
+cards.forEach((card)=>{
+    console.log(card)
+    let nombreCripto = card.id;
+    card.addEventListener("click", ()=>{
+        window.location.href = `/spring/inicio/${nombreCripto}`;
+    })
+})
+
+
+
+
 let fechas = [];
 let precios = [];
 let nombreCripto = "";
