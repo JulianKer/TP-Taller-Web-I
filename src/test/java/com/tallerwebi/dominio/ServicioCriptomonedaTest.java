@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
+import com.tallerwebi.dominio.repositorio.RepositorioPrecioCripto;
 import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
@@ -22,10 +23,11 @@ import static org.mockito.Mockito.when;
 public class ServicioCriptomonedaTest {
 
     private RepositorioCriptomoneda repositorioCriptomoneda = mock(RepositorioCriptomoneda.class);
+    private RepositorioPrecioCripto repositorioPrecioCripto = mock(RepositorioPrecioCripto.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     private ServicioTransacciones servicioTransacciones = mock(ServicioTransacciones.class);
     private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda = mock(ServicioBilleteraUsuarioCriptomoneda.class);
-    private ServicioCriptomoneda servicioCriptomoneda = new ServicioCriptomonedaImpl(repositorioCriptomoneda,servicioUsuario, servicioTransacciones, servicioBilleteraUsuarioCriptomoneda);
+    private ServicioCriptomoneda servicioCriptomoneda = new ServicioCriptomonedaImpl(repositorioCriptomoneda,servicioUsuario, servicioTransacciones, servicioBilleteraUsuarioCriptomoneda, repositorioPrecioCripto);
 
     @Test
     public void queAlBuscarCriptomonedaPorNombreLaEncuentre() {

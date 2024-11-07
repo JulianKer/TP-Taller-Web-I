@@ -1,0 +1,186 @@
+body{
+    background-color: #f0f0f0;
+}
+
+.mainDetalles {
+    max-width: 1200px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1rem;
+}
+
+#myDiv{
+    max-width: 100%;
+    max-height: 500px;
+    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+
+}
+
+#myDiv img{
+    position: absolute;
+    z-index: 4;
+    top: 1.5em;
+    left: 1.5em;
+    width: 2em;
+}
+
+.plotly{
+    width: 100%;
+}
+
+
+
+
+
+
+
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+    height: 80px;
+    background-color: #f0f0f0;
+    padding-top: 2rem;
+    margin-bottom: 2em;
+}
+
+.slider {
+    display: flex;
+    animation: slide 25s linear infinite;
+}
+
+.card {
+    min-width: 8em;
+    height: 40px;
+
+    display: grid;
+    grid-template-columns: 30% 70%;
+    place-items: center;
+    place-content: center;
+
+    background-color: #ffffff;
+    border-radius: .5em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-right: 2em;
+
+    transition: all .2s;
+
+
+    & p{
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+    }
+}
+
+.card:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.cont-img-slider{
+    width: 2em;
+    height: auto;
+    overflow: hidden;
+    object-fit: cover;
+}
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+
+
+
+
+.section_tabla_grafico{
+    display: grid;
+    grid-template-columns: 3fr 6fr;
+    gap: 2em;
+}
+
+
+.cont-tabla{
+    overflow: hidden;
+    height: auto;
+    padding: 0 .5em;
+}
+.tabla {
+    background-color: #fff;
+    min-width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+
+}
+
+.tabla th,
+.tabla td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabla th {
+    font-weight: bold;
+    background-color: #f8f9fa;
+}
+
+tbody tr{
+    height: 2em;
+    transition: all .1s;
+}
+tbody tr:hover{
+    background-color: #efefef;
+    cursor: default;
+}
+
+tbody td{
+    line-height: 1;
+}
+
+
+
+
+@keyframes slide {
+    0% {
+        transform: translateX(100%);
+    }
+    50%{
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slideResponsive {
+    0% {
+        transform: translateX(200%);
+    }
+    50%{
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-200px);
+    }
+}
+
+@media screen and (max-width: 1250px){
+    .section_tabla_grafico{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
+
+@media screen and (max-width: 750px){
+    .mainDetalles{
+        max-width: 100dvw;
+        width: 85%;
+        padding: 0;
+    }
+    .slider {
+        animation: slideResponsive 15s linear infinite;
+    }
+}
+

@@ -109,19 +109,18 @@
       <thead>
       <tr>
         <th>Criptomoneda</th>
-        <th>Fluctuación</th>
+        <!--<th>Fluctuación</th>-->
         <th>Precio</th>
         <th th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}">Acciones</th>
       </tr>
       </thead>
       <tbody id="result">
-      <tr th:each="entry : ${mapaMonedaPrecios}">
+      <tr th:each="entry : ${mapaMonedaPrecios}" th:id="${entry.key.getNombre()}" class="filaCripto">
         <td class="crypto-name">
           <img th:src="@{'/img/logoCriptomonedas/' + ${entry.key.getImagen()}}" class="crypto-icon" alt="Logo criptomoneda">
           <span th:text="${entry.key.getNombreConMayus()} + ' (' + ${entry.key.getSimbolo()} + ')'"></span>
         </td>
-        <td class="crypto-chart">
-        </td>
+        <!--<td class="crypto-chart"></td>-->
         <td class="crypto-price" th:text="${#numbers.formatDecimal(entry.value, 1, 7)} + ' ' + ${divisaAMostrar}"></td>
         <td th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="crypto-actions">
           <a th:href="@{/transacciones(nombreDeCriptoADarSeleccionada=${entry.getKey().getNombre()}, tipoTransaccionSeleccionada='COMPRA')}" class="boton boton-buy">Comprar</a>

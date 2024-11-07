@@ -178,6 +178,10 @@ thead{
     background-color: #f5f5f5;
 }
 
+.filaCripto{
+    cursor: pointer;
+}
+
 .crypto-name {
     display: flex;
     align-items: center;

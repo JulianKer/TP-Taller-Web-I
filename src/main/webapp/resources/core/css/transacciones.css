@@ -8,7 +8,7 @@ body {
     padding: 0;
 }
 
-/* Main Content Styles */
+
 .mainTransacciones {
     max-width: 1200px;
     margin: 2rem auto;
@@ -62,7 +62,6 @@ h2 {
     background-color: #bd960a;
 }
 
-/* Table Styles */
 .historial h2 {
     margin-bottom: 1rem;
     margin-top: 2em;
