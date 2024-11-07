@@ -105,7 +105,7 @@
             <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
 
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
-            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav seleccionado"><a th:href="@{/portafolio}">Portafolio</a></li>
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav seleccionado"><a th:href="@{/portfolio}">Portafolio</a></li>
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
 
             <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>

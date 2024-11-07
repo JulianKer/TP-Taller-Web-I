@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
+<head>
+    <meta charset="UTF-8">
+    <title> Criptomoneda | Crypto</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+    <link rel="icon" th:href="@{/img/logoCripto.png}">
+    <link rel="stylesheet" th:href="@{/css/detalleCripto.css}">
+</head>
+<body>
+
+<header id="arriba">
+    <nav>
+        <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}" alt="Logo"></a>
+
+        <ul class="contLinks">
+            <li class="linksNav seleccionado"><a th:href="@{/home}">Inicio</a></li>
+
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portafolio</a></li>
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
+
+            <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
+            <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
+
+        </ul>
+
+        <ul class="contLinksResponsive" id="contLinksResponsive">
+            <li class="linksNav seleccionado"><a th:href="@{/home}">Inicio</a></li>
+
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
+
+            <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
+            <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
+
+            <li class="linksNav"><a th:href="@{/perfil}">Perfil</a></li>
+            <li class="linksNav"><a th:href="@{/cerrarSesion}">Cerrar Sesión</a></li>
+        </ul>
+
+        <div class="contUserLogout">
+            <p class="saldo" th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
+            <a th:href="@{/perfil}" class="contUser">
+                <img th:src="@{/img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
+            </a>
+            <a th:href="@{/cerrarSesion}" class="contLogout">
+                <img th:src="@{/img/icons/icon_logout.svg}" alt="Cerrar sesión" title="Cerrar sesión">
+            </a>
+            <img th:src="@{/img/icons/icon_burger.svg}" id="imgBurger" alt="Menu" title="Menú" class="imgMenuBurguer">
+        </div>
+    </nav>
+</header>
+
+
+<main class="mainDetalles">
+    <div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+</main>
+
+
+
+<script th:inline="javascript">
+    let historialDePreciosJsonStr = /*[[${historialDePreciosJson}]]*/ '[]';
+    console.log(historialDePreciosJsonStr);
+
+    let historialDePrecios = JSON.parse(historialDePreciosJsonStr);
+    console.log(historialDePrecios);
+</script>
+<script th:src="@{/js/home.js}"></script>
+</body>
+</html>

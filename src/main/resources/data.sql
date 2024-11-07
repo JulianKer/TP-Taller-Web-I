@@ -16,9 +16,3 @@ INSERT INTO Criptomoneda(nombre, precioActual, imagen, habilitada) VALUES
                                                    --('steth', 100.0, 'Steth.webp', true),
                                                    ('solana', 100.0, 'Solana.svg', true),
                                                    ('tether', 100.0, 'Tether.svg', true);
-
-
-
-
-
-

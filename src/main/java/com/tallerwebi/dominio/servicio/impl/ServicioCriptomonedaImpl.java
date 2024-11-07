@@ -11,6 +11,7 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
+import com.tallerwebi.dominio.repositorio.RepositorioPrecioCripto;
 import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
@@ -32,13 +33,15 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
     private ServicioUsuario servicioUsuario;
     private ServicioTransacciones servicioTransacciones;
     private RepositorioCriptomoneda repositorioCriptomoneda;
+    private RepositorioPrecioCripto repositorioPrecioCripto;
 
     @Autowired
-    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda, ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda) {
+    public ServicioCriptomonedaImpl(RepositorioCriptomoneda repositorioCriptomoneda, ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda, RepositorioPrecioCripto repositorioPrecioCripto) {
         this.repositorioCriptomoneda = repositorioCriptomoneda;
         this.servicioUsuario = servicioUsuario;
         this.servicioTransacciones = servicioTransacciones;
         this.servicioBilleteraUsuarioCriptomoneda = servicioBilleteraUsuarioCriptomoneda;
+        this.repositorioPrecioCripto = repositorioPrecioCripto;
     }
 
     @Override
@@ -114,8 +117,8 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                         LocalDateTime fechaDeHoy = LocalDateTime.now();
                         precioCripto.setCriptomoneda(criptoDeMiBdd);
                         precioCripto.setPrecioActual(precio);
-                        precioCripto.setFechaDelPrecio(fechaDeHoy);
-                        // aca faltaria guardarlo el preciocripto en la bdd
+                        precioCripto.setFechaDelPrecio(fechaDeHoy.toString());
+                        repositorioPrecioCripto.guardarPrecioCripto(precioCripto);
                     }
                 }
             }
@@ -178,7 +181,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                 LocalDateTime fechaDeHoy = LocalDateTime.now();
                 precioCripto.setCriptomoneda(criptoAAgregar);
                 precioCripto.setPrecioActual(precio);
-                precioCripto.setFechaDelPrecio(fechaDeHoy);
+                precioCripto.setFechaDelPrecio(fechaDeHoy.toString());
                 // aca faltaria guardarlo el precioCripto en la bdd
                 return true; // si la encontre en el paginado, la puedo agregar
             }
@@ -229,5 +232,10 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
     @Override
     public ArrayList<Criptomoneda> obtenerCriptosHabilitadas() {
         return repositorioCriptomoneda.obtenerCriptosHabilitadas();
+    }
+
+    @Override
+    public List<PrecioCripto> obtenerHistorialDePrecioCriptoDeEstaCripto(String nombreCripto) {
+        return repositorioPrecioCripto.obtenerHistorialDePrecioCriptoDeEstaCripto(nombreCripto);
     }
 }

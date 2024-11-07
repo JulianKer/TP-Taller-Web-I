@@ -1,8 +1,10 @@
 package com.tallerwebi.dominio.servicio;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.PrecioCripto;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public interface ServicioCriptomoneda {
@@ -28,4 +30,6 @@ public interface ServicioCriptomoneda {
     Boolean habilitarCriptomoneda(String idCriptomoneda);
 
     ArrayList<Criptomoneda> obtenerCriptosHabilitadas();
+
+    List<PrecioCripto> obtenerHistorialDePrecioCriptoDeEstaCripto(String idCriptomoneda);
 }

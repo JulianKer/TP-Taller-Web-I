@@ -1,6 +1,8 @@
 package com.tallerwebi.presentacion;
 
+import com.google.gson.Gson;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.PrecioCripto;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
@@ -8,6 +10,7 @@ import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ControladorCriptomonedas {
@@ -127,5 +133,40 @@ public class ControladorCriptomonedas {
         }
 
         return new ModelAndView("redirect:/criptomonedas?mensaje=Criptomoneda habilitada con exito.#anlca-criptomonedas");
+    }
+
+    @RequestMapping(path = "/inicio/{nombreCripto}", method = RequestMethod.GET)
+    public ModelAndView detalleCriptomoneda(@PathVariable(value = "nombreCripto") String nombreCripto,
+                                            HttpServletRequest request) {
+
+        if (request.getSession().getAttribute("emailUsuario") == null) {
+            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
+        }
+        Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
+        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
+        if (userEncontrado.getRol().equals("ADMIN")){
+            return new ModelAndView("redirect:/home");
+        }
+
+        if (nombreCripto == null || nombreCripto.isEmpty()) {
+            return new ModelAndView("redirect:/home");
+        }
+
+        try {
+            servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreCripto);
+        }catch (NoSeEncontroLaCriptomonedaException e){
+            return new ModelAndView("redirect:/home");
+        }
+
+        List<PrecioCripto> historialDePrecios = servicioCriptomoneda.obtenerHistorialDePrecioCriptoDeEstaCripto(nombreCripto);
+
+        ModelMap model = new ModelMap();
+
+        Gson gson = new Gson();
+        String historialDePreciosJson = gson.toJson(historialDePrecios);
+        model.addAttribute("historialDePreciosJson", historialDePreciosJson);
+        model.addAttribute("usuario", userEncontrado);
+
+        return new ModelAndView("detalleCriptomoneda", model);
     }
 }

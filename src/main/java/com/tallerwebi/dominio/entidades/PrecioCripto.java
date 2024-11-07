@@ -1,7 +1,6 @@
 package com.tallerwebi.dominio.entidades;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,10 +13,10 @@ public class PrecioCripto {
     @ManyToOne
     private Criptomoneda criptomoneda;
     private Double precioActual;
-    private LocalDateTime fechaDelPrecio;
+    private String fechaDelPrecio;
 
-    public LocalDateTime getFechaDelPrecio() {return fechaDelPrecio;}
-    public void setFechaDelPrecio(LocalDateTime fechaDelPrecio) {this.fechaDelPrecio = fechaDelPrecio;}
+    public String getFechaDelPrecio() {return fechaDelPrecio;}
+    public void setFechaDelPrecio(String fechaDelPrecio) {this.fechaDelPrecio = fechaDelPrecio;}
 
     public Criptomoneda getCriptomoneda() {return criptomoneda;}
     public void setCriptomoneda(Criptomoneda criptomoneda) {this.criptomoneda = criptomoneda;}
