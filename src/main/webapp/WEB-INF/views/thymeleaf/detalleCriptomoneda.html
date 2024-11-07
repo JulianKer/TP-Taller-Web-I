@@ -70,7 +70,31 @@
         </div>
     </div>
 
-    <div id='myDiv'><!-- aca va el grafico que genero por js --></div>
+    <section class="section_tabla_grafico">
+        <div class="cont-tabla">
+            <table class="tabla">
+                <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Precio (USD)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="precioCripto : ${historialDePrecios}">
+                    <td th:text="${precioCripto.getFechaDelPrecio()}"></td>
+                    <td th:text="${precioCripto.getPrecioActual()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section class="grafico">
+            <div id='myDiv'>
+                <img th:src="@{'/img/logoCriptomonedas/' + ${criptomonedaEncontrada.getImagen()}}">
+                <!-- aca va el grafico que genero por js -->
+            </div>
+        </section>
+    </section>
 </main>
 
 

@@ -34,13 +34,14 @@ var data = [
         line: {
             color: '#7c7c7c',
             width: 3,
-            dash: 'solid', // 'solid', 'dash', 'dot'
+            dash: 'solid',
+            //shape: 'spline',  este es pa q sea curva la line
         },
         marker: {
             color: '#EEB913',
             size: 10,
-            symbol: 'diamond' // tipo 'circle', 'square', 'diamond'
-        }
+            symbol: 'diamond'
+        },
     }
 ];
 
@@ -72,8 +73,13 @@ var layout = {
         showgrid: true,
         gridcolor: '#e0e0e0'
     },
-    plot_bgcolor: 'none', // Color de fondo del área del gráfico
-    paper_bgcolor: 'none' // Color de fondo de todo el gráfico
+    responsive: true,
+    plot_bgcolor: 'none',
+    paper_bgcolor: 'none'
 };
 
 Plotly.newPlot('myDiv', data, layout);
+
+window.addEventListener('resize', function() {
+    Plotly.Plots.resize('myDiv');
+});

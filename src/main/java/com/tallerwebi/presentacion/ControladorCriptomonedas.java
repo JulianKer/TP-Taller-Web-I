@@ -152,8 +152,9 @@ public class ControladorCriptomonedas {
             return new ModelAndView("redirect:/home");
         }
 
+        Criptomoneda criptoEncontrada = null;
         try {
-            servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreCripto);
+            criptoEncontrada = servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreCripto);
         }catch (NoSeEncontroLaCriptomonedaException e){
             return new ModelAndView("redirect:/home");
         }
@@ -165,9 +166,12 @@ public class ControladorCriptomonedas {
         Gson gson = new Gson();
         String historialDePreciosJson = gson.toJson(historialDePrecios);
         model.addAttribute("historialDePreciosJson", historialDePreciosJson);
+        model.addAttribute("historialDePrecios", historialDePrecios);
 
         List<Criptomoneda> criptos = servicioCriptomoneda.obtenerCriptosHabilitadas();
         model.addAttribute("criptos", criptos);
+
+        model.addAttribute("criptomonedaEncontrada", criptoEncontrada);
 
         model.addAttribute("usuario", userEncontrado);
         return new ModelAndView("detalleCriptomoneda", model);
