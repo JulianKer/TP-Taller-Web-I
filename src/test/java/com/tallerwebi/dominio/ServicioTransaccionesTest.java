@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.dominio.entidades.BilleteraUsuarioCriptomoneda;
-import com.tallerwebi.dominio.entidades.Criptomoneda;
-import com.tallerwebi.dominio.entidades.Transaccion;
-import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.*;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
@@ -16,11 +13,11 @@ import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
@@ -427,4 +424,221 @@ public class ServicioTransaccionesTest {
         assertEquals(LocalDate.of(2023, 2, 5), resultado.get(1).getFechaDeTransaccion());
     }
 
+    @Test
+    public void queAlProgramarTransaccionConCantidadMenorOIgualACeroFalle() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 0.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        assertEquals("La cantidad debe ser mayor que 0.", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"mayor", 1.0,null));
+    }
+
+    @Test
+    public void siSeIntentaProgramarUnaTransacciondeTipoDevolucionFalle() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.DEVOLUCION;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        assertEquals("La transaccion no se pudo realizar. Tipo de transaccion desconocida", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"mayor", 1.0,null));
+    }
+
+    @Test
+    public void queSiIntentaProgramarCompraSeaExitosa() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        assertEquals("Programacion exitosa.", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"mayor", 1.0,null));
+    }
+
+    @Test
+    public void queSiIntentaProgramarVentaSeaExitosa() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        assertEquals("Programacion exitosa.", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"mayor", 1.0,null));
+    }
+
+    @Test
+    public void queSiIntentaProgramarIntercambioSeaExitosa() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        String nombreCriptoaObtener = "dogecoin";
+        Criptomoneda criptoAObtener = new Criptomoneda();
+        criptoAObtener.setNombre(nombreCriptoaObtener);
+        criptoAObtener.setPrecioActual(precioDeCripto);
+
+        assertEquals("Programacion exitosa.", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"mayor", 1.0,criptoAObtener));
+    }
+
+    @Test
+    public void queSiIntentaProgramarCompraMenorSeaExitosa() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        assertEquals("Programacion exitosa.", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"menor", 1.0,null));
+    }
+
+    @Test
+    public void queSiIntentaProgramarVentaMenorSeaExitosa() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        assertEquals("Programacion exitosa.", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"menor", 1.0,null));
+    }
+
+    @Test
+    public void queSiIntentaProgramarIntercambioMenorSeaExitosa() {
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        String nombreCriptoaObtener = "dogecoin";
+        Criptomoneda criptoAObtener = new Criptomoneda();
+        criptoAObtener.setNombre(nombreCriptoaObtener);
+        criptoAObtener.setPrecioActual(precioDeCripto);
+
+        assertEquals("Programacion exitosa.", servicioTransacciones.programarTransaccion(cripto,cantidadDeCripto,tipoDeTransaccion,usuario,"menor", 1.0,criptoAObtener));
+    }
+
+    @Test
+    public void queAlEjecutarseUnaTransaccionProgramadaSeaExitosa(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("German");
+        usuario.setApellido("Schmuker");
+        usuario.setTelefono(12345678L);
+        usuario.setEmail(emailUsuario);
+        usuario.setSaldo(14000.0);
+
+        Criptomoneda cripto = new Criptomoneda();
+        cripto.setNombre(nombreDeCripto);
+        cripto.setPrecioActual(precioDeCripto);
+
+        TransaccionProgramada transaccionProgramada = new TransaccionProgramada(usuario,cripto,null,null,null,null,null,tipoDeTransaccion,cantidadDeCripto,null,null,"mayor",1.0);
+        List<TransaccionProgramada> lista = new ArrayList<>();
+        lista.add(transaccionProgramada);
+
+        List<TransaccionProgramada> listaVacia = new ArrayList<>();
+
+        servicioTransacciones.ejecutarTransaccionesProgramadasDelUsuario(lista);
+        when(repositorioTransacciones.obtenerHistorialTransaccionesDeUsuarioProgramadas(usuario.getId())).thenReturn(listaVacia);
+
+        assertEquals(servicioTransacciones.obtenerHistorialTransaccionesDeUsuarioProgramadas(usuario.getId()),listaVacia);
+        assertTrue(servicioTransacciones.obtenerHistorialTransaccionesDeUsuarioProgramadas(usuario.getId()).isEmpty());
+    }
 }

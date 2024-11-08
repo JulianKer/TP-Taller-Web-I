@@ -297,11 +297,8 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
         switch (condicion){
             case "mayor":
-                System.out.println("ENTRE AL MAYOR-----------------------------------------------" + " ------ la condicion era: " + transaccionProgramada.getCondicionParaHacerla() + " PRECIO A CUMPLIR: " + precioACumplir + " --- PRECIO CRIPTO : " + precioCripto);
                 return precioACumplir < precioCripto;
             case "menor":
-                System.out.println("ENTRE AL MENOR-----------------------------------------------" + " ------ la condicion era: " + transaccionProgramada.getCondicionParaHacerla());
-
                 return precioACumplir > precioCripto;
         }
         return true;
