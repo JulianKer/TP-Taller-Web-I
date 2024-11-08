@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.entidades.Suscripcion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
@@ -9,6 +10,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -117,6 +121,23 @@ public class ControladorSuscripcionTest {
 
         assertEquals("redirect:/suscripcion?mensaje=Suscripcion exitosa.", modelAndView.getViewName());
         verify(servicioSuscripcion).verificarEstadoDelPago(request, "approved", "123456", "credit_card");
+    }
+
+
+    @Test
+    public void queAlEntrarASuscripcionesMeDevuelvaLasSusctripcionesDeLaBdd(){
+        crearUsuarioYagregarloALaSesion();
+
+        List<Suscripcion> suscripciones = new ArrayList<>();
+
+        Suscripcion suscripcion = new Suscripcion();
+        suscripciones.add(suscripcion);
+
+        when(servicioSuscripcion.obtenerSuscripciones()).thenReturn(suscripciones);
+
+        ModelAndView mav = controladorSuscripcion.suscripcion(request);
+
+        assertEquals(mav.getModelMap().getAttribute("suscripciones"), suscripciones);
     }
 
     public void crearUsuarioYagregarloALaSesion() {
