@@ -272,13 +272,19 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     public void ejecutarTransaccionesProgramadasDelUsuario(List<TransaccionProgramada> transaccionesProgramadasDeUnUsuario) {
         for (TransaccionProgramada transaccionProgramada : transaccionesProgramadasDeUnUsuario) {
             if (this.verificarQueCumplaLaCondicion(transaccionProgramada)){
-                System.out.println("ENTRE AL MAYOR----------------------------------------------- cumple la condicion :   " + this.verificarQueCumplaLaCondicion(transaccionProgramada));
-                if (transaccionProgramada.getTipo().equals(TipoTransaccion.INTERCAMBIO)){
-                    this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),transaccionProgramada.getCriptomoneda2(),transaccionProgramada.getCriptomoneda2().getPrecioActual(),true);
-                }else{
-                    this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),null,null,true);
+                try {
+                    if (transaccionProgramada.getTipo().equals(TipoTransaccion.INTERCAMBIO)){
+                        this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),transaccionProgramada.getCriptomoneda2(),transaccionProgramada.getCriptomoneda2().getPrecioActual(),true);
+                    }else{
+                        this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),null,null,true);
+                    }
+
+                    // ESTE PONERLO AFUERA DEL CATCH CUANDO HAGA LA NOTIF, LO DEJO ACA PARA QUE SI AHORA NO SE CUMPLE; SIGA APARECiendo- EN LA_ L-i-sta
+                    this.eliminarTransaccion(transaccionProgramada);
+
+                }catch (CriptomonedasInsuficientesException | SaldoInsuficienteException e){
+                    //o enviar mail o hacer que te envie una notiff si hacemos ese apartado.
                 }
-                this.eliminarTransaccion(transaccionProgramada);
             }
         }
     }

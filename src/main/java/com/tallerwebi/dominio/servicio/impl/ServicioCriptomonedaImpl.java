@@ -99,6 +99,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
             String name = objCripto.get("name").getAsString(); // Bitcoin
             String simbolo = objCripto.get("symbol").getAsString(); // BTC
             double precio = objCripto.get("priceUsd").getAsDouble(); // en usd
+            double precioEnUSD = objCripto.get("priceUsd").getAsDouble(); // en usd
 
             for (Criptomoneda criptoDeMiBdd : misCriptos){
 
@@ -107,7 +108,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                         precio = convertiPrecioSegunLaDivisa(moneda, precio);
                         precios.put(criptoDeMiBdd, precio);
 
-                        criptoDeMiBdd.setPrecioActual(precio);
+                        criptoDeMiBdd.setPrecioActual(precioEnUSD);
                         criptoDeMiBdd.setNombre(id);
                         criptoDeMiBdd.setNombreConMayus(name);
                         criptoDeMiBdd.setSimbolo(simbolo);
@@ -116,7 +117,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                         PrecioCripto precioCripto = new PrecioCripto();
                         LocalDateTime fechaDeHoy = LocalDateTime.now();
                         precioCripto.setCriptomoneda(criptoDeMiBdd);
-                        precioCripto.setPrecioActual(precio);
+                        precioCripto.setPrecioActual(precioEnUSD);
                         precioCripto.setFechaDelPrecio(fechaDeHoy.toString());
                         repositorioPrecioCripto.guardarPrecioCripto(precioCripto);
                     }
