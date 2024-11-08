@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
@@ -15,8 +16,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class ControladorTransaccionesTest {
 
@@ -236,5 +236,261 @@ public class ControladorTransaccionesTest {
         controladorTransacciones.realizarTransaccion(nombreDeCriptoADar,cantidadDeCriptoADar,tipoDeTransaccion,emailUsuario, nombreDeCriptoAObtener);
 
         assertThrows(NoSeEncontroLaCriptomonedaException.class, ()-> servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener));
+    }
+
+    @Test
+    public void queSeRealiceUnaDevolucionExitosa(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.DEVOLUCION;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.crearTransaccion(criptomoneda,precioDeCripto,cantidadDeCripto,tipoDeTransaccion,usuario, null, null,false)).thenReturn("Transaccion exitosa.");
+
+        ModelAndView mav = controladorTransacciones.realizarTransaccion(nombreDeCripto,cantidadDeCripto,tipoDeTransaccion,emailUsuario, null);
+
+        assertEquals("redirect:/transacciones?mensaje=Transaccion exitosa.&nombreDeCriptoADarSeleccionada=bitcoin&tipoTransaccionSeleccionada=DEVOLUCION",mav.getViewName());
+    }
+
+
+    /*--------------------------- TEST PROGRAMAR TRANSACCIONES--------------------------*/
+
+    @Test
+    public void queSeProgrameUnaTransaccionCompraConCondicionMayor(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.programarTransaccion(criptomoneda, cantidadDeCripto, tipoDeTransaccion, usuario, "mayor" , 1.0, null)).thenReturn("Programacion exitosa.");
+
+        String msjEsperado = "redirect:/transacciones?mensaje=Programacion exitosa.&nombreDeCriptoADarSeleccionada=" + criptomoneda.getNombre() + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion;
+        ModelAndView mav = controladorTransacciones.programarTransaccion(tipoDeTransaccion, criptomoneda.getNombre(),cantidadDeCripto,"mayor",1.0, null,request);
+        assertEquals(msjEsperado, mav.getViewName());
+    }
+
+    @Test
+    public void queSeProgrameUnaTransaccionCompraConCondicionMenor(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.COMPRA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.programarTransaccion(criptomoneda, cantidadDeCripto, tipoDeTransaccion, usuario, "menor" , 1.0, null)).thenReturn("Programacion exitosa.");
+
+        String msjEsperado = "redirect:/transacciones?mensaje=Programacion exitosa.&nombreDeCriptoADarSeleccionada=" + criptomoneda.getNombre() + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion;
+        ModelAndView mav = controladorTransacciones.programarTransaccion(tipoDeTransaccion, criptomoneda.getNombre(),cantidadDeCripto,"menor",1.0, null,request);
+        assertEquals(msjEsperado, mav.getViewName());
+    }
+
+    @Test
+    public void queSeProgrameUnaTransaccionVentaConCondicionMayor(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.programarTransaccion(criptomoneda, cantidadDeCripto, tipoDeTransaccion, usuario, "mayor" , 1.0, null)).thenReturn("Programacion exitosa.");
+
+        String msjEsperado = "redirect:/transacciones?mensaje=Programacion exitosa.&nombreDeCriptoADarSeleccionada=" + criptomoneda.getNombre() + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion;
+        ModelAndView mav = controladorTransacciones.programarTransaccion(tipoDeTransaccion, criptomoneda.getNombre(),cantidadDeCripto,"mayor",1.0, null,request);
+        assertEquals(msjEsperado, mav.getViewName());
+    }
+
+    @Test
+    public void queSeProgrameUnaTransaccionVentaConCondicionMenor(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.VENTA;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioTransacciones.programarTransaccion(criptomoneda, cantidadDeCripto, tipoDeTransaccion, usuario, "menor" , 1.0, null)).thenReturn("Programacion exitosa.");
+
+        String msjEsperado = "redirect:/transacciones?mensaje=Programacion exitosa.&nombreDeCriptoADarSeleccionada=" + criptomoneda.getNombre() + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion;
+        ModelAndView mav = controladorTransacciones.programarTransaccion(tipoDeTransaccion, criptomoneda.getNombre(),cantidadDeCripto,"menor",1.0, null,request);
+        assertEquals(msjEsperado, mav.getViewName());
+    }
+
+
+    @Test
+    public void queSeProgrameUnaTransaccionIntercambioConCondicionMayor(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.INTERCAMBIO;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
+
+        String nombreDeCriptoAObtener = "dogecoin";
+        Criptomoneda criptomonedaAObtener = new Criptomoneda();
+        criptomonedaAObtener.setNombre(nombreDeCriptoAObtener);
+        criptomonedaAObtener.setPrecioActual(precioDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener)).thenReturn(criptomonedaAObtener);
+        when(servicioTransacciones.programarTransaccion(criptomoneda, cantidadDeCripto, tipoDeTransaccion, usuario, "mayor" , 1.0, criptomonedaAObtener)).thenReturn("Programacion exitosa.");
+
+        String msjEsperado = "redirect:/transacciones?mensaje=Programacion exitosa.&nombreDeCriptoADarSeleccionada=" + criptomoneda.getNombre() + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion;
+        ModelAndView mav = controladorTransacciones.programarTransaccion(tipoDeTransaccion, criptomoneda.getNombre(),cantidadDeCripto,"mayor",1.0, nombreDeCriptoAObtener,request);
+        assertEquals(msjEsperado, mav.getViewName());
+    }
+
+    @Test
+    public void queSeProgrameUnaTransaccionIntercambioConCondicionMenor(){
+        String nombreDeCripto = "bitcoin";
+        Double precioDeCripto = 100.0;
+        Double cantidadDeCripto = 1.0;
+        TipoTransaccion tipoDeTransaccion = TipoTransaccion.INTERCAMBIO;
+        String emailUsuario = "german@gmail.com";
+
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setPrecioActual(precioDeCripto);
+
+        String nombreDeCriptoAObtener = "dogecoin";
+        Criptomoneda criptomonedaAObtener = new Criptomoneda();
+        criptomonedaAObtener.setNombre(nombreDeCriptoAObtener);
+        criptomonedaAObtener.setPrecioActual(precioDeCripto);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(servicioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCriptoAObtener)).thenReturn(criptomonedaAObtener);
+        when(servicioTransacciones.programarTransaccion(criptomoneda, cantidadDeCripto, tipoDeTransaccion, usuario, "menor" , 1.0, criptomonedaAObtener)).thenReturn("Programacion exitosa.");
+
+        String msjEsperado = "redirect:/transacciones?mensaje=Programacion exitosa.&nombreDeCriptoADarSeleccionada=" + criptomoneda.getNombre() + "&tipoTransaccionSeleccionada=" + tipoDeTransaccion;
+        ModelAndView mav = controladorTransacciones.programarTransaccion(tipoDeTransaccion, criptomoneda.getNombre(),cantidadDeCripto,"menor",1.0, nombreDeCriptoAObtener,request);
+        assertEquals(msjEsperado, mav.getViewName());
+    }
+
+    @Test
+    public void queSePuedaEliminarUnaTransaccionProgramada(){
+        String emailUsuario = "german@gmail.com";
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Transaccion transaccion = new Transaccion();
+        transaccion.setId(1L);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioTransacciones.buscarTransaccionPorId(transaccion.getId())).thenReturn(transaccion);
+
+        assertEquals(controladorTransacciones.eliminarTransaccionProgramada(1L, request).getViewName(), "redirect:/transacciones?mensaje=Transaccion eliminada con exito.");
+    }
+
+
+    @Test
+    public void queNoSePuedaEliminarUnaTransaccionProgramadaPorqueLaProgramadaNoExiste(){
+        String emailUsuario = "german@gmail.com";
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("CLIENTE");
+
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        Transaccion transaccion = new Transaccion();
+        transaccion.setId(1L);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+        when(servicioTransacciones.buscarTransaccionPorId(transaccion.getId())).thenReturn(null);
+
+        assertEquals(controladorTransacciones.eliminarTransaccionProgramada(1L, request).getViewName(), "redirect:/home");
+    }
+
+    @Test
+    public void queNoSePuedaEliminarUnaTransaccionProgramadaPorqueelUsuarioEsAdmin(){
+        String emailUsuario = "german@gmail.com";
+        Usuario usuario = new Usuario(); // aca solo creo un user con este mail pero pq los demas atributos no me ineteresan
+        usuario.setEmail(emailUsuario);
+        usuario.setRol("ADMIN");
+
+        request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        request.getSession().setAttribute("usuario", usuario);
+
+        when(servicioUsuario.buscarUsuarioPorEmail(emailUsuario)).thenReturn(usuario);
+
+        assertEquals(controladorTransacciones.eliminarTransaccionProgramada(1L, request).getViewName(), "redirect:/home");
     }
 }
