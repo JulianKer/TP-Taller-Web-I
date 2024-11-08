@@ -112,4 +112,65 @@ public class RepositorioCriptomonedaTest {
 
         assertEquals(criptosRecibidas, criptomonedasHabilitadas);
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queMeDeElNombreDeTodasLasCriptos() {
+        Criptomoneda criptomoneda1 = new Criptomoneda();
+        criptomoneda1.setId(1L);
+        criptomoneda1.setNombre("bitcoin");
+        criptomoneda1.setHabilitada(true);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda1);
+
+        Criptomoneda criptomoneda2 = new Criptomoneda();
+        criptomoneda2.setId(2L);
+        criptomoneda2.setNombre("ethereum");
+        criptomoneda2.setHabilitada(true);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda2);
+
+        Criptomoneda criptomoneda3 = new Criptomoneda();
+        criptomoneda3.setId(4L);
+        criptomoneda3.setNombre("dogecoin");
+        criptomoneda3.setHabilitada(true);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda3);
+
+        List<Criptomoneda> criptomonedasHabilitadas = new ArrayList<>();
+        criptomonedasHabilitadas.add(criptomoneda1);
+        criptomonedasHabilitadas.add(criptomoneda2);
+        criptomonedasHabilitadas.add(criptomoneda3);
+
+        ArrayList<Criptomoneda> criptosRecibidas = repositorioCriptomoneda.dameElNombreDeTodasLasCriptos();
+
+        assertEquals(criptosRecibidas, criptomonedasHabilitadas);
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queSePuedaInhabilitarCriptomoneda() {
+        Criptomoneda criptomoneda1 = new Criptomoneda();
+        criptomoneda1.setId(1L);
+        criptomoneda1.setNombre("bitcoin");
+        criptomoneda1.setHabilitada(true);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda1);
+
+        criptomoneda1.setHabilitada(false);
+        assertFalse(repositorioCriptomoneda.inhabilitarCriptomoneda(criptomoneda1));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queSePuedaHabilitarCriptomoneda() {
+        Criptomoneda criptomoneda1 = new Criptomoneda();
+        criptomoneda1.setId(1L);
+        criptomoneda1.setNombre("bitcoin");
+        criptomoneda1.setHabilitada(false);
+        repositorioCriptomoneda.guardarCriptomoneda(criptomoneda1);
+
+        criptomoneda1.setHabilitada(true);
+        assertTrue(repositorioCriptomoneda.inhabilitarCriptomoneda(criptomoneda1));
+    }
+
 }
