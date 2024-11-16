@@ -67,8 +67,8 @@ header{
     color: #FFFFFF;
     /*padding-top: 1rem;*/
     position: absolute;
-    top: 1.4em;
-    right: 12.5em;
+    top: 1.5em;
+    right: 16.5em;
 }
 .saldo:hover{
     color: #6EBD71;
@@ -166,5 +166,9 @@ header .seleccionado{
 
     .contLinksResponsive{
         padding: 1em 0;
+    }
+
+    .saldo{
+        right: 11.5em;
     }
 }
