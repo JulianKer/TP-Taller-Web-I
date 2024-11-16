@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioUsuarioImpl;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,8 @@ public class ControladorPerfilTest {
     // y me tira error diciendo q no puedo hacer un request.getSession(), nose pq
     private MockHttpServletRequest request = new MockHttpServletRequest();
     private ServicioUsuario servicioUsuario = mock(ServicioUsuarioImpl.class);
-    private ControladorPerfil controladorPerfil = new ControladorPerfil(servicioUsuario);
+    private ServicioNotificaciones servicioNotificaciones = mock(ServicioNotificaciones.class);
+    private ControladorPerfil controladorPerfil = new ControladorPerfil(servicioUsuario, servicioNotificaciones);
 
     @Test
     public void queAlIntentarHacerBarraPerfilSiNoTeLogueasteDesdeElLoginTeRedirijaAlLoginConUnMensajeDeErrorOseaQueFalle() {

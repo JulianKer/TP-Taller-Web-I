@@ -55,7 +55,7 @@ h1 {
 
     & img{
         border-radius: 8px;
-        max-width: 100%;
+        width: 100%;
     }
 }
 
@@ -100,7 +100,6 @@ h1 {
         grid-template-columns: 1fr;
     }
     .cont-img-plan{
-        max-height: 150px;
     }
 
 }

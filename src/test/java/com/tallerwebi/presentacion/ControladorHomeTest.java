@@ -1,7 +1,9 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,8 @@ public class ControladorHomeTest {
     private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomoneda.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     private ServicioTransacciones servicioTransacciones = mock(ServicioTransacciones.class);
-    private ControladorHome controladorHome = new ControladorHome(servicioCriptomoneda, servicioUsuario, servicioTransacciones);
+    private ServicioNotificaciones servicioNotificaciones = mock(ServicioNotificaciones.class);
+    private ControladorHome controladorHome = new ControladorHome(servicioCriptomoneda, servicioUsuario, servicioTransacciones, servicioNotificaciones);
 
     // este lo deberia usar para "pasar una session" al home y qcy, mostrar el nombre del user en el nav segun el email logueado
     // private MockHttpServletRequest request = new MockHttpServletRequest();
@@ -33,6 +36,9 @@ public class ControladorHomeTest {
     @Test
     public void queAlEntrarAlHomeElMapaQueMeDevuelvaEsteVacio() {
         request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("julian@gmail.com")).thenReturn(user);
 
         ArrayList<Criptomoneda> misCriptos = new ArrayList<>();
 
@@ -48,6 +54,9 @@ public class ControladorHomeTest {
     @Test
     public void queAlEntrarAlHomeMeDevuelvaUnMapConMonedaPrecioDeCriptos() {
         request.getSession().setAttribute("emailUsuario", "julian@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("julian@gmail.com")).thenReturn(user);
 
         Criptomoneda criptomoneda = new Criptomoneda();
         criptomoneda.setNombre("bitcoin");
@@ -74,6 +83,10 @@ public class ControladorHomeTest {
     @Test
     public void queAlSeleccionarLaMonedaEUREnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
         request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("german@gmail.com")).thenReturn(user);
+
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "EUR");
 
@@ -97,6 +110,9 @@ public class ControladorHomeTest {
     @Test
     public void queAlSeleccionarLaMonedaBRLEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
         request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("german@gmail.com")).thenReturn(user);
 
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "BRL");
@@ -120,6 +136,9 @@ public class ControladorHomeTest {
     @Test
     public void queAlSeleccionarLaMonedaARSEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
         request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("german@gmail.com")).thenReturn(user);
 
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "ARS");
@@ -143,6 +162,9 @@ public class ControladorHomeTest {
     @Test
     public void queAlSeleccionarLaMonedaCNYEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
         request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("german@gmail.com")).thenReturn(user);
 
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "CNY");
@@ -166,6 +188,9 @@ public class ControladorHomeTest {
     @Test
     public void queAlSeleccionarLaMonedaUSDEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
         request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("german@gmail.com")).thenReturn(user);
 
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "USD");
@@ -189,6 +214,9 @@ public class ControladorHomeTest {
     @Test
     public void queAlSeleccionarLaMonedaGBPEnElSelectHagaLaConversionDeLaCriptoYLaMuestre() {
         request.getSession().setAttribute("emailUsuario", "german@gmail.com");
+        Usuario user = new Usuario();
+        user.setId(1L);
+        when(servicioUsuario.buscarUsuarioPorEmail("german@gmail.com")).thenReturn(user);
 
         ModelMap modelo = new ModelMap();
         modelo.addAttribute("divisaAMostrar", "GBP");

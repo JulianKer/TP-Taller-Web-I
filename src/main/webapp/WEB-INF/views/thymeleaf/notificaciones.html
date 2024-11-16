@@ -12,6 +12,7 @@
     <link rel="icon" th:href="@{/img/logoCripto.png}">
     <script th:src="@{/js/filtroTransaccion.js}" defer></script>
     <script th:src="@{/js/selectorDeTransaccion.js}" defer></script>
+    <script th:src="@{/js/sortNotificaciones.js}" defer></script>
 </head>
 <body>
 <header id="arriba">
@@ -47,8 +48,9 @@
 
         <div class="contUserLogout">
             <p class="saldo" th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
-            <a th:href="@{/notificaciones}" class="contUser">
+            <a th:href="@{/notificaciones}" class="contUser a-notif">
                 <img th:src="@{/img/icons/icon_notification.svg}" alt="Notificaciones" title="Notificaciones">
+                <div th:if="${hayNotifSinVer}" class="icon_notificacion"></div>
             </a>
             <a th:href="@{/perfil}" class="contUser">
                 <img th:src="@{/img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
@@ -65,16 +67,26 @@
 
     <div class="titulo">
         <h2 id="titulo-notif">Notificaciones</h2>
+        <form th:action="@{/notificaciones}" id="form-criterioDeOrdenamiento">
+            <label for="criterioDeOrdenamiento">Ordenar por:</label>
+            <select name="q" id="criterioDeOrdenamiento">
+                <option value="recienteAAntiguo" th:selected="${#strings.equalsIgnoreCase(criterio, 'recienteAAntiguo')}">Más recientes</option>
+                <option value="antiguoAReciente" th:selected="${#strings.equalsIgnoreCase(criterio, 'antiguoAReciente')}">Más antigüas</option>
+            </select>
+        </form>
     </div>
 
     <section class="contNotificiaciones">
-        <div class="notificacion">
+        <div th:if="${notificaciones.isEmpty()}" class="alert alert-danger">
+            No tienes notificaciones
+        </div>
+        <div th:if="${!notificaciones.isEmpty()}" class="notificacion" th:each="notificacion : ${notificaciones}" th:class="'notificacion ' + ${notificacion.getVista()}">
             <div class="notif-renglon1">
-                <p class="notifTitulo">Programacion fallida</p>
-                <p class="notifFecha">2024/10/13</p>
+                <p class="notifTitulo" th:text="${notificacion.getTitulo()}"></p>
+                <p class="notifFecha" th:text="${notificacion.getFechaNotificacion()}"></p>
             </div>
             <div class="notif-renglon2">
-                <p class="notifDescripcion">La transaccion programada fallo porque no tenias suficiente saldo</p>
+                <p class="notifDescripcion" th:text="${notificacion.getDescripcion()}"></p>
             </div>
         </div>
     </section>
