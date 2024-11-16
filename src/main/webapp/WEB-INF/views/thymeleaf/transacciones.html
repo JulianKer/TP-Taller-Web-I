@@ -86,9 +86,11 @@
       <div>
         <label for="tipoDeTransaccion">Seleccione el tipo de transacción:</label>
         <select id="tipoDeTransaccion" name="tipoDeTransaccion" class="inputs">
-          <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
+          <option th:each="tipo : ${tiposTransaccionesQuePuedaHacerElUsuario}" th:value="${tipo.getNombre()}" th:selected="${#strings.equalsIgnoreCase(filtro, tipo.getNombre())}" th:text="${tipo.getNombre()}"></option>
+
+          <!--<option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
           <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
-          <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>
+          <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>-->
         </select>
       </div>
 
@@ -130,10 +132,13 @@
           <label for="transaction-filter">Filtrar:</label>
           <select name = "tipoTransaccion" id="transaction-filter">
             <option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
+            <option th:each="tipo : ${tiposTransacciones}" th:value="${tipo.getNombre()}" th:selected="${#strings.equalsIgnoreCase(filtro, tipo.getNombre())}" th:text="${tipo.getNombre()}"></option>
+
+            <!--<option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
             <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(filtro, 'COMPRA')}">Compras</option>
             <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(filtro, 'VENTA')}">Ventas</option>
             <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(filtro, 'INTERCAMBIO')}">Intercambio</option>
-            <option value="DEVOLUCION" th:selected="${#strings.equalsIgnoreCase(filtro, 'DEVOLUCION')}">Devolucion</option>
+            <option value="DEVOLUCION" th:selected="${#strings.equalsIgnoreCase(filtro, 'DEVOLUCION')}">Devolucion</option>-->
           </select>
           <!-- Campo de fecha "Desde" -->
           <label for="desde">Desde:</label>
@@ -244,9 +249,11 @@
         <div class="grupo">
           <label class="etiqueta" for="selector-transaccion-programada">Seleccione el tipo de transacción:</label>
           <select class="selector" id="selector-transaccion-programada" name="selectorTransaccionProgramada">
-            <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
+            <option th:each="tipo : ${tiposTransaccionesQuePuedaHacerElUsuario}" th:value="${tipo.getNombre()}" th:selected="${#strings.equalsIgnoreCase(filtro, tipo.getNombre())}" th:text="${tipo.getNombre()}"></option>
+
+            <!--<option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
             <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
-            <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>
+            <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>-->
           </select>
         </div>
 
