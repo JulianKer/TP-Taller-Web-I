@@ -81,6 +81,9 @@ public class ControladorTransacciones {
             transaccionesProgramadas = servicioTransacciones.obtenerHistorialTransaccionesDeUsuarioProgramadas(idUsuario);
         }
 
+        model.put("tiposTransacciones", servicioTransacciones.obtenerLosTiposDeTransacciones());
+        model.put("tiposTransaccionesQuePuedaHacerElUsuario", servicioTransacciones.tiposTransaccionesQuePuedaHacerElUsuario());
+
         model.put("criptos", servicioCriptomoneda.obtenerCriptosHabilitadas());
         model.put("emailUsuario", userEncontrado.getEmail());
 

@@ -20,3 +20,8 @@ INSERT INTO Criptomoneda(nombre, precioActual, imagen, habilitada) VALUES
 insert into Suscripcion (titulo, descripcion, precio, imagenUrl) values
                                                 ('diamante', 'Acceso a todas las funciones', 20, 'diamante.png' ),
                                                 ('esmeralda', 'Acceso a los aldeanos', 30, 'esmeralda.png');
+
+INSERT INTO TransaccionTipo(nombre) VALUES ('COMPRA'),
+                                           ('VENTA'),
+                                           ('DEVOLUCION'),
+                                           ('INTERCAMBIO');

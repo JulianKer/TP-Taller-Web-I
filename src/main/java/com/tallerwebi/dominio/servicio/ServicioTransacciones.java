@@ -1,9 +1,6 @@
 package com.tallerwebi.dominio.servicio;
 
-import com.tallerwebi.dominio.entidades.Criptomoneda;
-import com.tallerwebi.dominio.entidades.Transaccion;
-import com.tallerwebi.dominio.entidades.TransaccionProgramada;
-import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.*;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import java.time.LocalDate;
 
@@ -44,4 +41,8 @@ public interface ServicioTransacciones {
     void ejecutarTransaccionesProgramadasDelUsuario(List<TransaccionProgramada> transaccionesProgramadasDeUnUsuario);
 
     boolean verificarQueCumplaLaCondicion(TransaccionProgramada transaccionProgramada);
+
+    List<TransaccionTipo> obtenerLosTiposDeTransacciones();
+
+    List<TransaccionTipo>  tiposTransaccionesQuePuedaHacerElUsuario();
 }

@@ -303,4 +303,15 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
         }
         return true;
     }
+
+    @Override
+    public List<TransaccionTipo> obtenerLosTiposDeTransacciones() {
+        return repositorioTransacciones.obtenerLosTiposDeTransacciones();
+    }
+
+    @Override
+    public List<TransaccionTipo> tiposTransaccionesQuePuedaHacerElUsuario() {
+        return repositorioTransacciones.obtenerLosTiposDeTransacciones().stream()
+                .filter(tipo -> !tipo.getNombre().equals("DEVOLUCION"))
+                .collect(Collectors.toList());    }
 }
