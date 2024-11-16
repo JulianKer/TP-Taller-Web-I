@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.entidades.PrecioCripto;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,14 @@ public class ControladorCriptomonedas {
     private ServicioCriptomoneda servicioCriptomoneda;
     private ServicioSubirImagen servicioSubirImagen;
     private ServicioUsuario servicioUsuario;
+    private ServicioNotificaciones servicioNotificaciones;
 
     @Autowired
-    public ControladorCriptomonedas(ServicioCriptomoneda servicioCriptomoneda, ServicioSubirImagen servicioSubirImagen, ServicioUsuario servicioUsuario) {
+    public ControladorCriptomonedas(ServicioCriptomoneda servicioCriptomoneda, ServicioSubirImagen servicioSubirImagen, ServicioUsuario servicioUsuario, ServicioNotificaciones servicioNotificaciones) {
         this.servicioCriptomoneda = servicioCriptomoneda;
         this.servicioSubirImagen = servicioSubirImagen;
         this.servicioUsuario = servicioUsuario;
+        this.servicioNotificaciones = servicioNotificaciones;
     }
 
     @RequestMapping(path = "/criptomonedas", method = RequestMethod.GET)
@@ -144,9 +147,6 @@ public class ControladorCriptomonedas {
         }
         Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
         Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
-        if (userEncontrado.getRol().equals("ADMIN")){
-            return new ModelAndView("redirect:/home");
-        }
 
         if (nombreCripto == null || nombreCripto.isEmpty()) {
             return new ModelAndView("redirect:/home");
@@ -172,6 +172,9 @@ public class ControladorCriptomonedas {
         model.addAttribute("criptos", criptos);
 
         model.addAttribute("criptomonedaEncontrada", criptoEncontrada);
+
+        Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(userEncontrado.getId());
+        model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);
 
         model.addAttribute("usuario", userEncontrado);
         return new ModelAndView("detalleCriptomoneda", model);

@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
@@ -24,15 +25,17 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     RepositorioTransacciones repositorioTransacciones;
     ServicioUsuario servicioUsuario;
     private ServicioEmail servicioEmail;
+    private ServicioNotificaciones servicioNotificaciones;
     private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda;
 
 
     @Autowired
-    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones, ServicioUsuario servicioUsuario, ServicioEmail servicioEmail, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda) {
+    public ServicioTransaccionesImpl(RepositorioTransacciones repositorioTransacciones, ServicioUsuario servicioUsuario, ServicioEmail servicioEmail, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda, ServicioNotificaciones servicioNotificaciones) {
         this.repositorioTransacciones = repositorioTransacciones;
         this.servicioUsuario = servicioUsuario;
         this.servicioEmail = servicioEmail;
         this.servicioBilleteraUsuarioCriptomoneda = servicioBilleteraUsuarioCriptomoneda;
+        this.servicioNotificaciones = servicioNotificaciones;
     }
 
     //----- METODO PRINCIPAL PARA GENERAR LA TRANSACCION -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -68,6 +71,10 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
             servicioUsuario.sumarSaldo(usuario.getId(), precioTotalDeTransaccion);
             billetera.decrementarCantidadDeCripto(cantidadDeCripto);
 
+            String notifTitulo = "Transacción realizada.";
+            String notifDescripcion = "Tu " + nuevaTransaccion.getTipo() + " se realizó con éxito.";
+            servicioNotificaciones.enviarNotificacion(notifTitulo, notifDescripcion, usuario);
+
             generarYEnviarMail(usuario, nuevaTransaccion);
             return "Transaccion exitosa.";
         } else {
@@ -92,6 +99,10 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
             billetera.incrementarCantidadDeCripto(cantidadDeCripto);
             servicioBilleteraUsuarioCriptomoneda.actualizarBilletera(billetera);
             servicioUsuario.restarSaldo(usuario.getId(), precioTotalDeTransaccion);
+
+            String notifTitulo = "Transacción realizada.";
+            String notifDescripcion = "Tu " + nuevaTransaccion.getTipo() + " se realizó con éxito.";
+            servicioNotificaciones.enviarNotificacion(notifTitulo, notifDescripcion, usuario);
 
             generarYEnviarMail(usuario, nuevaTransaccion);
             return "Transaccion exitosa.";
@@ -124,6 +135,10 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
 
         Transaccion nuevaTransaccion = generarTransaccion(precioDeCriptoADar, tipoDeTransaccion, usuario, precioTotalDeTransaccion, criptoADar, cantidadDeCriptoADar, criptoAObtener, cantidadDeCriptoAObtener, precioDeCriptoAObtener, esProgramada);
         repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+
+        String notifTitulo = "Transacción realizada.";
+        String notifDescripcion = "Tu " + nuevaTransaccion.getTipo() + " se realizó con éxito.";
+        servicioNotificaciones.enviarNotificacion(notifTitulo, notifDescripcion, usuario);
 
         generarYEnviarMail(usuario, nuevaTransaccion);
         return "Transaccion exitosa.";
@@ -272,19 +287,23 @@ public class ServicioTransaccionesImpl implements ServicioTransacciones {
     public void ejecutarTransaccionesProgramadasDelUsuario(List<TransaccionProgramada> transaccionesProgramadasDeUnUsuario) {
         for (TransaccionProgramada transaccionProgramada : transaccionesProgramadasDeUnUsuario) {
             if (this.verificarQueCumplaLaCondicion(transaccionProgramada)){
+                String notifTitulo = "";
+                String notifDescripcion = "";
+
                 try {
                     if (transaccionProgramada.getTipo().equals(TipoTransaccion.INTERCAMBIO)){
                         this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),transaccionProgramada.getCriptomoneda2(),transaccionProgramada.getCriptomoneda2().getPrecioActual(),true);
                     }else{
                         this.crearTransaccion(transaccionProgramada.getCriptomoneda(),transaccionProgramada.getCriptomoneda().getPrecioActual(),transaccionProgramada.getCantidadDeCripto(),transaccionProgramada.getTipo(),transaccionProgramada.getUsuario(),null,null,true);
                     }
-
-                    // ESTE PONERLO AFUERA DEL CATCH CUANDO HAGA LA NOTIF, LO DEJO ACA PARA QUE SI AHORA NO SE CUMPLE; SIGA APARECiendo- EN LA_ L-i-sta
-                    this.eliminarTransaccion(transaccionProgramada);
-
                 }catch (CriptomonedasInsuficientesException | SaldoInsuficienteException e){
                     //o enviar mail o hacer que te envie una notiff si hacemos ese apartado.
+                    notifTitulo = "No se pudo realizar una transacción programada.";
+                    notifDescripcion = "Tu " + transaccionProgramada.getTipo() + " que programaste el " + transaccionProgramada.getFechaQueSeHizoLaProgramacion() + " no se pudo ejecutar. \nMotivo: " + e.getMessage();
+                    servicioNotificaciones.enviarNotificacion(notifTitulo, notifDescripcion, transaccionProgramada.getUsuario());
                 }
+
+                this.eliminarTransaccion(transaccionProgramada);
             }
         }
     }

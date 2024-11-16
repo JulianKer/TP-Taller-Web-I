@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.ServicioSubirImagen;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,8 @@ public class ControladorCriptomonedasTest {
     private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomoneda.class);
     private ServicioSubirImagen servicioSubirImagen = mock(ServicioSubirImagen.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
-    private ControladorCriptomonedas controladorCriptomonedas = new ControladorCriptomonedas(servicioCriptomoneda, servicioSubirImagen, servicioUsuario);
+    private ServicioNotificaciones servicioNotificaciones = mock(ServicioNotificaciones.class);
+    private ControladorCriptomonedas controladorCriptomonedas = new ControladorCriptomonedas(servicioCriptomoneda, servicioSubirImagen, servicioUsuario, servicioNotificaciones);
 
     @Test
     public void queAlIngresarUnUserClienteLoRedirijaAlHome(){

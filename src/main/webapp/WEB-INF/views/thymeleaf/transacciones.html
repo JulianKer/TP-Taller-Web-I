@@ -47,8 +47,9 @@
 
     <div class="contUserLogout">
       <p class="saldo" th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
-      <a th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" th:href="@{/notificaciones}" class="contUser">
+      <a th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" th:href="@{/notificaciones}" class="contUser a-notif">
         <img th:src="@{/img/icons/icon_notification.svg}" alt="Notificaciones" title="Notificaciones">
+        <div th:if="${hayNotifSinVer}" class="icon_notificacion"></div>
       </a>
       <a th:href="@{/perfil}" class="contUser">
         <img th:src="@{/img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">

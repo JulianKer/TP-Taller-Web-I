@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.entidades.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ public class ControladorPerfil {
 
 
     private ServicioUsuario servicioUsuario;
+    private ServicioNotificaciones servicioNotificaciones;
 
     @Autowired
-    public ControladorPerfil(ServicioUsuario servicioUsuario) {
+    public ControladorPerfil(ServicioUsuario servicioUsuario, ServicioNotificaciones servicioNotificaciones) {
         this.servicioUsuario = servicioUsuario;
+        this.servicioNotificaciones = servicioNotificaciones;
     }
 
     @RequestMapping(path = "/perfil", method = RequestMethod.GET)
@@ -58,6 +61,10 @@ public class ControladorPerfil {
         model.put("fechaNacimientoUsuario", userEncontrado.getFechaNacimiento());
         model.put("premiumActivo", userEncontrado.getActivo()==null ? null : userEncontrado.getActivo());
         model.put("usuario", userEncontrado);
+
+        Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(userEncontrado.getId());
+        model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);
+
         return new ModelAndView("perfil", model);
     }
 }

@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioCriptomonedaImpl;
@@ -24,7 +25,8 @@ public class ControladorTransaccionesTest {
     private ServicioUsuario servicioUsuario = mock(ServicioUsuarioImpl.class);
     private ServicioTransacciones servicioTransacciones = mock(ServicioTransaccionesImpl.class);
     private ServicioCriptomoneda servicioCriptomoneda = mock(ServicioCriptomonedaImpl.class);
-    private ControladorTransacciones controladorTransacciones = new ControladorTransacciones(servicioUsuario,servicioTransacciones,servicioCriptomoneda);
+    private ServicioNotificaciones servicioNotificaciones = mock(ServicioNotificaciones.class);
+    private ControladorTransacciones controladorTransacciones = new ControladorTransacciones(servicioUsuario,servicioTransacciones,servicioCriptomoneda, servicioNotificaciones);
 
 
     @Test

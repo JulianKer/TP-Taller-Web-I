@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioTransaccionesImpl;
@@ -29,7 +30,8 @@ public class ServicioTransaccionesTest {
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     private ServicioEmail servicioEmail = mock(ServicioEmail.class);
     private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda = mock(ServicioBilleteraUsuarioCriptomoneda.class);
-    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones, servicioUsuario, servicioEmail, servicioBilleteraUsuarioCriptomoneda);
+    private ServicioNotificaciones servicioNotificaciones = mock(ServicioNotificaciones.class);
+    private ServicioTransacciones servicioTransacciones = new ServicioTransaccionesImpl(repositorioTransacciones, servicioUsuario, servicioEmail, servicioBilleteraUsuarioCriptomoneda, servicioNotificaciones);
 
 
     @Test

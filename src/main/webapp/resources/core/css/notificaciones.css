@@ -19,6 +19,12 @@ h2 {
     margin-bottom: 1.5rem;
 }
 
+.titulo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .contNotificiaciones{
     background-color: #fff;
     min-height: 70dvh;
@@ -46,6 +52,10 @@ h2 {
 .notificacion:hover{
     background-color: #f1f1f1;
     cursor: default;
+
+    & .notifTitulo, .notifDescripcion{
+        transform: translateX(10px);
+    }
 }
 
 .notif-renglon1{
@@ -56,6 +66,7 @@ h2 {
 
     & .notifTitulo{
         font-weight: bold;
+        transition: all .2s;
     }
 
     .notifFecha{
@@ -67,9 +78,53 @@ h2 {
 }
 
 .notifDescripcion{
-    white-space: nowrap;
+    /*white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis;*/
+    word-break: break-word;
+    word-wrap: break-word;
     color: #474747;
+    transition: all .2s;
 }
 
+#form-criterioDeOrdenamiento{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+}
+
+/*si la notifi tiene el getVista() en false, la pongo de otro color para indicar q esa notif es "nueva"*/
+.false{
+    background-color: #6ecd6e;
+    background-color: #bee6bd;
+}
+
+.false:hover{
+    background-color: #bee6bd;
+}
+
+@media screen and (max-width: 800px){
+
+    .titulo{
+        flex-direction: column;
+        margin-bottom: 1em;
+    }
+    h2{
+        text-align: center;
+    }
+
+    .notif-renglon1{
+        font-size: 1em;
+    }
+
+    .notifDescripcion{
+        font-size: .75em;
+    }
+}

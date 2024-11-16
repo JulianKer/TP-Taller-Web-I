@@ -110,7 +110,21 @@ header .seleccionado{
 }
 
 
+.a-notif{
+    position: relative;
+}
+.icon_notificacion{
+    background-color: #00cd00;
+    text-decoration: none;
 
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+
+    position: absolute;
+    top: .3em;
+    right: .2em;
+}
 
 
 @media screen and (max-width: 960px) {

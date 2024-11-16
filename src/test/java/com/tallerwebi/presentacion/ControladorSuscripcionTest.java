@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Suscripcion;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.impl.ServicioSuscripcionImpl;
@@ -22,7 +23,8 @@ public class ControladorSuscripcionTest {
     HttpServletRequest request = new MockHttpServletRequest();
     ServicioSuscripcion servicioSuscripcion = mock(ServicioSuscripcionImpl.class);
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
-    ControladorSuscripcion controladorSuscripcion= new ControladorSuscripcion(servicioSuscripcion, servicioUsuario);
+    private ServicioNotificaciones servicioNotificaciones = mock(ServicioNotificaciones.class);
+    ControladorSuscripcion controladorSuscripcion= new ControladorSuscripcion(servicioSuscripcion, servicioUsuario, servicioNotificaciones);
 
     @Test
     public void queNoPuedanAccederSiNoEstanLogueados() {

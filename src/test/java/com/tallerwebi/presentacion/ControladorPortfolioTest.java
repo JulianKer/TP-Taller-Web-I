@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioPortfolio;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
@@ -19,7 +20,8 @@ public class ControladorPortfolioTest {
     private ServicioUsuario servicioUsuario = mock(ServicioUsuario.class);
     private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda = mock(ServicioBilleteraUsuarioCriptomoneda.class);
     private ServicioPortfolio servicioPortfolio = mock(ServicioPortfolio.class);
-    ControladorPortfolio controladorPortfolio= new ControladorPortfolio(servicioUsuario, servicioBilleteraUsuarioCriptomoneda, servicioPortfolio);
+    private ServicioNotificaciones servicioNotificaciones = mock(ServicioNotificaciones.class);
+    ControladorPortfolio controladorPortfolio= new ControladorPortfolio(servicioUsuario, servicioBilleteraUsuarioCriptomoneda, servicioPortfolio, servicioNotificaciones);
 
     @Test
     public void queAlIngresarUnUserClienteLoRedirijaAlHome(){
