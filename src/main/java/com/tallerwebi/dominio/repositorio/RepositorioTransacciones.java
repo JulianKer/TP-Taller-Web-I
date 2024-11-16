@@ -2,6 +2,7 @@ package com.tallerwebi.dominio.repositorio;
 
 import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.TransaccionProgramada;
+import com.tallerwebi.dominio.entidades.TransaccionTipo;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface RepositorioTransacciones {
     List<TransaccionProgramada> obtenerHistorialTransaccionesDeUsuarioProgramadas(Long idUsuario);
 
     Transaccion buscarTransaccionPorId(Long idTransaccion);
+
+    List<TransaccionTipo> obtenerLosTiposDeTransacciones();
 }
