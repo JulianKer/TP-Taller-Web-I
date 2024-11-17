@@ -19,6 +19,8 @@ import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -114,11 +116,15 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
                         criptoDeMiBdd.setSimbolo(simbolo);
                         repositorioCriptomoneda.actualizarCriptomoneda(criptoDeMiBdd); //este seeria el update
 
-                        PrecioCripto precioCripto = new PrecioCripto();
+                        DateTimeFormatter fromatoParaLaFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                         LocalDateTime fechaDeHoy = LocalDateTime.now();
+                        String fechaFormateada = fechaDeHoy.format(fromatoParaLaFecha);
+
+                        PrecioCripto precioCripto = new PrecioCripto();
                         precioCripto.setCriptomoneda(criptoDeMiBdd);
                         precioCripto.setPrecioActual(precioEnUSD);
-                        precioCripto.setFechaDelPrecio(fechaDeHoy.toString());
+                        //precioCripto.setFechaDelPrecio(fechaDeHoy.toString());
+                        precioCripto.setFechaDelPrecio(fechaFormateada);
                         repositorioPrecioCripto.guardarPrecioCripto(precioCripto);
                     }
                 }

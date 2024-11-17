@@ -45,7 +45,7 @@ body{
 
 .slider {
     display: flex;
-    animation: slide 25s linear infinite;
+    animation: slide 15s linear infinite;
 }
 
 .card {
