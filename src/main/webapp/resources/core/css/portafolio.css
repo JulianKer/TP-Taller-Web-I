@@ -141,6 +141,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     position: relative;
+    overflow: auto;
 }
 
 .portfolio-header {
@@ -150,6 +151,7 @@ body {
     border-bottom: 1px solid #eee;
     font-weight: bold;
     color: #333;
+    min-width: 800px;
 }
 
 .crypto-row {
@@ -158,6 +160,7 @@ body {
     padding: 20px 15px;
     align-items: center;
     border-bottom: 1px solid #eee;
+    min-width: 800px;
 }
 .crypto-row:hover{
     background-color: #f1f1f1;
