@@ -7,6 +7,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ServicioSubirImagenTest {
 
@@ -25,6 +26,78 @@ public class ServicioSubirImagenTest {
 
         String msjRecibido = servicioSubirImagen.subirImagen("bitcoin", imagenCripto, request.getServletContext().getRealPath("/resources/core/img/logoCriptomonedas/"));
         assertEquals("Formato de imagen no valido. Solo se aceptan JPG, JPEG, PNG, SVG y WEBP.", msjRecibido);
+    }
+
+    @Test
+    public void queSePuedaCorroborarLaExtensionDeUnArchivoDentroDeLosQuePermitoJpg() {
+        String nombreArchivo = "archivo.jpg";
+        assertTrue(servicioSubirImagen.validarExtension(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaCorroborarLaExtensionDeUnArchivoDentroDeLosQuePermitoJpeg() {
+        String nombreArchivo = "archivo.jpeg";
+        assertTrue(servicioSubirImagen.validarExtension(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaCorroborarLaExtensionDeUnArchivoDentroDeLosQuePermitoPng() {
+        String nombreArchivo = "archivo.png";
+        assertTrue(servicioSubirImagen.validarExtension(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaCorroborarLaExtensionDeUnArchivoDentroDeLosQuePermitoSvg() {
+        String nombreArchivo = "archivo.svg";
+        assertTrue(servicioSubirImagen.validarExtension(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaCorroborarLaExtensionDeUnArchivoDentroDeLosQuePermitoWebp() {
+        String nombreArchivo = "archivo.webp";
+        assertTrue(servicioSubirImagen.validarExtension(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaObtenerLaExtencionDelArchivojpg(){
+        String nombreArchivo = "archivo.jpg";
+        assertEquals(".jpg", servicioSubirImagen.dameLaExtencionDelArchivo(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaObtenerLaExtencionDelArchivojpeg(){
+        String nombreArchivo = "archivo.jpeg";
+        assertEquals(".jpeg", servicioSubirImagen.dameLaExtencionDelArchivo(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaObtenerLaExtencionDelArchivoPng(){
+        String nombreArchivo = "archivo.png";
+        assertEquals(".png", servicioSubirImagen.dameLaExtencionDelArchivo(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaObtenerLaExtencionDelArchivoSvg(){
+        String nombreArchivo = "archivo.svg";
+        assertEquals(".svg", servicioSubirImagen.dameLaExtencionDelArchivo(nombreArchivo));
+    }
+
+    @Test
+    public void queSePuedaObtenerLaExtencionDelArchivoWebp(){
+        String nombreArchivo = "archivo.webp";
+        assertEquals(".webp", servicioSubirImagen.dameLaExtencionDelArchivo(nombreArchivo));
+    }
+
+    @Test
+    public void queNoSeObtengaLaExtencionPorqueElNombreEstaVcio(){
+        String nombreArchivo = "";
+        assertEquals("", servicioSubirImagen.dameLaExtencionDelArchivo(nombreArchivo));
+    }
+
+    @Test
+    public void queNoSeObtengaLaExtencionPorqueElNombreEsNull(){
+        String nombreArchivo = null;
+        assertEquals("", servicioSubirImagen.dameLaExtencionDelArchivo(nombreArchivo));
     }
 
     @Test

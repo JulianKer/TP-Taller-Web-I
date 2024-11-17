@@ -68,7 +68,6 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     @Override
     public void cambiarEstado(Long id, boolean estado) {
         repositorioUsuario.cambiarEstado( id, estado);
-
     }
 
     @Override
@@ -95,7 +94,6 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     public String bloquearUsuario(Long idUsuario) {
         Usuario usuarioEncontrado = repositorioUsuario.buscarUsuarioPorId(idUsuario);
 
-        System.out.println(idUsuario);
         if (usuarioEncontrado == null) {
             return "No se pudo bloquear";
         }

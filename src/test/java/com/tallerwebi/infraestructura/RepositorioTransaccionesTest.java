@@ -1,8 +1,11 @@
 package com.tallerwebi.infraestructura;
 
 
+import com.tallerwebi.dominio.entidades.TransaccionProgramada;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.repositorio.impl.RepositorioTransaccionesImpl;
 import com.tallerwebi.dominio.entidades.Transaccion;
+import com.tallerwebi.dominio.repositorio.impl.RepositorioUsuarioImpl;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import org.junit.jupiter.api.Test;
@@ -15,7 +18,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
@@ -33,5 +39,39 @@ public class RepositorioTransaccionesTest {
         repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
 
         assertNotNull(nuevaTransaccion.getId());
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queSeEncuentreUnaTransaccionPorId() {
+        Transaccion nuevaTransaccion = new Transaccion();
+        nuevaTransaccion.setId(1L);
+        repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+
+        assertNotNull(repositorioTransacciones.buscarTransaccionPorId(nuevaTransaccion.getId()));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queNoSeEncuentreUnaTransaccionPorId() {
+        Transaccion nuevaTransaccion = new Transaccion();
+        nuevaTransaccion.setId(1L);
+        repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+
+        assertNull(repositorioTransacciones.buscarTransaccionPorId(2L));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void queSePuedaeliminarunaTransaccion() {
+        Transaccion nuevaTransaccion = new Transaccion();
+        nuevaTransaccion.setId(1L);
+        repositorioTransacciones.guardarTransaccion(nuevaTransaccion);
+        repositorioTransacciones.eliminarTransaccion(nuevaTransaccion);
+
+        assertNull(repositorioTransacciones.buscarTransaccionPorId(nuevaTransaccion.getId()));
     }
 }

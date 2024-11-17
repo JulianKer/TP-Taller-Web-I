@@ -60,6 +60,7 @@
       <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
       <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
       <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
+      <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/notificaciones}">Notificaciones</a></li>
 
       <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
       <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
@@ -71,6 +72,10 @@
     <div class="contUserLogout">
 
       <p class="saldo" th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}"  th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
+      <a th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" th:href="@{/notificaciones}" class="contUser a-notif">
+        <img th:src="@{/img/icons/icon_notification.svg}" alt="Notificaciones" title="Notificaciones">
+        <div th:if="${hayNotifSinVer}" class="icon_notificacion"></div>
+      </a>
       <a th:href="@{/perfil}" class="contUser">
         <img th:src="@{img/icons/icon_perfil.svg}" alt="Perfil" title="Ir a Perfil">
       </a>
@@ -89,7 +94,7 @@
     <button type="submit" class="centrar"> <i class='bx bx-search' id="search" style='color:#f6f5f5' ></i>Buscar</button>
     <a th:href="@{/home}" class="color-b centrar"> <i class='bx bx-refresh' id="refresh" style='color:#fff' ></i>Actualizar precio</a>
 
-    <label for="selectDivisa">Selecciones la divisa a mostrar:</label>
+    <label for="selectDivisa">Seleccione la divisa a mostrar:</label>
     <select id="selectDivisa" name="moneda">
       <option value="eur" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'eur')}">EUR</option>
       <option value="brl" th:selected="${#strings.equalsIgnoreCase(divisaAMostrar, 'brl')}">BRL</option>

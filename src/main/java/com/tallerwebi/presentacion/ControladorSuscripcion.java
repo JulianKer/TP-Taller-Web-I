@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioSuscripcion;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import com.tallerwebi.infraestructura.servicio.impl.ServicioEmail;
@@ -19,11 +20,13 @@ public class ControladorSuscripcion {
 
     private ServicioSuscripcion servicioSuscripcion;
     private ServicioUsuario servicioUsuario;
+    private ServicioNotificaciones servicioNotificaciones;
 
     @Autowired
-    public ControladorSuscripcion(ServicioSuscripcion servicioSuscripcion,ServicioUsuario servicioUsuario) {
+    public ControladorSuscripcion(ServicioSuscripcion servicioSuscripcion,ServicioUsuario servicioUsuario, ServicioNotificaciones servicioNotificaciones) {
         this.servicioSuscripcion = servicioSuscripcion;
         this.servicioUsuario = servicioUsuario;
+        this.servicioNotificaciones = servicioNotificaciones;
     }
 
 
@@ -42,6 +45,10 @@ public class ControladorSuscripcion {
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", userEncontrado);
         model.addAttribute("suscripciones", servicioSuscripcion.obtenerSuscripciones());
+
+        Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(userEncontrado.getId());
+        model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);
+
         return new ModelAndView("suscripcion", model);
     }
 

@@ -9,6 +9,7 @@ import com.tallerwebi.dominio.excepcion.CriptomonedasInsuficientesException;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
 import com.tallerwebi.dominio.excepcion.SaldoInsuficienteException;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,14 @@ public class ControladorTransacciones {
     private ServicioTransacciones servicioTransacciones;
     private ServicioUsuario servicioUsuario;
     private ServicioCriptomoneda servicioCriptomoneda;
+    private ServicioNotificaciones servicioNotificaciones;
 
     @Autowired
-    public ControladorTransacciones(ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones, ServicioCriptomoneda servicioCriptomoneda) {
+    public ControladorTransacciones(ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones, ServicioCriptomoneda servicioCriptomoneda, ServicioNotificaciones servicioNotificaciones) {
         this.servicioUsuario = servicioUsuario;
         this.servicioTransacciones = servicioTransacciones;
         this.servicioCriptomoneda = servicioCriptomoneda;
+        this.servicioNotificaciones = servicioNotificaciones;
     }
 
     @GetMapping("/transacciones")
@@ -81,6 +84,9 @@ public class ControladorTransacciones {
             transaccionesProgramadas = servicioTransacciones.obtenerHistorialTransaccionesDeUsuarioProgramadas(idUsuario);
         }
 
+        model.put("tiposTransacciones", servicioTransacciones.obtenerLosTiposDeTransacciones());
+        model.put("tiposTransaccionesQuePuedaHacerElUsuario", servicioTransacciones.tiposTransaccionesQuePuedaHacerElUsuario());
+
         model.put("criptos", servicioCriptomoneda.obtenerCriptosHabilitadas());
         model.put("emailUsuario", userEncontrado.getEmail());
 
@@ -91,6 +97,9 @@ public class ControladorTransacciones {
         model.put("nombreDeCriptoADarSeleccionada", nombreDeCriptoADarSeleccionada);
         model.put("nombreDeCriptoAObtenerSeleccionada", nombreDeCriptoAObtenerSeleccionada);
         model.put("tipoTransaccionSeleccionada", tipoTransaccionSeleccionada);
+
+        Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(userEncontrado.getId());
+        model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);
 
         return new ModelAndView("transacciones", model);
     }

@@ -77,3 +77,8 @@ INSERT INTO PrecioCripto (criptomoneda_id, precioActual, fechaDelPrecio) VALUES
                                                                              ((SELECT id FROM criptomoneda WHERE nombre = 'usd-coin'), 1.0, '2024-11-14 22:10:10'),
                                                                              ((SELECT id FROM criptomoneda WHERE nombre = 'usd-coin'), 1.5488, '2024-11-14 19:20:20'),
                                                                              ((SELECT id FROM criptomoneda WHERE nombre = 'usd-coin'), 1.3356495, '2024-11-16 23:50:55');
+
+INSERT INTO TransaccionTipo(nombre) VALUES ('COMPRA'),
+                                           ('VENTA'),
+                                           ('DEVOLUCION'),
+                                           ('INTERCAMBIO');

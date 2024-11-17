@@ -2,6 +2,7 @@ package com.tallerwebi.dominio.repositorio.impl;
 
 import com.tallerwebi.dominio.entidades.Transaccion;
 import com.tallerwebi.dominio.entidades.TransaccionProgramada;
+import com.tallerwebi.dominio.entidades.TransaccionTipo;
 import com.tallerwebi.dominio.enums.TipoTransaccion;
 import com.tallerwebi.dominio.repositorio.RepositorioTransacciones;
 import org.hibernate.FetchMode;
@@ -94,5 +95,11 @@ public class RepositorioTransaccionesImpl implements RepositorioTransacciones {
         return (Transaccion) sessionFactory.getCurrentSession().createCriteria(Transaccion.class)
                 .add(Restrictions.eq("id", idTransaccion))
                 .uniqueResult();
+    }
+
+    @Override
+    public List<TransaccionTipo> obtenerLosTiposDeTransacciones() {
+        return (List<TransaccionTipo>) sessionFactory.getCurrentSession().createCriteria(TransaccionTipo.class)
+                .list();
     }
 }

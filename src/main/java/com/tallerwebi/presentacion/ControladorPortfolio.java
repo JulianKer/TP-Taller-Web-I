@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.BilleteraUsuarioCriptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioPortfolio;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,14 @@ public class ControladorPortfolio {
     private ServicioUsuario servicioUsuario;
     private ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda;
     private ServicioPortfolio servicioPortfolio;
+    private ServicioNotificaciones servicioNotificaciones;
 
     @Autowired
-    public ControladorPortfolio(ServicioUsuario servicioUsuario, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda, ServicioPortfolio servicioPortfolio) {
+    public ControladorPortfolio(ServicioUsuario servicioUsuario, ServicioBilleteraUsuarioCriptomoneda servicioBilleteraUsuarioCriptomoneda, ServicioPortfolio servicioPortfolio,  ServicioNotificaciones servicioNotificaciones) {
         this.servicioUsuario = servicioUsuario;
         this.servicioBilleteraUsuarioCriptomoneda= servicioBilleteraUsuarioCriptomoneda;
         this.servicioPortfolio = servicioPortfolio;
+        this.servicioNotificaciones = servicioNotificaciones;
     }
 
     //cree este metodo solo para tener linkeado el navbar, despues cuando tengan que
@@ -51,12 +54,9 @@ public class ControladorPortfolio {
         model.addAttribute("portfolio",portfolioDelUsuario);
         model.addAttribute("totalDeLaCuenta",totalDeLaCuenta);
 
+        Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(userEncontrado.getId());
+        model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);
+
         return new ModelAndView("portfolio", model);
-
-
     }
-
-
-
-
 }

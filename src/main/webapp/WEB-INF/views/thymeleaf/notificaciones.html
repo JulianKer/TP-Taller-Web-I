@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-<script src='https://cdn.plot.ly/plotly-2.35.2.min.js'></script>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Criptomoneda | Crypto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transacciones | Crypto</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/headerNuevo.css}"/>
+    <link rel="stylesheet" th:href="@{/css/notificaciones.css}">
     <link rel="icon" th:href="@{/img/logoCripto.png}">
-    <link rel="stylesheet" th:href="@{/css/detalleCripto.css}">
+    <script th:src="@{/js/filtroTransaccion.js}" defer></script>
+    <script th:src="@{/js/selectorDeTransaccion.js}" defer></script>
+    <script th:src="@{/js/sortNotificaciones.js}" defer></script>
 </head>
 <body>
-
 <header id="arriba">
     <nav>
         <a th:href="@{/home}"><img th:src="@{/img/logoCripto.png}" alt="Logo"></a>
 
         <ul class="contLinks">
-            <li class="linksNav seleccionado"><a th:href="@{/home}">Inicio</a></li>
+            <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
 
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portafolio</a></li>
@@ -30,12 +32,12 @@
         </ul>
 
         <ul class="contLinksResponsive" id="contLinksResponsive">
-            <li class="linksNav seleccionado"><a th:href="@{/home}">Inicio</a></li>
+            <li class="linksNav"><a th:href="@{/home}">Inicio</a></li>
 
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/transacciones}">Transacciones</a></li>
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/portfolio}">Portfolio</a></li>
             <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/suscripcion}">Suscripción</a></li>
-            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/notificaciones}">Notificaciones</a></li>
+            <li th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav seleccionado"><a th:href="@{/notificaciones}">Notificaciones</a></li>
 
             <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/criptomonedas}">Criptomonedas</a></li>
             <li th:if="${#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}" class="linksNav"><a th:href="@{/usuarios}">Usuarios</a></li>
@@ -45,7 +47,7 @@
         </ul>
 
         <div class="contUserLogout">
-            <p class="saldo" th:if="${!#strings.equalsIgnoreCase(usuario.getRol(), 'ADMIN')}"  th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
+            <p class="saldo" th:text="'$' + ${#numbers.formatDecimal(usuario.getSaldo(), 1, 4)}"></p>
             <a th:href="@{/notificaciones}" class="contUser a-notif">
                 <img th:src="@{/img/icons/icon_notification.svg}" alt="Notificaciones" title="Notificaciones">
                 <div th:if="${hayNotifSinVer}" class="icon_notificacion"></div>
@@ -61,56 +63,36 @@
     </nav>
 </header>
 
+<main class="mainTransacciones">
 
-<main class="mainDetalles">
-
-    <div class="slider-container">
-        <div class="slider">
-            <div class="card" th:each="cripto : ${criptos}" th:id="${cripto.getNombre()}">
-                <div class="cont-img-slider">
-                    <img th:src="@{'/img/logoCriptomonedas/' + ${cripto.getImagen()}}" th:alt="${cripto.getNombreConMayus()}">
-                </div>
-                <p th:text="${cripto.getNombreConMayus()}"></p>
-            </div>
-        </div>
+    <div class="titulo">
+        <h2 id="titulo-notif">Notificaciones</h2>
+        <form th:action="@{/notificaciones}" id="form-criterioDeOrdenamiento">
+            <label for="criterioDeOrdenamiento">Ordenar por:</label>
+            <select name="q" id="criterioDeOrdenamiento">
+                <option value="recienteAAntiguo" th:selected="${#strings.equalsIgnoreCase(criterio, 'recienteAAntiguo')}">Más recientes</option>
+                <option value="antiguoAReciente" th:selected="${#strings.equalsIgnoreCase(criterio, 'antiguoAReciente')}">Más antigüas</option>
+            </select>
+        </form>
     </div>
 
-    <section class="section_tabla_grafico">
-        <div class="cont-tabla">
-            <table class="tabla">
-                <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Precio (USD)</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="precioCripto : ${historialDePrecios}">
-                    <td th:text="${precioCripto.getFechaDelPrecio()}"></td>
-                    <td th:text="${precioCripto.getPrecioActual()}"></td>
-                </tr>
-                </tbody>
-            </table>
+    <section class="contNotificiaciones">
+        <div th:if="${notificaciones.isEmpty()}" class="alert alert-danger">
+            No tienes notificaciones
         </div>
-
-        <section class="grafico">
-            <div id='myDiv'>
-                <img th:src="@{'/img/logoCriptomonedas/' + ${criptomonedaEncontrada.getImagen()}}">
-                <!-- aca va el grafico que genero por js -->
+        <div th:if="${!notificaciones.isEmpty()}" class="notificacion" th:each="notificacion : ${notificaciones}" th:class="'notificacion ' + ${notificacion.getVista()}">
+            <div class="notif-renglon1">
+                <p class="notifTitulo" th:text="${notificacion.getTitulo()}"></p>
+                <p class="notifFecha" th:text="${notificacion.getFechaNotificacion()}"></p>
             </div>
-        </section>
+            <div class="notif-renglon2">
+                <p class="notifDescripcion" th:text="${notificacion.getDescripcion()}"></p>
+            </div>
+        </div>
     </section>
 </main>
-
-
-
-<script th:inline="javascript">
-    let historialDePreciosJsonStr = /*[[${historialDePreciosJson}]]*/ '[]';
-    console.log(historialDePreciosJsonStr);
-
-    let historialDePrecios = JSON.parse(historialDePreciosJsonStr);
-    console.log(historialDePrecios);
-</script>
-<script th:src="@{/js/detalleCripto.js}"></script>
+<script th:src="@{/js/headerNuevo.js}" defer></script>
+<!-- Bootstrap core JS -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>

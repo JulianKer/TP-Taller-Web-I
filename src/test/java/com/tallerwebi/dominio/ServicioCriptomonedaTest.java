@@ -1,8 +1,10 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.entidades.Criptomoneda;
+import com.tallerwebi.dominio.entidades.PrecioCripto;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.NoSeEncontroLaCriptomonedaException;
+import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import com.tallerwebi.dominio.repositorio.RepositorioCriptomoneda;
 import com.tallerwebi.dominio.repositorio.RepositorioPrecioCripto;
 import com.tallerwebi.dominio.servicio.ServicioBilleteraUsuarioCriptomoneda;
@@ -144,6 +146,30 @@ public class ServicioCriptomonedaTest {
     }
 
     @Test
+    public void queSePuedaHabilitarUnaCriptomoneda(){
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setHabilitada(false);
+
+        when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenReturn(criptomoneda);
+        when(repositorioCriptomoneda.habilitarCriptomoneda(criptomoneda)).thenReturn(true);
+
+        assertTrue(servicioCriptomoneda.habilitarCriptomoneda(criptomoneda.getNombre()));
+    }
+
+    @Test
+    public void queNoSePuedaHabilitarUnaCriptomonedaPorqueNoExiste(){
+        String nombreDeCripto = "bitcoin";
+        Criptomoneda criptomoneda = new Criptomoneda();
+        criptomoneda.setNombre(nombreDeCripto);
+        criptomoneda.setHabilitada(false);
+
+        when(repositorioCriptomoneda.buscarCriptomonedaPorNombre(nombreDeCripto)).thenThrow(NoSeEncontroLaCriptomonedaException.class);
+        when(repositorioCriptomoneda.habilitarCriptomoneda(criptomoneda)).thenReturn(false);
+    }
+
+    @Test
     public void queSeObtenganLasCriptosHabilitadas(){
         Criptomoneda criptomoneda1 = new Criptomoneda();
         criptomoneda1.setId(1L);
@@ -173,5 +199,56 @@ public class ServicioCriptomonedaTest {
         when(repositorioCriptomoneda.obtenerCriptosHabilitadas()).thenReturn((ArrayList<Criptomoneda>) criptomonedasHabilitadas);
         ArrayList<Criptomoneda> criptosRecibidas = servicioCriptomoneda.obtenerCriptosHabilitadas();
         assertEquals(criptosRecibidas, criptomonedasHabilitadas);
+    }
+
+    @Test
+    public void queSePuedaObtenerUnaListaDeTodasLasCriptosHabilitadas(){
+        ArrayList<Criptomoneda> lista = new ArrayList<>();
+
+        Criptomoneda criptomoneda1 = new Criptomoneda();
+        criptomoneda1.setId(1L);
+        criptomoneda1.setNombre("bitcoin");
+        criptomoneda1.setHabilitada(true);
+
+        Criptomoneda criptomoneda2 = new Criptomoneda();
+        criptomoneda2.setId(2L);
+        criptomoneda2.setNombre("ethereum");
+        criptomoneda2.setHabilitada(false);
+
+        lista.add(criptomoneda1);
+
+        when(repositorioCriptomoneda.obtenerCriptosHabilitadas()).thenReturn(lista);
+
+        assertEquals(repositorioCriptomoneda.obtenerCriptosHabilitadas().size(), lista.size());
+    }
+
+    @Test
+    public void queSeobtenengaHistorialDePrecioCriptoDeUnaCripto(){
+        Criptomoneda criptomoneda1 = new Criptomoneda();
+        criptomoneda1.setId(1L);
+        criptomoneda1.setNombre("bitcoin");
+        criptomoneda1.setHabilitada(true);
+
+        Double precioDeCripto = 100.0;
+        PrecioCripto precioCripto = new PrecioCripto();
+        precioCripto.setCriptomoneda(criptomoneda1);
+        precioCripto.setPrecioActual(precioDeCripto);
+
+        PrecioCripto precioCripto2 = new PrecioCripto();
+        precioCripto2.setCriptomoneda(criptomoneda1);
+        precioCripto2.setPrecioActual(precioDeCripto);
+
+        PrecioCripto precioCripto3 = new PrecioCripto();
+        precioCripto3.setCriptomoneda(criptomoneda1);
+        precioCripto2.setPrecioActual(precioDeCripto);
+
+        List<PrecioCripto> precios = new ArrayList<>();
+        precios.add(precioCripto);
+        precios.add(precioCripto2);
+        precios.add(precioCripto3);
+
+        when(repositorioPrecioCripto.obtenerHistorialDePrecioCriptoDeEstaCripto(criptomoneda1.getNombre())).thenReturn(precios);
+
+        assertEquals(repositorioPrecioCripto.obtenerHistorialDePrecioCriptoDeEstaCripto(criptomoneda1.getNombre()).size(), precios.size());
     }
 }

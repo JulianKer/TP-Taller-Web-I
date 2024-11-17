@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.entidades.Criptomoneda;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.servicio.ServicioCriptomoneda;
+import com.tallerwebi.dominio.servicio.ServicioNotificaciones;
 import com.tallerwebi.dominio.servicio.ServicioTransacciones;
 import com.tallerwebi.dominio.servicio.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,14 @@ public class ControladorHome {
     private ServicioCriptomoneda servicioCriptomoneda;
     private ServicioUsuario servicioUsuario;
     private ServicioTransacciones servicioTransacciones;
+    private ServicioNotificaciones servicioNotificaciones;
 
     @Autowired
-    public ControladorHome(ServicioCriptomoneda servicioCriptomoneda, ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones) {
+    public ControladorHome(ServicioCriptomoneda servicioCriptomoneda, ServicioUsuario servicioUsuario, ServicioTransacciones servicioTransacciones, ServicioNotificaciones servicioNotificaciones) {
         this.servicioCriptomoneda = servicioCriptomoneda;
         this.servicioUsuario = servicioUsuario;
         this.servicioTransacciones = servicioTransacciones;
+        this.servicioNotificaciones = servicioNotificaciones;
     }
 
     @RequestMapping(path = "/home", method = RequestMethod.GET)
@@ -70,6 +73,9 @@ public class ControladorHome {
         model.addAttribute("usuario", usuarioEncontrado);
         model.addAttribute("mapaMonedaPrecios", mapaMonedaPrecios);
         model.addAttribute("divisaAMostrar", moneda);
+
+        Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(usuarioEncontrado.getId());
+        model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);
 
         servicioTransacciones.verSiHayTransaccionesProgramadasAEjecutarse();
         return new ModelAndView("home", model);
