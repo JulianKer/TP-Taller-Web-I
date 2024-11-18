@@ -70,13 +70,13 @@
         <div>Cantidad</div>
         <div>Precio Unitario (USD)</div>
         <div>Valor Total (USD)</div>
-        <form action="ordenar" method="get">
+        <form action="ordenar" method="get"  class="ordenar-form">
             <div>
-                <label for="orden">Ordernar criptomenedo por:</label>
+                <label for="orden">Ordernar por:</label>
                 <select name="orden" id="orden" onchange="this.form.submit()">
                     <option value="" >Seleccionar:</option>
-                    <option value="precioDesc">Precio asc</option>
-                    <option value="precioAsc">Precio desc</option>
+                    <option value="precioAsc">Precio asc</option>
+                    <option value="precioDesc">Precio desc</option>
                 </select>
             </div>
         </form>
