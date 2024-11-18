@@ -9,16 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
 @Transactional
 public class ServicioBilleteraUsuarioCriptomonedaImpl implements ServicioBilleteraUsuarioCriptomoneda {
 
-    private RepositorioBilleteraUsuarioCriptomoneda repositorioBilleteraUsuarioCriptomoneda;
+    private final RepositorioBilleteraUsuarioCriptomoneda repositorioBilleteraUsuarioCriptomoneda;
 
     @Autowired
-    public ServicioBilleteraUsuarioCriptomonedaImpl(RepositorioBilleteraUsuarioCriptomoneda repositorioBilleteraUsuarioCriptomoneda){
+    public ServicioBilleteraUsuarioCriptomonedaImpl(RepositorioBilleteraUsuarioCriptomoneda repositorioBilleteraUsuarioCriptomoneda) {
         this.repositorioBilleteraUsuarioCriptomoneda = repositorioBilleteraUsuarioCriptomoneda;
     }
 
@@ -51,4 +52,30 @@ public class ServicioBilleteraUsuarioCriptomonedaImpl implements ServicioBillete
     public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id) {
         return repositorioBilleteraUsuarioCriptomoneda.obtenerPortfolioDelUsuario(id);
     }
+
+    @Override
+    public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuarioOrdenado(Long id, String criterio) {
+        List<BilleteraUsuarioCriptomoneda> portfolio = repositorioBilleteraUsuarioCriptomoneda.obtenerPortfolioDelUsuario(id);
+
+        if (criterio == null || criterio.isEmpty()) {
+            return portfolio; // Si no se proporciona un criterio, devolvemos la lista sin orden
+        }
+
+        switch (criterio) {
+            case "precioAsc":
+                // Ordenar por precio ascendente (de menor a mayor)
+                portfolio.sort((b1, b2) -> Double.compare(b1.getCriptomoneda().getPrecioActual(), b2.getCriptomoneda().getPrecioActual()));
+                break;
+            case "precioDesc":
+                // Ordenar por precio descendente (de mayor a menor)
+                portfolio.sort((b1, b2) -> Double.compare(b2.getCriptomoneda().getPrecioActual(), b1.getCriptomoneda().getPrecioActual()));
+                break;
+            default:
+                // Si no hay criterio válido, devolvemos la lista original
+                break;
+        }
+
+        return portfolio;
+    }
+
 }

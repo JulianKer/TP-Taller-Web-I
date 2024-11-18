@@ -68,8 +68,18 @@
     <div class="portfolio-header">
         <div>Criptomoneda</div>
         <div>Cantidad</div>
-        <div>Precio Unitario (U$D)</div>
-        <div>Valor Total (U$D)</div>
+        <div>Precio Unitario (USD)</div>
+        <div>Valor Total (USD)</div>
+        <form action="ordenar" method="get">
+            <div>
+                <label for="orden">Ordernar criptomenedo por:</label>
+                <select name="orden" id="orden" onchange="this.form.submit()">
+                    <option value="" >Seleccionar:</option>
+                    <option value="precioDesc">Precio asc</option>
+                    <option value="precioAsc">Precio desc</option>
+                </select>
+            </div>
+        </form>
     </div>
 
     <div th:if="${!portfolio.isEmpty()}" class="crypto-row" th:each=" cadaBilletera :${portfolio}">
@@ -99,7 +109,7 @@
 
 <section class="fondo-pop-up">
     <div class="popup" id="popup-container">
-        <label for="valorSaldoIngresado">Monto a ingresar (en U$D):</label>
+        <label for="valorSaldoIngresado">Monto a ingresar (en USD):</label>
         <input  class="ingresarSaldoInput" id="valorSaldoIngresado" placeholder="Ej: 20">
         <div class="con-btns-popup">
             <button class="ingresarSaldo" onclick="ingresarSaldo()" >Ingresar Saldo</button>
