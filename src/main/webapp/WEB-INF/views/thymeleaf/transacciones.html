@@ -138,20 +138,14 @@
           <select name = "tipoTransaccion" id="transaction-filter">
             <option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
             <option th:each="tipo : ${tiposTransacciones}" th:value="${tipo.getNombre()}" th:selected="${#strings.equalsIgnoreCase(filtro, tipo.getNombre())}" th:text="${tipo.getNombre()}"></option>
-
-            <!--<option value="todos" th:selected="${#strings.equalsIgnoreCase(filtro, 'todos')}">Todos</option>
-            <option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(filtro, 'COMPRA')}">Compras</option>
-            <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(filtro, 'VENTA')}">Ventas</option>
-            <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(filtro, 'INTERCAMBIO')}">Intercambio</option>
-            <option value="DEVOLUCION" th:selected="${#strings.equalsIgnoreCase(filtro, 'DEVOLUCION')}">Devolucion</option>-->
           </select>
           <!-- Campo de fecha "Desde" -->
           <label for="desde">Desde:</label>
-          <input type="date" id="desde" name="desde">
+          <input type="date" id="desde" name="desde" th:value="${desde}">
 
           <!-- Campo de fecha "Hasta" -->
           <label for="hasta">Hasta:</label>
-          <input type="date" id="hasta" name="hasta">
+          <input type="date" id="hasta" name="hasta" th:value="${hasta}">
         </div>
       </form>
       <table>
