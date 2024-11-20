@@ -17,8 +17,7 @@ public interface ServicioBilleteraUsuarioCriptomoneda {
 
     boolean verificarQueTengaLaCantidaddeCriptosSuficientesParaIntercambiar(BilleteraUsuarioCriptomoneda billeteraCriptoADar, Double cantidadDeCriptoADar);
 
-    List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id);
+    List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id, Boolean ignorarCriptos, String orden);
 
-    List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuarioOrdenado(Long id, String criterio);
-
+    List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuarioOrdenado(List<BilleteraUsuarioCriptomoneda> portfolio, String criterio);
 }

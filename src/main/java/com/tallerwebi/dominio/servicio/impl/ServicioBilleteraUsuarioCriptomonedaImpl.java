@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -49,32 +50,47 @@ public class ServicioBilleteraUsuarioCriptomonedaImpl implements ServicioBillete
     }
 
     @Override
-    public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id) {
-        return repositorioBilleteraUsuarioCriptomoneda.obtenerPortfolioDelUsuario(id);
+    public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuario(Long id, Boolean ignorarCriptos, String criterio) {  //si no tiene billeteras devuelve vacio, si tiene billeteras depende de la decision del usario si las filtra o no
+        List<BilleteraUsuarioCriptomoneda> listaObtenida= repositorioBilleteraUsuarioCriptomoneda.obtenerPortfolioDelUsuario(id);
+        List<BilleteraUsuarioCriptomoneda>listaDevolver= new ArrayList<BilleteraUsuarioCriptomoneda>();
+
+        if(!listaObtenida.isEmpty()){
+            //listaObtenida= this.obtenerPortfolioDelUsuarioOrdenado( listaObtenida, criterio);
+            if(ignorarCriptos){
+                for (BilleteraUsuarioCriptomoneda billetera : listaObtenida) {
+                    if(billetera.getCantidadDeCripto() > 0 ){
+                        listaDevolver.add(billetera);
+                    }
+                }
+                listaDevolver= this.obtenerPortfolioDelUsuarioOrdenado( listaDevolver, criterio);
+            }else{
+                listaObtenida= this.obtenerPortfolioDelUsuarioOrdenado( listaObtenida, criterio);
+
+                return listaObtenida;
+            }
+        }else{
+            return listaObtenida;
+        }
+        return listaDevolver;
     }
 
     @Override
-    public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuarioOrdenado(Long id, String criterio) {
-        List<BilleteraUsuarioCriptomoneda> portfolio = repositorioBilleteraUsuarioCriptomoneda.obtenerPortfolioDelUsuario(id);
-
+    public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuarioOrdenado(List<BilleteraUsuarioCriptomoneda> portfolio, String criterio) {
         if (criterio == null || criterio.isEmpty()) {
-            return portfolio; // Si no se proporciona un criterio, devolvemos la lista sin orden
+            return portfolio;
         }
 
         switch (criterio) {
             case "precioAsc":
-                // Ordenar por precio ascendente (de menor a mayor)
                 portfolio.sort(Comparator.comparingDouble(b ->
                         b.getCantidadDeCripto() * b.getCriptomoneda().getPrecioActual()));
                 break;
             case "precioDesc":
-                // Ordenar por precio descendente (de mayor a menor)
                 portfolio.sort((b1, b2) -> Double.compare(
                         b2.getCantidadDeCripto() * b2.getCriptomoneda().getPrecioActual(),
                         b1.getCantidadDeCripto() * b1.getCriptomoneda().getPrecioActual()));
                 break;
             default:
-                // Si no hay criterio válido, devolvemos la lista original
                 break;
         }
 
