@@ -65,7 +65,23 @@
 </header>
 
 <div class="portfolio-container">
+    <form th:action="@{/portfolio}" method="get" class="ordenar-form">
+        <label>
+            Ignorar Criptomonedas en 0:
+            <select name="checkIgnorar" onchange="this.form.submit()">
+                <option value="false" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,false)}">Mostrar</option>
+                <option value="true" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,true)}">Ocultar</option>
+            </select>
+        </label>
+        <label for="orden">Ordernar por:
+            <select name="orden" id="orden" onchange="this.form.submit()">
+                <option value="precioAsc" th:selected="${#strings.equalsIgnoreCase(orden,'precioAsc')}">Total Ascendente</option>
+                <option value="precioDesc" th:selected="${#strings.equalsIgnoreCase(orden,'precioDesc')}">Total Descendente</option>
+            </select>
+        </label>
+    </form>
     <div class="portfolio-header">
+
         <div>Criptomoneda</div>
         <div>Cantidad</div>
         <div>Precio Unitario (USD)</div>
@@ -80,21 +96,7 @@
                 </select>
             </div>
         </form>-->
-        <form th:action="@{/portfolio}" method="get" class="ordenar-form">
-            <label>
-                Ignorar Criptomonedas en 0:
-                <select name="checkIgnorar" onchange="this.form.submit()">
-                    <option value="false" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,false)}">Mostrar</option>
-                    <option value="true" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,true)}">Ocultar</option>
-                </select>
 
-            </label>
-            <label for="orden">Ordernar por:</label>
-            <select name="orden" id="orden" onchange="this.form.submit()">
-                <option value="precioAsc" th:selected="${#strings.equalsIgnoreCase(orden,'precioAsc')}">Total Ascendente</option>
-                <option value="precioDesc" th:selected="${#strings.equalsIgnoreCase(orden,'precioDesc')}">Total Descendente</option>
-            </select>
-        </form>
     </div>
 
     <div th:if="${!portfolio.isEmpty()}" class="crypto-row" th:each=" cadaBilletera :${portfolio}">
