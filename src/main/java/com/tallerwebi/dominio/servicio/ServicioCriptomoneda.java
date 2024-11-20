@@ -32,4 +32,5 @@ public interface ServicioCriptomoneda {
     ArrayList<Criptomoneda> obtenerCriptosHabilitadas();
 
     List<PrecioCripto> obtenerHistorialDePrecioCriptoDeEstaCripto(String idCriptomoneda);
+
 }

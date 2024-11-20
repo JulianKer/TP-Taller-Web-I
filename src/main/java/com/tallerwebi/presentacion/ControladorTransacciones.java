@@ -97,6 +97,8 @@ public class ControladorTransacciones {
         model.put("nombreDeCriptoADarSeleccionada", nombreDeCriptoADarSeleccionada);
         model.put("nombreDeCriptoAObtenerSeleccionada", nombreDeCriptoAObtenerSeleccionada);
         model.put("tipoTransaccionSeleccionada", tipoTransaccionSeleccionada);
+        model.put("desde", desde);
+        model.put("hasta", hasta);
 
         Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(userEncontrado.getId());
         model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);

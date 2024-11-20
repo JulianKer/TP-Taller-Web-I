@@ -44,7 +44,7 @@ public class ControladorMercadoPago {
                 .id(suscripcion)
                 .title("Suscripcion diamante")
                 .quantity(1)
-                .currencyId("USD")
+                .currencyId("ARS")
                 .unitPrice(precioReal)
                 //.pictureUrl("http://192.168.1.54:8080/spring/img/suscripcionDiamante.webp") //este lo arregle pq yo habia configurado q para las imgs puedo acceder con el img/ directamente y como MP es externo, tiene q acceder por toda la url publica, nose, aunq ponga una imagen publica no la muestra jaj
                 .build();
@@ -101,7 +101,7 @@ public class ControladorMercadoPago {
                 .id(ingresarSaldo)
                 .title("Cargar saldo")
                 .quantity(1)
-                .currencyId("USD")
+                .currencyId("ARS")
                 .unitPrice(precioReal)
                 .build();
 

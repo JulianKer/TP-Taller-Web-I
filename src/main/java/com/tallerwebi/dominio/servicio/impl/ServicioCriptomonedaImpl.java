@@ -245,4 +245,5 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
     public List<PrecioCripto> obtenerHistorialDePrecioCriptoDeEstaCripto(String nombreCripto) {
         return repositorioPrecioCripto.obtenerHistorialDePrecioCriptoDeEstaCripto(nombreCripto);
     }
+
 }

@@ -65,24 +65,62 @@
 </header>
 
 <div class="portfolio-container">
+    <form th:action="@{/portfolio}" method="get" class="ordenar-form">
+        <label>
+            Ignorar Criptomonedas en 0:
+            <select name="checkIgnorar" onchange="this.form.submit()">
+                <option value="false" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,false)}">Mostrar</option>
+                <option value="true" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,true)}">Ocultar</option>
+            </select>
+        </label>
+        <label for="orden">Ordernar por:
+            <select name="orden" id="orden" onchange="this.form.submit()">
+                <option value="precioAsc" th:selected="${#strings.equalsIgnoreCase(orden,'precioAsc')}">Total Ascendente</option>
+                <option value="precioDesc" th:selected="${#strings.equalsIgnoreCase(orden,'precioDesc')}">Total Descendente</option>
+            </select>
+        </label>
+    </form>
     <div class="portfolio-header">
+
         <div>Criptomoneda</div>
         <div>Cantidad</div>
-        <div>Precio Unitario (U$D)</div>
-        <div>Valor Total (U$D)</div>
+        <div>Precio Unitario (USD)</div>
+        <div>Valor Total (USD)</div>
+        <!--<form action="ordenar" method="get"  class="ordenar-form">
+            <div>
+                <label for="orden">Ordernar por:</label>
+                <select name="orden" id="orden" onchange="this.form.submit()">
+                    <option value="" >Seleccionar:</option>
+                    <option value="precioAsc">Precio asc</option>
+                    <option value="precioDesc">Precio desc</option>
+                </select>
+            </div>
+        </form>-->
+
     </div>
 
     <div th:if="${!portfolio.isEmpty()}" class="crypto-row" th:each=" cadaBilletera :${portfolio}">
-        <div class="crypto-name">
-            <img th:src="@{'/img/logoCriptomonedas/' + ${cadaBilletera.getCriptomoneda().getImagen()}}" th:alt="${cadaBilletera.getCriptomoneda().getNombreConMayus()}" class="crypto-icon">
-            <span th:text="${cadaBilletera.getCriptomoneda().getNombreConMayus()}"> <span class="crypto-symbol" th:text="' (' + ${cadaBilletera.getCriptomoneda().getSimbolo()} + ')'"></span></span>
-        </div>
-        <div class="amount" th:text="${cadaBilletera.getCantidadDeCripto()}"></div>
-        <div th:text="${cadaBilletera.getCriptomoneda().getPrecioActual()}"></div>
-        <div class="total-value" th:text="${cadaBilletera.getCantidadDeCripto() * cadaBilletera.getCriptomoneda().getPrecioActual()}" ></div>
+            <div class="crypto-name">
+                <img th:src="@{'/img/logoCriptomonedas/' + ${cadaBilletera.getCriptomoneda().getImagen()}}" th:alt="${cadaBilletera.getCriptomoneda().getNombreConMayus()}" class="crypto-icon">
+                <span th:text="${cadaBilletera.getCriptomoneda().getNombreConMayus()}"> <span class="crypto-symbol" th:text="' (' + ${cadaBilletera.getCriptomoneda().getSimbolo()} + ')'"></span></span>
+            </div>
+            <div class="amount" th:text="${cadaBilletera.getCantidadDeCripto()}"></div>
+            <div th:text="${cadaBilletera.getCriptomoneda().getPrecioActual()}"></div>
+            <div class="total-value" th:text="${cadaBilletera.getCantidadDeCripto() * cadaBilletera.getCriptomoneda().getPrecioActual()}" ></div>
     </div>
-    <div th:if="${portfolio.isEmpty()}">
-    <h4 class="alert alert-danger ">Todavía no ha realizado ninguna transacción.</h4>
+    <div th:if="${!ignorarCriptos}">
+        <div  th:if="${!criptosRestantes.isEmpty()}" class="crypto-row" th:each=" criptoRestante :${criptosRestantes}">
+            <div class="crypto-name">
+                <img th:src="@{'/img/logoCriptomonedas/' + ${criptoRestante.getImagen()}}" th:alt="${criptoRestante.getNombreConMayus()}" class="crypto-icon">
+                <span th:text="${criptoRestante.getNombreConMayus()}"> <span class="crypto-symbol" th:text="' (' + ${criptoRestante.getSimbolo()} + ')'"></span></span>
+            </div>
+            <div class="amount" th:text="0.0"></div>
+            <div th:text="${criptoRestante.getPrecioActual()}"></div>
+            <div class="total-value" th:text="0.0" ></div>
+        </div>
+    </div>
+   <div th:if="${portfolio.isEmpty() or criptosRestantes.isEmpty()} ">
+    <h4 class="alert alert-danger ">Su billetera esta vacia.</h4>
     </div>
 
     <div class="saldo-del-usuario">
@@ -99,7 +137,7 @@
 
 <section class="fondo-pop-up">
     <div class="popup" id="popup-container">
-        <label for="valorSaldoIngresado">Monto a ingresar (en U$D):</label>
+        <label for="valorSaldoIngresado">Monto a ingresar (en USD):</label>
         <input  class="ingresarSaldoInput" id="valorSaldoIngresado" placeholder="Ej: 20">
         <div class="con-btns-popup">
             <button class="ingresarSaldo" onclick="ingresarSaldo()" >Ingresar Saldo</button>
