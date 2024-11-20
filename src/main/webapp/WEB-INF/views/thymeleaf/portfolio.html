@@ -106,7 +106,7 @@
             <div th:text="${cadaBilletera.getCriptomoneda().getPrecioActual()}"></div>
             <div class="total-value" th:text="${cadaBilletera.getCantidadDeCripto() * cadaBilletera.getCriptomoneda().getPrecioActual()}" ></div>
     </div>
-   <!-- <div th:if="${!ignorarCriptos}">
+    <div th:if="${!ignorarCriptos}">
         <div  th:if="${!criptosRestantes.isEmpty()}" class="crypto-row" th:each=" criptoRestante :${criptosRestantes}">
             <div class="crypto-name">
                 <img th:src="@{'/img/logoCriptomonedas/' + ${criptoRestante.getImagen()}}" th:alt="${criptoRestante.getNombreConMayus()}" class="crypto-icon">
@@ -116,7 +116,7 @@
             <div th:text="${criptoRestante.getPrecioActual()}"></div>
             <div class="total-value" th:text="0.0" ></div>
         </div>
-    </div>-->
+    </div>
    <div th:if="${portfolio.isEmpty() or criptosRestantes.isEmpty()} ">
     <h4 class="alert alert-danger ">Su billetera esta vacia.</h4>
     </div>

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class ServicioPortfolioImpl implements ServicioPortfolio {
@@ -39,21 +42,24 @@ public class ServicioPortfolioImpl implements ServicioPortfolio {
     @Override
     public List<Criptomoneda> obtenerCriptosRestantes(List<BilleteraUsuarioCriptomoneda> portfolioDelUsuario) {
 
-        List<Criptomoneda> restantes= new ArrayList<Criptomoneda>();
+        List<Criptomoneda> restantes = new ArrayList<>();
 
         List<Criptomoneda> criptos = servicioCriptomoneda.obtenerCriptosHabilitadas();
-        if(!portfolioDelUsuario.isEmpty()){
-            for (BilleteraUsuarioCriptomoneda billetera : portfolioDelUsuario) {
-                for (Criptomoneda cripto : criptos) {
-                    if(!billetera.getCriptomoneda().getId().equals(cripto.getId())) {
-                        restantes.add(cripto);
-                    }
-                }
-            }
-        }else{
+
+        if (portfolioDelUsuario.isEmpty()) {
             restantes.addAll(criptos);
+            return restantes;
         }
+
+        Set<Long> idsEnPortfolio = portfolioDelUsuario.stream()
+                .map(billetera -> billetera.getCriptomoneda().getId())
+                .collect(Collectors.toSet());
+
+        restantes = criptos.stream()
+                .filter(cripto -> !idsEnPortfolio.contains(cripto.getId()))
+                .collect(Collectors.toList());
 
         return restantes;
     }
+
 }

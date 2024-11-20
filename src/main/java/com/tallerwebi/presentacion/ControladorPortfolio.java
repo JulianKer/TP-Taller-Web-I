@@ -35,8 +35,6 @@ public class ControladorPortfolio {
 
     }
 
-    //cree este metodo solo para tener linkeado el navbar, despues cuando tengan que
-    //hacer algo, modifiquenlo como quieran.
     @GetMapping("/portfolio")
     public ModelAndView portfolio(@RequestParam(name = "checkIgnorar", required = false, defaultValue = "false" )Boolean ignorarCriptos,
                                   @RequestParam(name = "orden", required = false, defaultValue = "precioDesc") String orden,
@@ -71,42 +69,6 @@ public class ControladorPortfolio {
 
         return new ModelAndView("portfolio", model);
     }
-
-   /* @GetMapping("/ordenar")
-    public ModelAndView ordenarCriptomonedaPrecio(
-            @RequestParam(name = "orden", required = false) String orden,
-            HttpServletRequest request) {
-
-        if (request.getSession().getAttribute("emailUsuario") == null) {
-            return new ModelAndView("redirect:/login?error=Debe ingresar primero");
-        }
-
-        Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
-        Usuario userEncontrado = servicioUsuario.buscarUsuarioPorEmail(userDeLaSesion.getEmail());
-
-        if (userEncontrado.getRol().equals("ADMIN")) {
-            return new ModelAndView("redirect:/home");
-        }
-
-        // Obtener y ordenar el portafolio
-        Double totalDeLaCuenta = userEncontrado.getSaldo();
-
-        List<BilleteraUsuarioCriptomoneda> portfolioDelUsuario = servicioBilleteraUsuarioCriptomoneda.obtenerPortfolioDelUsuarioOrdenado(userEncontrado.getId(), orden);
-
-        if (!portfolioDelUsuario.isEmpty()) {
-            totalDeLaCuenta += servicioPortfolio.obtenerTotalDeLaCuenta(portfolioDelUsuario);
-        }
-
-        ModelMap model = new ModelMap();
-        model.addAttribute("usuario", userEncontrado);
-        model.addAttribute("portfolio", portfolioDelUsuario);
-        model.addAttribute("totalDeLaCuenta", totalDeLaCuenta);
-
-        Boolean hayAlgunaNotifSinVer = servicioNotificaciones.consultarSiHayNotificacionesSinVerParaEsteUsuario(userEncontrado.getId());
-        model.addAttribute("hayNotifSinVer", hayAlgunaNotifSinVer);
-
-        return new ModelAndView("portfolio", model);
-    }*/
 
 }
 

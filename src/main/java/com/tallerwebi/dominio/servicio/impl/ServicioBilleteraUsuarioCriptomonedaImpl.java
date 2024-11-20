@@ -77,23 +77,20 @@ public class ServicioBilleteraUsuarioCriptomonedaImpl implements ServicioBillete
     @Override
     public List<BilleteraUsuarioCriptomoneda> obtenerPortfolioDelUsuarioOrdenado(List<BilleteraUsuarioCriptomoneda> portfolio, String criterio) {
         if (criterio == null || criterio.isEmpty()) {
-            return portfolio; // Si no se proporciona un criterio, devolvemos la lista sin orden
+            return portfolio;
         }
 
         switch (criterio) {
             case "precioAsc":
-                // Ordenar por precio ascendente (de menor a mayor)
                 portfolio.sort(Comparator.comparingDouble(b ->
                         b.getCantidadDeCripto() * b.getCriptomoneda().getPrecioActual()));
                 break;
             case "precioDesc":
-                // Ordenar por precio descendente (de mayor a menor)
                 portfolio.sort((b1, b2) -> Double.compare(
                         b2.getCantidadDeCripto() * b2.getCriptomoneda().getPrecioActual(),
                         b1.getCantidadDeCripto() * b1.getCriptomoneda().getPrecioActual()));
                 break;
             default:
-                // Si no hay criterio válido, devolvemos la lista original
                 break;
         }
 
