@@ -1,3 +1,8 @@
+#myDiv .scatterlayer .points path {
+    transition: fill .2s; /* Cambia el color con una transición suave */
+}
+
+
 body{
     background-color: #f0f0f0;
 }
@@ -133,6 +138,13 @@ tbody tr{
 tbody tr:hover{
     background-color: #efefef;
     cursor: default;
+}
+
+.precioTabla{
+    transition: all .2s;
+}
+tbody tr:hover .precioTabla{
+    transform: translateX(10px);
 }
 
 tbody td{

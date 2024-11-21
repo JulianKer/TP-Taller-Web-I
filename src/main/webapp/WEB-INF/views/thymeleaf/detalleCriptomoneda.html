@@ -87,7 +87,7 @@
                 <tbody>
                 <tr th:each="precioCripto : ${historialDePrecios}">
                     <td th:text="${precioCripto.getFechaDelPrecio()}"></td>
-                    <td th:text="${precioCripto.getPrecioActual()}"></td>
+                    <td th:text="${#numbers.formatDecimal(precioCripto.getPrecioActual(), 1, 5)}" class="precioTabla"></td>
                 </tr>
                 </tbody>
             </table>

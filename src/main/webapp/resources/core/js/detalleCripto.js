@@ -24,6 +24,7 @@ historialDePrecios.forEach(item => {
 });
 
 document.title = `${nombreCripto} | Crypto`;
+let colorMrcadores = precios.map(() => '#EEB913');
 
 var data = [
     {
@@ -38,7 +39,7 @@ var data = [
             //shape: 'spline',  este es pa q sea curva la line
         },
         marker: {
-            color: '#EEB913',
+            color: colorMrcadores,
             size: 10,
             symbol: 'diamond'
         },
@@ -82,4 +83,19 @@ Plotly.newPlot('myDiv', data, layout);
 
 window.addEventListener('resize', function() {
     Plotly.Plots.resize('myDiv');
+});
+
+
+document.querySelectorAll('tr').forEach((row, index) => {
+    row.addEventListener('mouseenter', () => {
+        // Cambiar el color del marcador correspondiente
+        colorMrcadores[index] = '#404040';
+        Plotly.restyle('myDiv', 'marker.color', [colorMrcadores]);
+    });
+
+    row.addEventListener('mouseleave', () => {
+        // Restaurar el color original del marcador
+        colorMrcadores[index] = '#EEB913';
+        Plotly.restyle('myDiv', 'marker.color', [colorMrcadores]);
+    });
 });
