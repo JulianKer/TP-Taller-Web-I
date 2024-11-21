@@ -67,16 +67,16 @@
 <div class="portfolio-container">
     <form th:action="@{/portfolio}" method="get" class="ordenar-form">
         <label>
-            Ignorar Criptomonedas en 0:
+            Mostrar:
             <select name="checkIgnorar" onchange="this.form.submit()">
-                <option value="false" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,false)}">Mostrar</option>
-                <option value="true" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,true)}">Ocultar</option>
+                <option value="false" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,false)}">Todas</option>
+                <option value="true" th:selected="${#strings.equalsIgnoreCase(ignorarCriptos,true)}">Solo las que tengo</option>
             </select>
         </label>
-        <label for="orden">Ordernar por:
+        <label for="orden">Ordernar:
             <select name="orden" id="orden" onchange="this.form.submit()">
-                <option value="precioAsc" th:selected="${#strings.equalsIgnoreCase(orden,'precioAsc')}">Total Ascendente</option>
-                <option value="precioDesc" th:selected="${#strings.equalsIgnoreCase(orden,'precioDesc')}">Total Descendente</option>
+                <option value="precioAsc" th:selected="${#strings.equalsIgnoreCase(orden,'precioAsc')}">Total ascendente</option>
+                <option value="precioDesc" th:selected="${#strings.equalsIgnoreCase(orden,'precioDesc')}">Total descendente</option>
             </select>
         </label>
     </form>
@@ -86,17 +86,6 @@
         <div>Cantidad</div>
         <div>Precio Unitario (USD)</div>
         <div>Valor Total (USD)</div>
-        <!--<form action="ordenar" method="get"  class="ordenar-form">
-            <div>
-                <label for="orden">Ordernar por:</label>
-                <select name="orden" id="orden" onchange="this.form.submit()">
-                    <option value="" >Seleccionar:</option>
-                    <option value="precioAsc">Precio asc</option>
-                    <option value="precioDesc">Precio desc</option>
-                </select>
-            </div>
-        </form>-->
-
     </div>
 
     <div th:if="${!portfolio.isEmpty()}" class="crypto-row" th:each=" cadaBilletera :${portfolio}">
@@ -120,16 +109,16 @@
         </div>
     </div>
    <div th:if="${portfolio.isEmpty() or criptosRestantes.isEmpty()} ">
-    <h4 class="alert alert-danger ">Su billetera esta vacia.</h4>
+    <h4 class="alert alert-danger" style="margin-top: 1em">Su billetera esta vacia.</h4>
     </div>
 
     <div class="saldo-del-usuario">
         <p>Saldo:</p>
-        <span th:text="'U$D ' + ${usuario.getSaldo()}"></span>
+        <span th:text="'USD ' + ${usuario.getSaldo()}"></span>
     </div>
     <div class="total-de-la-cuenta" >
         <p>Total de la cuenta:</p>
-        <span th:text="'U$D ' + ${totalDeLaCuenta}"></span>
+        <span th:text="'USD ' + ${totalDeLaCuenta}"></span>
     </div>
     <button class="cargarSaldo" id="show-popup">+ Ingresar saldo</button>
 </div>

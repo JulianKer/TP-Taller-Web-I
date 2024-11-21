@@ -74,14 +74,8 @@
         </div>
         <div class="plan-description"  >
             <h2 th:text="${suscripcion.getTitulo()}"></h2>
-            <div th:text="'$' + ${ suscripcion.getPrecio()} + '/mes'" id="precio-diamante" class="price">$20/mes</div>
-            <div th:text="${suscripcion.getDescripcion()}" class="features">
-                <ul>
-                    <li>Soporte premium 24/7</li>
-                    <li>Acceso a todas las funciones</li>
-                    <li>Análisis avanzado de mercado</li>
-                </ul>
-            </div>
+            <div th:text="'USD ' + ${ suscripcion.getPrecio()} + '/mes'" id="precio-diamante" class="price">USD 20/mes</div>
+            <div th:text="${suscripcion.getDescripcion()}" class="features"></div>
             <div th:if="${!usuario.getActivo()}">
             <a  class="subscribe-btn" data-id="suscripcionDiamante" onclick="comprar(this)">Suscribirse</a>
             </div>

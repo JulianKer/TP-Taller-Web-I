@@ -141,11 +141,11 @@
           </select>
           <!-- Campo de fecha "Desde" -->
           <label for="desde">Desde:</label>
-          <input type="date" id="desde" name="desde" th:value="${desde}">
+          <input type="date" id="desde" name="desde" th:value="${desde}" onchange="this.form.submit()">
 
           <!-- Campo de fecha "Hasta" -->
           <label for="hasta">Hasta:</label>
-          <input type="date" id="hasta" name="hasta" th:value="${hasta}">
+          <input type="date" id="hasta" name="hasta" th:value="${hasta}" onchange="this.form.submit()">
         </div>
       </form>
       <table>
@@ -249,10 +249,6 @@
           <label class="etiqueta" for="selector-transaccion-programada">Seleccione el tipo de transacción:</label>
           <select class="selector" id="selector-transaccion-programada" name="selectorTransaccionProgramada">
             <option th:each="tipo : ${tiposTransaccionesQuePuedaHacerElUsuario}" th:value="${tipo.getNombre()}" th:selected="${#strings.equalsIgnoreCase(filtro, tipo.getNombre())}" th:text="${tipo.getNombre()}"></option>
-
-            <!--<option value="COMPRA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'COMPRA')}">Compra</option>
-            <option value="VENTA" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'VENTA')}">Venta</option>
-            <option value="INTERCAMBIO" th:selected="${#strings.equalsIgnoreCase(tipoTransaccionSeleccionada, 'INTERCAMBIO')}">Intercambio</option>-->
           </select>
         </div>
 
@@ -268,7 +264,7 @@
           <div class="contInputsConversion">
             <input type="number" class="selector" min="0" step="any" id="cantidadDeCripto-programada" name="cantidadDeCriptoProgramada">
             <img th:src="@{/img/icons/icon_conversionArrows.svg}" alt="converison" title="Conversión">
-            <input type="number" id="cantEnUsdTransaccionProgramada" class="inputs" min="0" step="any">U$D
+            <input type="number" id="cantEnUsdTransaccionProgramada" class="inputs" min="0" step="any">USD
           </div>
         </div>
 
@@ -288,7 +284,7 @@
             </select>
             <label>
               <input type="number" class="entrada-numero" step="0.00001" min="0" name="precioACumplir">
-              U$D
+              USD
             </label>
           </div>
         </div>
@@ -330,7 +326,7 @@
           <th>Criptomoneda</th>
           <th>Cantidad</th>
           <th>Condición</th>
-          <th>Precio a cumplir (U$D)</th>
+          <th>Precio a cumplir (USD)</th>
           <th>Acción</th>
         </tr>
         </thead>
