@@ -84,6 +84,7 @@
             No tienes notificaciones
         </div>
         <div th:if="${!notificaciones.isEmpty()}" class="notificacion" th:each="notificacion : ${notificaciones}" th:class="'notificacion ' + ${notificacion.getVista()}">
+            <div th:if="${!notificacion.getVista()}" class="punto-nueva"><img th:src="@{/img/icons/icon_point.svg}" title="Nueva" alt="."></div>
             <div class="notif-renglon1">
                 <p class="notifTitulo" th:text="${notificacion.getTitulo()}"></p>
                 <p class="notifFecha" th:text="${notificacion.getFechaNotificacion()}"></p>
