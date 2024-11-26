@@ -104,6 +104,9 @@ select {
 .false{
     /*background-color: #6ecd6e;*/
     background-color: #bee6bd;
+    display: grid;
+    grid-template-columns: .05fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
 .false:hover{
@@ -141,6 +144,20 @@ select {
     color: #fff;
     text-decoration: none;
     background-color: #bd960a;
+}
+
+.punto-nueva{
+    grid-column: 1/2;
+    grid-row: 1/3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-right: .5em;
+
+    & img{
+        width: 1em;
+    }
 }
 
 @media screen and (max-width: 800px){
