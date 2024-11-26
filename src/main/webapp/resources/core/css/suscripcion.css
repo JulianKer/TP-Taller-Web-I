@@ -46,6 +46,10 @@ h1 {
 
 .plan-description{
     max-width: 100%;
+
+    & h2{
+        text-transform: capitalize;
+    }
 }
 .cont-img-plan{
     max-width: 100%;

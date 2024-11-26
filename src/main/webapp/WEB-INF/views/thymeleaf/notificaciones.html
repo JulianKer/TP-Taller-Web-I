@@ -67,13 +67,16 @@
 
     <div class="titulo">
         <h2 id="titulo-notif">Notificaciones</h2>
-        <form th:action="@{/notificaciones}" id="form-criterioDeOrdenamiento">
-            <label for="criterioDeOrdenamiento">Ordenar por:</label>
-            <select name="q" id="criterioDeOrdenamiento">
-                <option value="recienteAAntiguo" th:selected="${#strings.equalsIgnoreCase(criterio, 'recienteAAntiguo')}">Más recientes</option>
-                <option value="antiguoAReciente" th:selected="${#strings.equalsIgnoreCase(criterio, 'antiguoAReciente')}">Más antigüas</option>
-            </select>
-        </form>
+        <div class="cont-form-botonleidas">
+            <form th:action="@{/notificaciones}" id="form-criterioDeOrdenamiento">
+                <label for="criterioDeOrdenamiento">Ordenar por:</label>
+                <select name="q" id="criterioDeOrdenamiento">
+                    <option value="recienteAAntiguo" th:selected="${#strings.equalsIgnoreCase(criterio, 'recienteAAntiguo')}">Más recientes</option>
+                    <option value="antiguoAReciente" th:selected="${#strings.equalsIgnoreCase(criterio, 'antiguoAReciente')}">Más antigüas</option>
+                </select>
+            </form>
+            <a th:href="@{/notificaciones}" class="btonLeidas"><img th:src="@{/img/icons/icon_checked.svg}" class="iconoCheckLeidas" title="Marcar como leídas" alt="Icono check"> Marcar todas como leídas</a>
+        </div>
     </div>
 
     <section class="contNotificiaciones">

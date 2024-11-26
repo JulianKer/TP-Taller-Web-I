@@ -102,12 +102,45 @@ select {
 
 /*si la notifi tiene el getVista() en false, la pongo de otro color para indicar q esa notif es "nueva"*/
 .false{
-    background-color: #6ecd6e;
+    /*background-color: #6ecd6e;*/
     background-color: #bee6bd;
 }
 
 .false:hover{
     background-color: #bee6bd;
+}
+
+.cont-form-botonleidas{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    place-content: center;
+    gap: 2em;
+    margin-bottom: 1.5rem;
+}
+
+.iconoCheckLeidas{
+    width: 1.5em;
+}
+
+.btonLeidas {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-decoration: none;
+    background-color: #EEB913;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.btonLeidas:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #bd960a;
 }
 
 @media screen and (max-width: 800px){
@@ -126,5 +159,9 @@ select {
 
     .notifDescripcion{
         font-size: .75em;
+    }
+
+    .cont-form-botonleidas{
+        grid-template-columns: 1fr;
     }
 }
