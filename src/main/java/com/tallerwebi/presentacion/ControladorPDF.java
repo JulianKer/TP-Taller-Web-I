@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 
 @RestController
 public class ControladorPDF {
@@ -24,14 +26,15 @@ public class ControladorPDF {
 
         @GetMapping("/descargar-pdf")
         public ResponseEntity<InputStreamResource> descargarPdf(HttpServletRequest request) throws IOException {
-            String filePath = System.getProperty("java.io.tmpdir") + "tabla.pdf";
+
+            String filePath = System.getProperty("java.io.tmpdir") + "Resumen_" + LocalDate.now().toString() + "_Crypto.pdf";
             pdfService.generarPdf(filePath, (Usuario)request.getSession().getAttribute("usuario"));
 
             File pdfFile = new File(filePath);
             InputStreamResource resource = new InputStreamResource(new FileInputStream(pdfFile));
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=tabla.pdf");
+            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Resumen_" + LocalDate.now().toString() + "_Crypto.pdf");
 
             return ResponseEntity.ok()
                     .headers(headers)
