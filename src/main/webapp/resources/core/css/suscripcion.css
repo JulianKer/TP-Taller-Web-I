@@ -31,6 +31,18 @@ h1 {
 .plan h2 {
     margin-top: 0;
 }
+
+.priceUSD {
+    display:flex;
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.price-container {
+    display: flex;
+}
+
 .price {
     font-size: 2rem;
     font-weight: bold;

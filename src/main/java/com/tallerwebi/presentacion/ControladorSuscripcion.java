@@ -76,8 +76,9 @@ public class ControladorSuscripcion {
             return new ModelAndView("redirect:/home");
         }
 
-       // Usuario userDeLaSesion = (Usuario) request.getSession().getAttribute("usuario");
-        servicioUsuario.restarSaldo(userDeLaSesion.getId(), valorSuscripcion);
+        if(status.equals("approved")) {
+            servicioUsuario.restarSaldo(userDeLaSesion.getId(), valorSuscripcion);
+        }
 
         String viewNameCompleto = "redirect:/suscripcion" + servicioSuscripcion.verificarEstadoDelPago(request, status, payment_id, payment_type);
         return new ModelAndView(viewNameCompleto);

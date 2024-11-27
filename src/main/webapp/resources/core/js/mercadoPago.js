@@ -5,7 +5,7 @@ function comprar(button) {
     let suscripcion = button.getAttribute('data-id');
 
     // Obtener el valor de la suscripcion usando su ID, y quitar el símbolo $.
-    let suscripcionValor = document.getElementById('precio-diamante').textContent.split(" ")[0].replace('$', '').replace('/mes', '').trim();
+    let suscripcionValor = document.getElementById('precio-diamante').textContent.split(" ")[0].replace('/mes', '').trim();
 
     // Llamada al servidor para crear la preferencia
     fetch(`/spring/comprar?suscripcion=${suscripcion}&suscripcionValor=${suscripcionValor}`)
