@@ -19,5 +19,8 @@ WORKDIR /app
 # Copiar el archivo WAR desde la imagen de build
 COPY --from=build /app/target/tallerwebi-base-1.0-SNAPSHOT.war /app/app.war
 
+# Exponer el puerto 8080 para que Render lo detecte
+EXPOSE 8080
+
 # Comando para ejecutar la aplicación
 CMD ["java", "-jar", "/app/app.war"]
