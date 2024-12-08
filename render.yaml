@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: cryptotallerweb1
+    plan: free
+    buildCommand: docker build -t cryptotallerweb1 .
+    startCommand: docker run -p 8080:8080 cryptotallerweb1
+    runtime: docker
