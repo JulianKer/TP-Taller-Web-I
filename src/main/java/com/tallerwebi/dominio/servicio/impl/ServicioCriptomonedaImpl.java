@@ -62,12 +62,14 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
 
     @Override
     public Double obtenerPrecioDeCriptoPorNombre(String nombreDeCripto) {
+        String API_KEY = "2450e8eff37eb524048618b83e2516930e17fb4825801fd37f5f4d3caa792fcc";
 
         // para este metodo voy a usar la logicq que habia hecho de pedir solo UNA cripto por peticion ya que el metodo
         // necesito que haga eso, no llamo al metoodo de esta clase (obtenerCrypto) pq me devuelve un map y no me sirve
         // asiq prefiero hacer la una peticion nueva y listo
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://api.coincap.io/v2/assets/" + nombreDeCripto;
+        //String url = "https://api.coincap.io/v2/assets/" + nombreDeCripto;
+        String url = "https://rest.coincap.io/v3/assets/" + nombreDeCripto + "?apiKey=" + API_KEY;
         Double precio = 0.0;
 
         try {
@@ -87,10 +89,13 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
     @Override
     public Map<Criptomoneda, Double> obtenerCrypto(ArrayList<Criptomoneda> misCriptos, String moneda) {
 
+        String API_KEY = "2450e8eff37eb524048618b83e2516930e17fb4825801fd37f5f4d3caa792fcc";
+
         RestTemplate restTemplate = new RestTemplate();
         Map<Criptomoneda, Double> precios = new HashMap<>();
 
-        String url = "https://api.coincap.io/v2/assets?limit=30"; // aca esta lo del "paginado", osea, nose si seria un "paginado" sino q le pido solo la primeras 30 (no uso todas sino q filtro solo las q quiero)
+        //String url = "https://api.coincap.io/v2/assets?limit=30"; // aca esta lo del "paginado", osea, nose si seria un "paginado" sino q le pido solo la primeras 30 (no uso todas sino q filtro solo las q quiero)
+        String url = "https://rest.coincap.io/v3/assets?apiKey=" + API_KEY;
         String response = restTemplate.getForObject(url, String.class);
         JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
         JsonArray arrayData = jsonResponse.getAsJsonArray("data");
