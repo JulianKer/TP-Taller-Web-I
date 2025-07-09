@@ -163,7 +163,7 @@ public class ServicioCriptomonedaImpl implements ServicioCriptomoneda {
         RestTemplate restTemplate = new RestTemplate();
 
         //String url = "https://api.coincap.io/v2/assets?limit=20"; // aca esta lo del "paginado", osea, nose si seria un "paginado" sino q le pido solo la primeras 20 (no uso todas sino q filtro solo las q quiero)
-        String url = "https://rest.coincap.io/v3/assets?apiKey=" + API_KEY + "limit=20";
+        String url = "https://rest.coincap.io/v3/assets/" + nombreRecibido + "?apiKey=" + API_KEY;;
 
         String response = restTemplate.getForObject(url, String.class);
         JsonObject jsonResponse = JsonParser.parseString(response).getAsJsonObject();
