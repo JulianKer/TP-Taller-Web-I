@@ -29,7 +29,13 @@ $ mvn clean jetty:run
 $ mvn test -Dtest="VistaLoginE2E"
 ```
 
-## 6. Tecnologías:
+
+## 6. Coin API:
+* [Visit Coin API](https://coincap.io/)
+* [Doc for developers](https://pro.coincap.io/api-docs)
+
+
+## 7. Tecnologías:
 * Java 11
 * Spring 5.2.22.RELEASE
 * Thymeleaf 3.0.15.RELEASE
@@ -44,5 +50,6 @@ $ mvn test -Dtest="VistaLoginE2E"
 * Hibernate 5.4.24.Final
 * Mockito 5.3.1
 * Playwright 1.36.0
+
 
 *_Proyecto modificado en base a: [Spring MVC hello world example (Maven and Thymeleaf)](https://mkyong.com/spring-mvc/spring-mvc-hello-world-example/) _*
