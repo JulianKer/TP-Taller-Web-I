@@ -58,3 +58,39 @@ $ mvn test -Dtest="VistaLoginE2E"
 
 
 *_Proyecto modificado en base a: [Spring MVC hello world example (Maven and Thymeleaf)](https://mkyong.com/spring-mvc/spring-mvc-hello-world-example/) _*
+
+_______________________________________________
+
+# Preview por Roles:
+* ![Usuario](https://img.shields.io/badge/Usuario-1E90FF?style=for-the-badge&logo=user&logoColor=white)
+
+| Sección       | Imagen       |
+|-----------------|-----------------|
+| Inicio de sesión       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/1.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Inicio       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/2.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Detalle Criptomoneda        | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/3.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Realizar Transacción       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/4.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Historial Transacciones      | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/5.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Programar Transacción| <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/6.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Historial de Transacciones Programadas       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/7.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Notificaciones       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/8.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Portafolio | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/9.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Ingresar saldo (Integración con Mercado Pago) | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/10.png" alt="CRYPTO" width="500" style="verticalalign:middle;"/>|
+| Suscripción (desbloquea las transacciones programadas)      | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/11.png" alt="CRYPTO" width="500" style="verticalalign:middle;"/>|
+| Perfil del Usuario       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/12.png" alt="CRYPTO" width="500" style="verticalalign:middle;"/>|
+
+_________________________
+
+
+* ![Administrador](https://img.shields.io/badge/Administrador-0A0A0A?style=for-the-badge&logo=gear&logoColor=white)
+
+| Sección       | Imagen       |
+|-----------------|-----------------|
+| Inicio       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/13_admin.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Agregar nueva Criptomoneda       | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/14_admin.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Administrar Criptomonedas actuales | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/15_admin.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+| Gestión de Usuarios | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/16_admin.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
+
+
+
+
