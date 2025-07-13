@@ -1,4 +1,8 @@
-# Proyecto: ![CRYPTO](https://img.shields.io/badge/CRYPTO-FFD700?style=for-the-badge&logo=bitcoin&logoColor=black)
+
+<!--![CRYPTO](https://img.shields.io/badge/CRYPTO-FFD700?style=for-the-badge&logo=bitcoin&logoColor=black)-->
+
+# Proyecto:   <img src="https://github.com/JulianKer/TP-Taller-Web-I/raw/master/src/main/webapp/resources/core/img/logoCripto.png" alt="CRYPTO" width="30" /> ![CRYPTO](https://img.shields.io/badge/CRYPTO-EEB913?style=for-the-badge&logoColor=212830)
+
 
 
 ### 1. Como iniciar el proyecto
