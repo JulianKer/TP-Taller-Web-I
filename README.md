@@ -62,7 +62,8 @@ $ mvn test -Dtest="VistaLoginE2E"
 _______________________________________________
 
 # Preview por Roles:
-* ![Usuario](https://img.shields.io/badge/Usuario-1E90FF?style=for-the-badge&logo=user&logoColor=white)
+
+![Rol](https://img.shields.io/badge/Rol-000?style=for-the-badge&logo=account&logoColor=white) ![Usuario](https://img.shields.io/badge/Usuario-EEB913?style=for-the-badge&logoColor=212830)
 
 | Sección       | Imagen       |
 |-----------------|-----------------|
@@ -82,7 +83,7 @@ _______________________________________________
 _________________________
 
 
-* ![Administrador](https://img.shields.io/badge/Administrador-0A0A0A?style=for-the-badge&logo=gear&logoColor=white)
+![Rol](https://img.shields.io/badge/Rol-000?style=for-the-badge&logo=account&logoColor=white) ![Administrador](https://img.shields.io/badge/Administrador-EEB913?style=for-the-badge&logoColor=212830)
 
 | Sección       | Imagen       |
 |-----------------|-----------------|
