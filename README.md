@@ -1,7 +1,7 @@
 
 <!--![CRYPTO](https://img.shields.io/badge/CRYPTO-FFD700?style=for-the-badge&logo=bitcoin&logoColor=black)-->
 
-# Proyecto:   <img src="https://github.com/JulianKer/TP-Taller-Web-I/raw/master/src/main/webapp/resources/core/img/logoCripto.png" alt="CRYPTO" width="30" /> ![CRYPTO](https://img.shields.io/badge/CRYPTO-EEB913?style=for-the-badge&logoColor=212830)
+# ![CRYPTO](https://img.shields.io/badge/CRYPTO-EEB913?style=for-the-badge&logoColor=212830) <img src="https://github.com/JulianKer/TP-Taller-Web-I/raw/master/src/main/webapp/resources/core/img/logoCripto.png" alt="CRYPTO" width="30" />
 
 
 
@@ -92,5 +92,10 @@ _________________________
 | Gestión de Usuarios | <img src="https://github.com/JulianKer/TP-Taller-Web-I/blob/master/src/main/webapp/resources/core/img/preview/16_admin.png" alt="CRYPTO" width="500" style="vertical-align:middle;"/>|
 
 
+
+______________________________________________
+
+![Readme by:](https://img.shields.io/badge/Readme%20by:-EEB913?style=for-the-badge&logo=account&logoColor=white)
+[![JulianKer](https://img.shields.io/badge/JulianKer-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/JulianKer)
 
 
